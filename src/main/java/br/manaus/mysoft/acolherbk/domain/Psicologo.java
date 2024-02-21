@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -31,8 +32,9 @@ public class Psicologo {
     private Perfil perfil;
     private String CRP;
     private String email;
+    private LocalDateTime cadastro;
 
-    @OneToMany(mappedBy = "especialidade")
+    @OneToMany(mappedBy = "psicologo")
     private List<Especialidade> especialidades;
 
     @OneToMany(mappedBy = "psicologo")

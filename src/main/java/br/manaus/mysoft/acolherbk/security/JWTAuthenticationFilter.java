@@ -1,6 +1,6 @@
 package br.manaus.mysoft.acolherbk.security;
 
-import br.manaus.mysoft.acolherbk.dto.CredentialsDTO;
+import br.manaus.mysoft.acolherbk.domain.Credentials;
 import br.manaus.mysoft.acolherbk.exceptions.UsuarioException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -36,8 +36,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         try {
-            CredentialsDTO creds = new ObjectMapper()
-                    .readValue(request.getInputStream(), CredentialsDTO.class);
+            Credentials creds = new ObjectMapper()
+                    .readValue(request.getInputStream(), Credentials.class);
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getLogin(), creds.getSenha(), new ArrayList<>());
             Authentication auth = authenticationManager.authenticate(authToken);
             return auth;

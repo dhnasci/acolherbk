@@ -3,9 +3,12 @@ package br.manaus.mysoft.acolherbk.services;
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,20 @@ public class PacienteService {
         return repository.findAll();
     }
 
+    public List<Paciente> buscarPorNome(String nome) {
+        return repository.findPacientesByNomeCompletoContainingIgnoreCase(nome);
+    }
+
+    public List<Paciente> buscarPacientesAgendadosNoIntervalo(LocalDateTime inicio, LocalDateTime fim) {
+        return repository.findPacientesBySessoesDiaAgendadoBetween(inicio, fim);
+    }
+
+    public List<Paciente> buscarPacientesAlocadosNoIntervalo(LocalDateTime inicio, LocalDateTime fim) {
+        return repository.findPacientesByTriagemsDiaAlocacaoBetween(inicio, fim);
+    }
+    public List<Paciente> buscarPacientesPendentesDeTriagem() {
+        return repository.findPacientesByTriagemsIsPacienteAlocado(false);
+    }
     public Paciente update(Paciente obj) {
         return repository.save(obj);
     }

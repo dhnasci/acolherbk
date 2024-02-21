@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -34,6 +35,7 @@ public class Paciente {
     private String queixa;
     private Integer idade;
     private Float renda;
+    private LocalDateTime cadastro;
 
     @OneToOne
     @JoinColumn(name = "genero_id")
