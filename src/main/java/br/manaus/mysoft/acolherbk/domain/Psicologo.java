@@ -27,6 +27,7 @@ public class Psicologo {
     private String celular2;
     private Boolean isWhatsapp2;
     private String login;
+    private String senha;
     private Perfil perfil;
     private String CRP;
     private String email;
@@ -34,7 +35,13 @@ public class Psicologo {
     @OneToMany(mappedBy = "especialidade")
     private List<Especialidade> especialidades;
 
-    @OneToMany(mappedBy = "horario")
+    @OneToMany(mappedBy = "psicologo")
     private List<HorarioPsi> horarios;
+
+    @OneToMany(mappedBy = "psicologo")
+    private List<Triagem> triagems;
+
+    @OneToMany(mappedBy = "psicologo")
+    private List<Sessao> sessoes;
 
 }

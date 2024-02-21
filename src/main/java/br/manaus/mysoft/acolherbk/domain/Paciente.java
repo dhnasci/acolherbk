@@ -47,7 +47,13 @@ public class Paciente {
     @JoinColumn(name = "especialidade_id")
     private Especialidade especialidade;
 
-    @OneToMany(mappedBy = "horario")
+    @OneToMany(mappedBy = "paciente")
     private List<HorarioPaciente> horarios;
+
+    @OneToMany(mappedBy = "paciente")
+    private List<Triagem> triagems;
+
+    @OneToMany(mappedBy = "paciente")
+    private List<Sessao> sessoes;
 
 }
