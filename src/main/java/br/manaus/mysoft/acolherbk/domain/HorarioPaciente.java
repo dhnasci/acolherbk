@@ -7,31 +7,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "especialidade")
 @Data
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class Especialidade {
+@Entity
+@Table(name="horarioPaciente")
+public class HorarioPaciente {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String descricao;
+    @OneToOne
+    @JoinColumn(name = "horario_id")
+    private Horario horario;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "especialidade")
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "psicologo_id")
-    private Psicologo psicologo;
-
-    public Especialidade(String descricao) {
-        this.descricao = descricao;
-    }
 }

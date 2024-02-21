@@ -8,30 +8,24 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "especialidade")
 @Data
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class Especialidade {
+@Entity
+@Table(name="horarioPsicologo")
+public class HorarioPsi {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String descricao;
-
     @JsonIgnore
-    @OneToOne(mappedBy = "especialidade")
-    private Paciente paciente;
+    @OneToOne
+    @JoinColumn(name = "horario_id")
+    private Horario horario;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "psicologo_id")
     private Psicologo psicologo;
-
-    public Especialidade(String descricao) {
-        this.descricao = descricao;
-    }
 }

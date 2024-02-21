@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -45,5 +46,8 @@ public class Paciente {
     @OneToOne
     @JoinColumn(name = "especialidade_id")
     private Especialidade especialidade;
+
+    @OneToMany(mappedBy = "horario")
+    private List<HorarioPaciente> horarios;
 
 }
