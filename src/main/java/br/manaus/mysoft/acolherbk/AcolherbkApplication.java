@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AcolherbkApplication implements CommandLineRunner {
 
-    private static boolean isMigration = true;
+    private static boolean isMigration = false;
     private static final String MINHA_URL = "jdbc:sqlserver://localhost;databaseName=acolher";
     private static final String MEU_LOGIN = "sa";
     private static final String SENHA = "MeuChapa15";

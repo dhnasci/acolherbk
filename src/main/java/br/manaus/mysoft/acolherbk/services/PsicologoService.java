@@ -97,4 +97,8 @@ public class PsicologoService {
     public void setNovaSenha(String novaSenha) {
         this.novaSenha = novaSenha;
     }
+
+    public Psicologo buscarPeloLogin(String nome) {
+        return repository.findPsicologoByLogin(nome);
+    }
 }

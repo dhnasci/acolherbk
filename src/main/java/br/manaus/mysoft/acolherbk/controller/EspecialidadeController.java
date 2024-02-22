@@ -22,12 +22,12 @@ public class EspecialidadeController {
     @Autowired
     EspecialidadeService service;
 
-    @GetMapping(value = "/{token}")
-    public ResponseEntity<Object> listar(@PathVariable String token) {
-        if (token.equals(TOKEN)) {
+    @GetMapping
+    public ResponseEntity<Object> listar() {
+        try {
             List<Especialidade> lista = service.listar();
             return ResponseEntity.ok().body(lista);
-        } else {
+        } catch (Exception e) {
             StandardError error = new StandardError(403, ACESSO_NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }

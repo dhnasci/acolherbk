@@ -46,10 +46,21 @@ public class PsicologoController {
         return ResponseEntity.ok().body(lista);
     }
 
-    @GetMapping(value = "/{nome}")
+    @GetMapping(value = "/buscarNome/{nome}")
     public ResponseEntity<Object> buscarPeloNome(@PathVariable String nome) {
         List<Psicologo> lista = service.buscarPeloNome(nome);
         return ResponseEntity.ok().body(lista);
+    }
+
+    @GetMapping(value = "/login/{nome}")
+    public ResponseEntity<Object> buscarPeloLogin(@PathVariable String nome) {
+        try {
+            Psicologo psicologo = service.buscarPeloLogin(nome);
+            return ResponseEntity.ok().body(psicologo);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), PSICOLOGO_NAO_ENCONTRADO, System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @GetMapping(value = "/{id}")
