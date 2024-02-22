@@ -18,6 +18,11 @@ import java.time.DayOfWeek;
 @Table(name="horario")
 public class Horario {
 
+    public Horario(DayOfWeek dia, Turno turno) {
+        this.dia = dia;
+        this.turno = turno;
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;

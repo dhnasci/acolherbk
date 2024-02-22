@@ -1,6 +1,8 @@
 package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.*;
+import br.manaus.mysoft.acolherbk.enums.Perfil;
+import br.manaus.mysoft.acolherbk.enums.Turno;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.exceptions.PersistenciaException;
 import org.slf4j.Logger;
@@ -8,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Service
@@ -24,6 +28,15 @@ public class DBService {
 
     @Autowired
     ProfissaoService profissaoService;
+
+    @Autowired
+    HorarioService horarioService;
+
+    @Autowired
+    PsicologoService psicologoService;
+
+    @Autowired
+    HorarioPsiService horarioPsiService;
 
     private Logger log = LoggerFactory.getLogger(DBService.class);
 
@@ -114,9 +127,60 @@ public class DBService {
                 throw new PersistenciaException("Erro ao salvar especialidades", e);
             }
 
-            Paciente paciente = new Paciente();
-            paciente.setEscolaridade(escolaridadeService.find(1));
+
+
         }
+
+        if (!isHorarioPopulado()) {
+            Horario horario1 = new Horario(DayOfWeek.TUESDAY, Turno.MANHA);
+            Horario horario2 = new Horario(DayOfWeek.TUESDAY, Turno.TARDE);
+            Horario horario3 = new Horario(DayOfWeek.TUESDAY, Turno.NOITE);
+            Horario horario4 = new Horario(DayOfWeek.WEDNESDAY, Turno.MANHA);
+            Horario horario5 = new Horario(DayOfWeek.WEDNESDAY, Turno.TARDE);
+            Horario horario6 = new Horario(DayOfWeek.WEDNESDAY, Turno.NOITE);
+            Horario horario7 = new Horario(DayOfWeek.THURSDAY, Turno.MANHA);
+            Horario horario8 = new Horario(DayOfWeek.THURSDAY, Turno.TARDE);
+            Horario horario9 = new Horario(DayOfWeek.THURSDAY, Turno.NOITE);
+            Horario horario10 = new Horario(DayOfWeek.FRIDAY, Turno.MANHA);
+            Horario horario11 = new Horario(DayOfWeek.FRIDAY, Turno.TARDE);
+            Horario horario12 = new Horario(DayOfWeek.FRIDAY, Turno.NOITE);
+            Horario horario13 = new Horario(DayOfWeek.SATURDAY, Turno.MANHA);
+            Horario horario14 = new Horario(DayOfWeek.SATURDAY, Turno.TARDE);
+            Horario horario15 = new Horario(DayOfWeek.SATURDAY, Turno.NOITE);
+            try {
+                horarioService.salvar(Arrays.asList(horario1, horario2, horario3, horario4,
+                        horario5, horario6, horario7, horario8, horario9, horario10, horario11,
+                        horario12, horario13, horario14, horario15
+                ));
+            } catch (Exception e) {
+                throw new PersistenciaException("Erro ao salvar horarios", e);
+            }
+
+        }
+
+        if (!isPsicologoPopulado()) {
+            Psicologo psicologo = new Psicologo();
+            psicologo.setNomeCompleto("Edilce Menezes");
+            psicologo.setLogin("edilce");
+            psicologo.setPerfil(Perfil.ADMIN);
+            psicologo.setCelular1("92 98109-1934");
+            psicologo.setIsWhatsapp1(false);
+            psicologo.setCadastro(LocalDateTime.now());
+            psicologo.setCRP("20/08155");
+            psicologo.setEmail("edilceangel@gmail.com");
+            psicologo.setEspecialidades(Arrays.asList(especialidadeService.find(2), especialidadeService.find(4)));
+            try {
+                psicologoService.inserir(psicologo);
+                String senha = "senha :: " + psicologoService.getNovaSenha();
+                log.info(senha);
+            } catch (Exception e) {
+                throw new PersistenciaException("Erro ao salvar psicologo", e);
+            }
+        }
+    }
+
+    private boolean isPsicologoPopulado() {
+        return psicologoService.listar().size() > 0;
     }
 
     public boolean isEscolaridadePopulado() {
@@ -125,6 +189,10 @@ public class DBService {
 
     public boolean isEspecialidadePopulado() {
         return especialidadeService.listar().size() > 0;
+    }
+
+    public boolean isHorarioPopulado() {
+        return horarioService.listar().size() > 0;
     }
 
     public boolean isGeneroPopulado() {
