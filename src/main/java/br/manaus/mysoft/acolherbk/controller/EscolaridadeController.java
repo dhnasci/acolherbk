@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.controller;
 import br.manaus.mysoft.acolherbk.domain.Escolaridade;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.services.EscolaridadeService;
+import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class EscolaridadeController {
     public ResponseEntity<Object> listar() {
         try {
             List<Escolaridade> lista = service.listar();
-            return ResponseEntity.ok().body(lista);
+            return ResponseEntity.ok().body(Mapper.preparaEscolaridade(lista));
         } catch (Exception e) {
             StandardError error = new StandardError(403, ACESSO_NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);

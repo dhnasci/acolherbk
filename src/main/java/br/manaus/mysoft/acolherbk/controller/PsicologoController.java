@@ -21,7 +21,7 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 import static br.manaus.mysoft.acolherbk.utils.Constantes.PSICOLOGO_NAO_ENCONTRADO;
 
 @RestController
-@RequestMapping(value = "/psicologos")
+@RequestMapping(value = "/psicologo")
 public class PsicologoController {
 
     @Autowired

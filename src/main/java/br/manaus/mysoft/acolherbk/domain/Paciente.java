@@ -27,27 +27,19 @@ public class Paciente {
     private String celular2;
     private Boolean isWhatsapp2;
     private String nomeIndicacao;
-
-    @OneToOne
-    @JoinColumn(name = "profissao_id")
-    private Profissao profissao;
+    private String registroGeral;
     private Boolean jaFezTerapia;
     private String queixa;
     private Integer idade;
     private Float renda;
     private LocalDateTime cadastro;
 
-    @OneToOne
-    @JoinColumn(name = "genero_id")
-    private Genero genero;
+    private Integer profissao_id;
+    private Integer genero_id;
+    private Integer escolaridade_id;
 
-    @OneToOne
-    @JoinColumn(name = "escolaridade_id")
-    private Escolaridade escolaridade;
-
-    @OneToOne
-    @JoinColumn(name = "especialidade_id")
-    private Especialidade especialidade;
+    @OneToMany(mappedBy = "paciente")
+    private List<EspecialidadePaciente> especialidades;
 
     @OneToMany(mappedBy = "paciente")
     private List<HorarioPaciente> horarios;

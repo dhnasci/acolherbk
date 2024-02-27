@@ -34,6 +34,6 @@ public class Horario {
     private HorarioPaciente horarioPaciente;
 
     @OneToOne(mappedBy = "horario")
-    private HorarioPaciente horarioPsicologo;
+    private HorarioPsi horarioPsicologo;
 
 }

@@ -29,6 +29,9 @@ public class EscolaridadeService {
     public List<Escolaridade> listar() {
         return repository.findAll();
     }
+    public Escolaridade getByDescricao(String descricao) {
+        return repository.findByDescricao(descricao);
+    }
 
     public Escolaridade update(Escolaridade obj) {
         return repository.save(obj);

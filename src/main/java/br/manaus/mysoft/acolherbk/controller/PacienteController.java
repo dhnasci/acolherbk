@@ -1,11 +1,13 @@
 package br.manaus.mysoft.acolherbk.controller;
 
-import br.manaus.mysoft.acolherbk.domain.Paciente;
-import br.manaus.mysoft.acolherbk.domain.StandardError;
+import br.manaus.mysoft.acolherbk.domain.*;
+import br.manaus.mysoft.acolherbk.dto.PacienteDto;
+import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
-import br.manaus.mysoft.acolherbk.services.PacienteService;
+import br.manaus.mysoft.acolherbk.services.*;
 import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -19,21 +21,38 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 import static br.manaus.mysoft.acolherbk.utils.Constantes.TOKEN;
 
 @RestController
-@RequestMapping(value = "/pacientes")
+@RequestMapping(value = "/paciente")
 public class PacienteController {
 
     @Autowired
     PacienteService service;
 
-    @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody Paciente registro) {
+    @Autowired
+    EscolaridadeService escolaridadeService;
+    @Autowired
+    ProfissaoService profissaoService;
+    @Autowired
+    GeneroService generoService;
+    @Autowired
+    EspecialidadeService especialidadeService;
+
+
+    @PostMapping(value = "/{perfil}")
+    public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
 
         try {
-            Paciente reg = service.insert(registro);
+            Mapper mapper = new Mapper();
+            Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
+            Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
+            Genero genero = generoService.getByDescricao(registro.getGenero());
+            List<EspecialidadePaciente> especialidades = null;
+            Paciente reg = service.insert(mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, especialidades));
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
             return ResponseEntity.created(uri).body(reg);
-        } catch (Exception e) {
-            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
+        } catch (DataIntegrityViolationException e) {
+            Throwable sqlException = e.getCause();
+            String msg = (sqlException!=null) ? sqlException.getCause().getMessage() : e.getMessage();
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
     }

@@ -29,6 +29,9 @@ public class ProfissaoService {
     public List<Profissao> listar() {
         return repository.findAll();
     }
+    public Profissao getByDescricao(String descricao) {
+        return repository.findByDescricao(descricao);
+    }
 
     public Profissao update(Profissao obj) {
         return repository.save(obj);

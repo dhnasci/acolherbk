@@ -4,12 +4,11 @@ create table dbo.escolaridade
         primary key,
     descricao varchar(255)
 )
-go
+    go
 
-create table dbo.psicologo
+create table psicologo
 (
-    id            int identity
-        primary key,
+    id            int identity not null,
     crp           varchar(255),
     cadastro      datetime2,
     celular1      varchar(255),
@@ -20,20 +19,20 @@ create table dbo.psicologo
     login         varchar(255),
     nome_completo varchar(255),
     perfil        int,
-    senha         varchar(255)
+    senha         varchar(255),
+    primary key (id)
 )
 go
 
+
+
 create table especialidade
 (
-    id           int identity
+    id        int identity
         primary key,
-    descricao    varchar(255),
-    psicologo_id int
-        constraint FKespecialidade_psicologo
-            references dbo.psicologo
+    descricao varchar(255)
 )
-go
+    go
 
 create table dbo.genero
 (
@@ -41,7 +40,7 @@ create table dbo.genero
         primary key,
     descricao varchar(255)
 )
-go
+    go
 
 create table dbo.profissao
 (
@@ -49,9 +48,9 @@ create table dbo.profissao
         primary key,
     descricao varchar(255)
 )
-go
+    go
 
-create table dbo.paciente
+create table paciente
 (
     id               int identity
         primary key,
@@ -62,24 +61,18 @@ create table dbo.paciente
     is_whatsapp1     bit,
     is_whatsapp2     bit,
     ja_fez_terapia   bit,
-    nome_completo    varchar(255),
+    nome_completo    varchar(255)
+        constraint paciente_uk
+            unique,
     nome_indicacao   varchar(255),
     queixa           varchar(255),
     renda            float,
-    escolaridade_id  int
-        constraint FKpaciente_escolaridade
-            references dbo.escolaridade,
-    especialidade_id int
-        constraint FKpaciente_especialidade
-            references dbo.especialidade,
-    genero_id        int
-        constraint FKpaciente_genero
-            references dbo.genero,
-    profissao_id     int
-        constraint FKpaciente_profissao
-            references dbo.profissao
+    escolaridade_id  int,
+    genero_id        int,
+    profissao_id     int,
+    registro_geral    varchar(20)
 )
-go
+    go
 
 
 
@@ -101,7 +94,7 @@ create table dbo.sessao
         constraint FKsessao_psicologo
             references dbo.psicologo
 )
-go
+    go
 
 create table dbo.triagem
 (
@@ -118,7 +111,7 @@ create table dbo.triagem
         constraint FKtriagem_psicologo
             references dbo.psicologo
 )
-go
+    go
 
 
 

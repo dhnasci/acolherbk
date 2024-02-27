@@ -29,6 +29,9 @@ public class GeneroService {
     public List<Genero> listar() {
         return repository.findAll();
     }
+    public Genero getByDescricao(String descricao) {
+        return repository.findByDescricao(descricao);
+    }
 
     public Genero update(Genero obj) {
         return repository.save(obj);

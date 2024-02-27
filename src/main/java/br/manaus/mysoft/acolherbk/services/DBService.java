@@ -65,12 +65,8 @@ public class DBService {
         if (!isGeneroPopulado()) {
             Genero genero1 = new Genero("Masculino");
             Genero genero2 = new Genero("Feminino");
-            Genero genero3 = new Genero("Lésbica");
-            Genero genero4 = new Genero("Gay");
-            Genero genero5 = new Genero("Bissexual");
-            Genero genero6 = new Genero("Transsexual");
             try {
-                generoService.salvar(Arrays.asList(genero1, genero2, genero3, genero4, genero5, genero6));
+                generoService.salvar(Arrays.asList(genero1, genero2));
             } catch (Exception e) {
                 throw new PersistenciaException("Erro ao salvar generos", e);
             }
@@ -141,16 +137,12 @@ public class DBService {
             Horario horario7 = new Horario(DayOfWeek.THURSDAY, Turno.MANHA);
             Horario horario8 = new Horario(DayOfWeek.THURSDAY, Turno.TARDE);
             Horario horario9 = new Horario(DayOfWeek.THURSDAY, Turno.NOITE);
-            Horario horario10 = new Horario(DayOfWeek.FRIDAY, Turno.MANHA);
-            Horario horario11 = new Horario(DayOfWeek.FRIDAY, Turno.TARDE);
-            Horario horario12 = new Horario(DayOfWeek.FRIDAY, Turno.NOITE);
             Horario horario13 = new Horario(DayOfWeek.SATURDAY, Turno.MANHA);
             Horario horario14 = new Horario(DayOfWeek.SATURDAY, Turno.TARDE);
             Horario horario15 = new Horario(DayOfWeek.SATURDAY, Turno.NOITE);
             try {
                 horarioService.salvar(Arrays.asList(horario1, horario2, horario3, horario4,
-                        horario5, horario6, horario7, horario8, horario9, horario10, horario11,
-                        horario12, horario13, horario14, horario15
+                        horario5, horario6, horario7, horario8, horario9, horario13, horario14, horario15
                 ));
             } catch (Exception e) {
                 throw new PersistenciaException("Erro ao salvar horarios", e);

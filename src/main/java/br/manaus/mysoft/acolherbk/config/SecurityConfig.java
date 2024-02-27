@@ -40,26 +40,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/profissao/**",
             "/genero/**",
             "/especialidade/**",
-            "/escolaridade/**"
+            "/escolaridade/**",
+            "/horario/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
             "/triagem/**",
-            "/psicologos/**",
+            "/psicologo/**",
             "/agendamento/**",
-            "/pacientes/**"
+            "/paciente/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_PUT = {
             "/triagem/**",
-            "/psicologos/**",
+            "/psicologo/**",
             "/agendamento/**",
-            "/pacientes/**"
+            "/paciente/**"
     };
 
     public static final String[] PUBLIC_MATCHERS_DELETE = {
-            "/pacientes/**",
-            "/psicologos/**"
+            "/paciente/**",
+            "/psicologo/**"
     };
 
     @Override

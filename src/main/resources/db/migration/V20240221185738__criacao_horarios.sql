@@ -8,8 +8,6 @@ create table horario
 )
 go
 
-
-go
 create table horario_paciente
 (
     id          int identity

@@ -30,6 +30,10 @@ public class EspecialidadeService {
         return repository.findAll();
     }
 
+    public Especialidade getByDescricao(String descricao) {
+        return repository.findByDescricao(descricao);
+    }
+
     public Especialidade update(Especialidade obj) {
         return repository.save(obj);
     }

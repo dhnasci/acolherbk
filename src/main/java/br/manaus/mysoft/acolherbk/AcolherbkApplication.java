@@ -29,7 +29,7 @@ public class AcolherbkApplication implements CommandLineRunner {
             }
 
             // Primeira vez
-            flyway.baseline();
+            // flyway.baseline();
             // flyway.repair();
             // Executa as migrações
             flyway.migrate();
