@@ -35,7 +35,7 @@ public class Psicologo {
     private LocalDateTime cadastro;
 
     @OneToMany(mappedBy = "psicologo")
-    private List<Especialidade> especialidades;
+    private List<EspecialidadePsicologo> especialidades;
 
     @OneToMany(mappedBy = "psicologo")
     private List<HorarioPsi> horarios;

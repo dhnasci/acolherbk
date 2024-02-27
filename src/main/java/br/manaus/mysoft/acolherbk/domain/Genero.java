@@ -21,10 +21,6 @@ public class Genero {
 
     private String descricao;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "genero")
-    private Paciente paciente;
-
     public Genero(String descricao) {
         this.descricao = descricao;
     }

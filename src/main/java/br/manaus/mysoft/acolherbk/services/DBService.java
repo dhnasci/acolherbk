@@ -160,7 +160,6 @@ public class DBService {
             psicologo.setCadastro(LocalDateTime.now());
             psicologo.setCRP("20/08155");
             psicologo.setEmail("edilceangel@gmail.com");
-            psicologo.setEspecialidades(Arrays.asList(especialidadeService.find(2), especialidadeService.find(4)));
             try {
                 psicologoService.inserir(psicologo);
                 String senha = "senha :: " + psicologoService.getNovaSenha();

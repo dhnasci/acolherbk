@@ -22,10 +22,6 @@ public class Escolaridade {
 
     private String descricao;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "escolaridade")
-    private Paciente paciente;
-
     public Escolaridade(String descricao) {
         this.descricao = descricao;
     }

@@ -22,15 +22,6 @@ public class Especialidade {
 
     private String descricao;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "especialidade")
-    private Paciente paciente;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "psicologo_id")
-    private Psicologo psicologo;
-
     public Especialidade(String descricao) {
         this.descricao = descricao;
     }
