@@ -22,17 +22,12 @@ public class HorarioController {
     @Autowired
     HorarioService service;
 
-    @GetMapping(value = "/{token}")
-    public ResponseEntity<Object> listar(@PathVariable String token) {
-        if (token.equals(TOKEN)) {
-            try {
-                List<Horario> lista = service.listar();
-                return ResponseEntity.ok().body(Mapper.preparaHorarios(lista));
-            } catch (Exception e) {
-                StandardError error = new StandardError(403, ACESSO_NAO_AUTORIZADO, System.currentTimeMillis());
-                return ResponseEntity.badRequest().body(error);
-            }
-        } else {
+    @GetMapping
+    public ResponseEntity<Object> listar() {
+        try {
+            List<Horario> lista = service.listar();
+            return ResponseEntity.ok().body(Mapper.preparaHorarios(lista));
+        } catch (Exception e) {
             StandardError error = new StandardError(403, ACESSO_NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
