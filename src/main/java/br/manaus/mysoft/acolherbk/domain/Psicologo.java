@@ -1,6 +1,7 @@
 package br.manaus.mysoft.acolherbk.domain;
 
 import br.manaus.mysoft.acolherbk.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class Psicologo {
     private String celular2;
     private Boolean isWhatsapp2;
     private String login;
+    @JsonIgnore
     private String senha;
     private Perfil perfil;
     private String CRP;
