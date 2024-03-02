@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
-import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
-import static br.manaus.mysoft.acolherbk.utils.Constantes.TOKEN;
 
 @RestController
 @RequestMapping(value = "/paciente")
@@ -35,17 +34,17 @@ public class PacienteController {
     GeneroService generoService;
     @Autowired
     EspecialidadeService especialidadeService;
-
+    Mapper mapper;
 
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
 
         try {
-            Mapper mapper = new Mapper();
+            mapper = new Mapper();
             Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
             Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
             Genero genero = generoService.getByDescricao(registro.getGenero());
-            List<EspecialidadePaciente> especialidades = null;
+            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades());
             Paciente reg = service.insert(mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, especialidades));
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
             return ResponseEntity.created(uri).body(reg);
@@ -54,7 +53,20 @@ public class PacienteController {
             String msg = (sqlException!=null) ? sqlException.getCause().getMessage() : e.getMessage();
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
+        } catch (ObjetoException e1) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e1.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
         }
+    }
+
+    private List<EspecialidadePaciente> preparaListaEspecialidadePaciente(List<String> especialidades) throws ObjetoException {
+        List<EspecialidadePaciente> especialidadePacientes = new ArrayList<>();
+        for(String especialidade : especialidades) {
+            EspecialidadePaciente especialidadePaciente = new EspecialidadePaciente();
+            especialidadePaciente.setEspecialidade_id(especialidadeService.getByDescricao(especialidade).getId());
+            especialidadePacientes.add(especialidadePaciente);
+        }
+        return especialidadePacientes;
     }
 
     @GetMapping
@@ -101,9 +113,22 @@ public class PacienteController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Paciente obj){
-        service.update(obj);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Object> update(@RequestBody PacienteDto registro){
+
+        try {
+            mapper = new Mapper();
+            Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
+            Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
+            Genero genero = generoService.getByDescricao(registro.getGenero());
+            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades());
+            service.update(mapper.dtoToPaciente(registro, Perfil.ADMIN, profissao, escolaridade, genero, especialidades));
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            Throwable sqlException = e.getCause();
+            String msg = (sqlException!=null) ? sqlException.getCause().getMessage() : e.getMessage();
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @DeleteMapping(value="/{id}")

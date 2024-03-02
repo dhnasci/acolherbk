@@ -30,5 +30,6 @@ public class PacienteDto {
     private String genero;
     private String escolaridade;
     private List<String> especialidades;
+    private List<String> horarios;
     
 }
