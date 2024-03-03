@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class PacienteController {
     GeneroService generoService;
     @Autowired
     EspecialidadeService especialidadeService;
+
     Mapper mapper;
 
     @PostMapping(value = "/{perfil}")
@@ -63,7 +65,7 @@ public class PacienteController {
         List<EspecialidadePaciente> especialidadePacientes = new ArrayList<>();
         for(String especialidade : especialidades) {
             EspecialidadePaciente especialidadePaciente = new EspecialidadePaciente();
-            especialidadePaciente.setEspecialidade_id(especialidadeService.getByDescricao(especialidade).getId());
+            especialidadePaciente.setEspecialidade((especialidadeService.getByDescricao(especialidade)));
             especialidadePacientes.add(especialidadePaciente);
         }
         return especialidadePacientes;
@@ -71,8 +73,41 @@ public class PacienteController {
 
     @GetMapping
     public ResponseEntity<Object> listar() {
-        List<Paciente> lista = service.listar();
-        return ResponseEntity.ok().body(lista);
+        try {
+            List<PacienteDto> lista = toDto(service.listar());
+            return ResponseEntity.ok().body(lista);
+        } catch (ObjetoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    private List<PacienteDto> toDto(List<Paciente> listaPacientes) throws ObjetoException {
+        List<PacienteDto> listaDto = new ArrayList<>();
+        for(Paciente paciente : listaPacientes) {
+            PacienteDto dto = new PacienteDto();
+            dto.setId(String.valueOf(paciente.getId()));
+            dto.setNomeCompleto(paciente.getNomeCompleto());
+            dto.setCelular1(paciente.getCelular1());
+            dto.setIsWhatsapp1(paciente.getIsWhatsapp1().toString());
+            dto.setCelular2(paciente.getCelular2());
+            dto.setIsWhatsapp2(paciente.getIsWhatsapp2().toString());
+            dto.setNomeIndicacao(paciente.getNomeIndicacao());
+            dto.setJaFezTerapia(paciente.getJaFezTerapia().toString());
+            dto.setQueixa(paciente.getQueixa());
+            dto.setIdade(String.valueOf(paciente.getIdade()));
+            dto.setRenda(String.valueOf(paciente.getRenda()));
+            DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+            dto.setCadastro(paciente.getCadastro().format(formatoDia));
+            dto.setRegistroGeral(paciente.getRegistroGeral());
+            dto.setProfissao( profissaoService.find(paciente.getProfissao_id()).getDescricao());
+            dto.setGenero( generoService.find(paciente.getGenero_id()).getDescricao());
+            dto.setEscolaridade( escolaridadeService.find(paciente.getEscolaridade_id()).getDescricao());
+//            dto.setEspecialidades( ); TODO criar lista de especialidades do paciente
+            // TODO criar lista de horarios do paciente
+            listaDto.add(dto);
+        }
+        return listaDto;
     }
 
     @GetMapping(value = "/{id}")

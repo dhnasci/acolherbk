@@ -19,7 +19,9 @@ public class EspecialidadePaciente {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer especialidade_id;
+    @OneToOne
+    @JoinColumn(name = "especialidade_id")
+    private Especialidade especialidade;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")

@@ -21,8 +21,13 @@ public class Especialidade {
     private Integer id;
 
     private String descricao;
-
     public Especialidade(String descricao) {
         this.descricao = descricao;
     }
+
+    @OneToOne(mappedBy = "especialidade")
+    private EspecialidadePaciente especialidadePaciente;
+
+    @OneToOne(mappedBy = "especialidade")
+    private EspecialidadePsicologo especialidadePsicologo;
 }
