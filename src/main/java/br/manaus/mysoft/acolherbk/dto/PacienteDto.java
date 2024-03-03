@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PacienteDto {
 
-    private String id;
+    private Integer id;
     private String nomeCompleto;
     private String celular1;
     private String isWhatsapp1;

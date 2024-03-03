@@ -48,6 +48,22 @@ public class Mapper {
         return especialidades;
     }
 
+    public static List<String> preparaEspecialidadePaciente(List<EspecialidadePaciente> lista) {
+        List<String> especialidades = new ArrayList<>();
+        for (EspecialidadePaciente especialidade : lista) {
+            especialidades.add(especialidade.getEspecialidade().getDescricao());
+        }
+        return especialidades;
+    }
+
+    public static List<String> preparaEspecialidadePsicologo(List<EspecialidadePsicologo> lista) {
+        List<String> especialidades = new ArrayList<>();
+        for (EspecialidadePsicologo especialidade : lista) {
+            especialidades.add(especialidade.getEspecialidade().getDescricao());
+        }
+        return especialidades;
+    }
+
     public static List<String> preparaHorarios(List<Horario> lista) {
         List<String> horarios = new ArrayList<>();
         for (Horario horario : lista) {
@@ -56,8 +72,32 @@ public class Mapper {
         return horarios;
     }
 
+    public static List<String> preparaHorariosPaciente(List<HorarioPaciente> lista) {
+        List<String> horarios = new ArrayList<>();
+        for (HorarioPaciente horario : lista) {
+            horarios.add(converteHorarioPaciente(horario));
+        }
+        return horarios;
+    }
+
+    public static List<String> preparaHorariosPsicologo(List<HorarioPsi> lista) {
+        List<String> horarios = new ArrayList<>();
+        for (HorarioPsi horario : lista) {
+            horarios.add(converteHorarioPsi(horario));
+        }
+        return horarios;
+    }
+
     private static String converteHorario(Horario horario) {
         return horario.getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getTurno().name();
+    }
+
+    private static String converteHorarioPaciente(HorarioPaciente horario) {
+        return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getHorario().getTurno().name();
+    }
+
+    private static String converteHorarioPsi(HorarioPsi horario) {
+        return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getHorario().getTurno().name();
     }
 
     public  Paciente dtoToPaciente(PacienteDto registro, Perfil perfil, Profissao profissao, Escolaridade escolaridade, Genero genero, List<EspecialidadePaciente> especialidades) {

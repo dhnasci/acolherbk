@@ -35,6 +35,10 @@ public class PacienteController {
     GeneroService generoService;
     @Autowired
     EspecialidadeService especialidadeService;
+    @Autowired
+    EspecialidadePacienteService especialidadePacienteService;
+    @Autowired
+    HorarioPacienteService horarioPacienteService;
 
     Mapper mapper;
 
@@ -52,7 +56,7 @@ public class PacienteController {
             return ResponseEntity.created(uri).body(reg);
         } catch (DataIntegrityViolationException e) {
             Throwable sqlException = e.getCause();
-            String msg = (sqlException!=null) ? sqlException.getCause().getMessage() : e.getMessage();
+            String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         } catch (ObjetoException e1) {
@@ -63,7 +67,7 @@ public class PacienteController {
 
     private List<EspecialidadePaciente> preparaListaEspecialidadePaciente(List<String> especialidades) throws ObjetoException {
         List<EspecialidadePaciente> especialidadePacientes = new ArrayList<>();
-        for(String especialidade : especialidades) {
+        for (String especialidade : especialidades) {
             EspecialidadePaciente especialidadePaciente = new EspecialidadePaciente();
             especialidadePaciente.setEspecialidade((especialidadeService.getByDescricao(especialidade)));
             especialidadePacientes.add(especialidadePaciente);
@@ -84,9 +88,9 @@ public class PacienteController {
 
     private List<PacienteDto> toDto(List<Paciente> listaPacientes) throws ObjetoException {
         List<PacienteDto> listaDto = new ArrayList<>();
-        for(Paciente paciente : listaPacientes) {
+        for (Paciente paciente : listaPacientes) {
             PacienteDto dto = new PacienteDto();
-            dto.setId(String.valueOf(paciente.getId()));
+            dto.setId(paciente.getId());
             dto.setNomeCompleto(paciente.getNomeCompleto());
             dto.setCelular1(paciente.getCelular1());
             dto.setIsWhatsapp1(paciente.getIsWhatsapp1().toString());
@@ -100,11 +104,11 @@ public class PacienteController {
             DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
             dto.setCadastro(paciente.getCadastro().format(formatoDia));
             dto.setRegistroGeral(paciente.getRegistroGeral());
-            dto.setProfissao( profissaoService.find(paciente.getProfissao_id()).getDescricao());
-            dto.setGenero( generoService.find(paciente.getGenero_id()).getDescricao());
-            dto.setEscolaridade( escolaridadeService.find(paciente.getEscolaridade_id()).getDescricao());
-//            dto.setEspecialidades( ); TODO criar lista de especialidades do paciente
-            // TODO criar lista de horarios do paciente
+            dto.setProfissao(profissaoService.find(paciente.getProfissao_id()).getDescricao());
+            dto.setGenero(generoService.find(paciente.getGenero_id()).getDescricao());
+            dto.setEscolaridade(escolaridadeService.find(paciente.getEscolaridade_id()).getDescricao());
+            dto.setEspecialidades( Mapper.preparaEspecialidadePaciente(especialidadePacienteService.obterEspecialidadesPorPaciente(paciente)));
+            dto.setHorarios(Mapper.preparaHorariosPaciente(horarioPacienteService.obterHorariosPaciente(paciente)));
             listaDto.add(dto);
         }
         return listaDto;
@@ -130,13 +134,13 @@ public class PacienteController {
     }
 
     @GetMapping(value = "/{inicio}/{fim}")
-    public ResponseEntity<Object> buscarPacientesAgendados(@PathVariable String inicio, @PathVariable String  fim) {
+    public ResponseEntity<Object> buscarPacientesAgendados(@PathVariable String inicio, @PathVariable String fim) {
         List<Paciente> lista = service.buscarPacientesAgendadosNoIntervalo(Mapper.converteParaData(inicio), Mapper.converteParaData(fim));
         return ResponseEntity.ok().body(lista);
     }
 
     @GetMapping(value = "/triagem/{inicio}/{fim}")
-    public ResponseEntity<Object> buscarPacientesTriagemRealizada(@PathVariable String inicio, @PathVariable String fim){
+    public ResponseEntity<Object> buscarPacientesTriagemRealizada(@PathVariable String inicio, @PathVariable String fim) {
         List<Paciente> lista = service.buscarPacientesAlocadosNoIntervalo(Mapper.converteParaData(inicio), Mapper.converteParaData(fim));
         return ResponseEntity.ok().body(lista);
     }
@@ -148,7 +152,7 @@ public class PacienteController {
     }
 
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody PacienteDto registro){
+    public ResponseEntity<Object> update(@RequestBody PacienteDto registro) {
 
         try {
             mapper = new Mapper();
@@ -160,14 +164,14 @@ public class PacienteController {
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             Throwable sqlException = e.getCause();
-            String msg = (sqlException!=null) ? sqlException.getCause().getMessage() : e.getMessage();
+            String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
     }
 
-    @DeleteMapping(value="/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Integer id)  {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
         try {
             service.delete(id);
             return ResponseEntity.noContent().build();

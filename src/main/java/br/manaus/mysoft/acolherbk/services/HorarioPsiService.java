@@ -2,6 +2,7 @@ package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Horario;
 import br.manaus.mysoft.acolherbk.domain.HorarioPsi;
+import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.HorarioPsiRepository;
 import br.manaus.mysoft.acolherbk.repositories.HorarioRepository;
@@ -30,6 +31,10 @@ public class HorarioPsiService {
 
     public List<HorarioPsi> listar() {
         return repository.findAll();
+    }
+
+    public List<HorarioPsi> obterHorariosPsicologo(Psicologo psicologo) {
+        return repository.findAllByPsicologo(psicologo);
     }
 
     public HorarioPsi update(HorarioPsi obj) {
