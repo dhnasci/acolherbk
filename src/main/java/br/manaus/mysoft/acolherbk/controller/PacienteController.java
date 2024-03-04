@@ -50,10 +50,17 @@ public class PacienteController {
             Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
             Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
             Genero genero = generoService.getByDescricao(registro.getGenero());
-            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades());
-            Paciente reg = service.insert(mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, especialidades));
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
-            return ResponseEntity.created(uri).body(reg);
+            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades(), null);
+            Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, especialidades);
+            try {
+                Paciente reg = service.insert(paciente);
+                especialidadePacienteService.salvar(especialidades, reg);
+                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
+                return ResponseEntity.created(uri).body(reg);
+            } catch (Exception e) {
+                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+                return ResponseEntity.badRequest().body(error);
+            }
         } catch (DataIntegrityViolationException e) {
             Throwable sqlException = e.getCause();
             String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
@@ -65,11 +72,12 @@ public class PacienteController {
         }
     }
 
-    private List<EspecialidadePaciente> preparaListaEspecialidadePaciente(List<String> especialidades) throws ObjetoException {
+    private List<EspecialidadePaciente> preparaListaEspecialidadePaciente(List<String> especialidades, Paciente paciente) throws ObjetoException {
         List<EspecialidadePaciente> especialidadePacientes = new ArrayList<>();
         for (String especialidade : especialidades) {
             EspecialidadePaciente especialidadePaciente = new EspecialidadePaciente();
             especialidadePaciente.setEspecialidade((especialidadeService.getByDescricao(especialidade)));
+            especialidadePaciente.setPaciente(paciente);
             especialidadePacientes.add(especialidadePaciente);
         }
         return especialidadePacientes;
@@ -107,7 +115,7 @@ public class PacienteController {
             dto.setProfissao(profissaoService.find(paciente.getProfissao_id()).getDescricao());
             dto.setGenero(generoService.find(paciente.getGenero_id()).getDescricao());
             dto.setEscolaridade(escolaridadeService.find(paciente.getEscolaridade_id()).getDescricao());
-            dto.setEspecialidades( Mapper.preparaEspecialidadePaciente(especialidadePacienteService.obterEspecialidadesPorPaciente(paciente)));
+            dto.setEspecialidades(Mapper.preparaEspecialidadePaciente(especialidadePacienteService.obterEspecialidadesPorPaciente(paciente)));
             dto.setHorarios(Mapper.preparaHorariosPaciente(horarioPacienteService.obterHorariosPaciente(paciente)));
             listaDto.add(dto);
         }
@@ -151,21 +159,19 @@ public class PacienteController {
         return ResponseEntity.ok().body(lista);
     }
 
-    @PutMapping
-    public ResponseEntity<Object> update(@RequestBody PacienteDto registro) {
-
+    @PutMapping(value = "/{perfil}")
+    public ResponseEntity<Object> update(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
         try {
             mapper = new Mapper();
             Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
             Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
             Genero genero = generoService.getByDescricao(registro.getGenero());
-            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades());
-            service.update(mapper.dtoToPaciente(registro, Perfil.ADMIN, profissao, escolaridade, genero, especialidades));
+//            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades(), service.find(registro.getId()));
+            Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, null);
+            service.update(paciente);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            Throwable sqlException = e.getCause();
-            String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
-            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
     }

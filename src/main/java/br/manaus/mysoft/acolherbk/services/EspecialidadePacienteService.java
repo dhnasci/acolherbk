@@ -47,7 +47,10 @@ public class EspecialidadePacienteService {
         }
     }
 
-    public void salvar(List<EspecialidadePaciente> lista) {
+    public void salvar(List<EspecialidadePaciente> lista, Paciente paciente) {
+        for (EspecialidadePaciente especialidadePaciente : lista) {
+            especialidadePaciente.setPaciente(paciente);
+        }
         repository.saveAll(lista);
     }
 }

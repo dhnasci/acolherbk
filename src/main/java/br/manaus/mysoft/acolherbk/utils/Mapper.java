@@ -124,7 +124,7 @@ public class Mapper {
             paciente.setGenero_id(genero.getId());
         }
 
-        if(perfil.equals(Perfil.TRIAGEM) && especialidades!=null){
+        if(!perfil.equals(Perfil.PSICOLOGO) && especialidades!=null){
             paciente.setEspecialidades(especialidades);
         }
         return paciente;
