@@ -2,6 +2,7 @@ package br.manaus.mysoft.acolherbk.utils;
 
 import br.manaus.mysoft.acolherbk.domain.*;
 import br.manaus.mysoft.acolherbk.dto.PacienteDto;
+import br.manaus.mysoft.acolherbk.dto.TriagemDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 
 import java.time.LocalDateTime;
@@ -98,6 +99,14 @@ public class Mapper {
 
     private static String converteHorarioPsi(HorarioPsi horario) {
         return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getHorario().getTurno().name();
+    }
+
+    public static Triagem toTriagem(TriagemDto triagemDto) {
+        Triagem triagem = new Triagem();
+        triagem.setId(triagemDto.getId());
+        triagem.setLoginAlocador(triagemDto.getLogin());
+        triagem.setDiaAlocacao(LocalDateTime.now());
+        return triagem;
     }
 
     public  Paciente dtoToPaciente(PacienteDto registro, Perfil perfil, Profissao profissao, Escolaridade escolaridade, Genero genero, List<EspecialidadePaciente> especialidades) {

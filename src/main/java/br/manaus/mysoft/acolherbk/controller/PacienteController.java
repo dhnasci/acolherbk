@@ -39,6 +39,8 @@ public class PacienteController {
     EspecialidadePacienteService especialidadePacienteService;
     @Autowired
     HorarioPacienteService horarioPacienteService;
+    @Autowired
+    HorarioService horarioService;
 
     Mapper mapper;
 
@@ -50,26 +52,29 @@ public class PacienteController {
             Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
             Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
             Genero genero = generoService.getByDescricao(registro.getGenero());
-            List<EspecialidadePaciente> especialidades = preparaListaEspecialidadePaciente(registro.getEspecialidades(), null);
-            Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, especialidades);
-            try {
-                Paciente reg = service.insert(paciente);
-                especialidadePacienteService.salvar(especialidades, reg);
-                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
-                return ResponseEntity.created(uri).body(reg);
-            } catch (Exception e) {
-                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
-                return ResponseEntity.badRequest().body(error);
-            }
+            Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, null);
+            Paciente reg = service.insert(paciente);
+            List<HorarioPaciente> horarios = converteHorarios(registro.getHorarios(), reg);
+            horarioPacienteService.salvar(horarios);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
+            return ResponseEntity.created(uri).body(reg);
         } catch (DataIntegrityViolationException e) {
             Throwable sqlException = e.getCause();
             String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
-        } catch (ObjetoException e1) {
-            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e1.getMessage(), System.currentTimeMillis());
-            return ResponseEntity.badRequest().body(error);
         }
+    }
+
+    private List<HorarioPaciente> converteHorarios(List<String> horarios, Paciente paciente) {
+        List<HorarioPaciente> horarioPacientes = new ArrayList<>();
+        for (String horario : horarios) {
+            HorarioPaciente horarioPaciente = new HorarioPaciente();
+            horarioPaciente.setHorario(horarioService.getByDescricao(horario));
+            horarioPaciente.setPaciente(paciente);
+            horarioPacientes.add(horarioPaciente);
+        }
+        return horarioPacientes;
     }
 
     private List<EspecialidadePaciente> preparaListaEspecialidadePaciente(List<String> especialidades, Paciente paciente) throws ObjetoException {

@@ -1,5 +1,6 @@
 package br.manaus.mysoft.acolherbk.services;
 
+import br.manaus.mysoft.acolherbk.domain.Horario;
 import br.manaus.mysoft.acolherbk.domain.HorarioPaciente;
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
@@ -51,4 +52,6 @@ public class HorarioPacienteService {
     public void salvar(List<HorarioPaciente> lista) {
         repository.saveAll(lista);
     }
+
+
 }
