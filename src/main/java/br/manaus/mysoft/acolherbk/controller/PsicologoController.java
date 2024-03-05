@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.controller;
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
+import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.services.PsicologoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.manaus.mysoft.acolherbk.utils.Mapper;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +44,32 @@ public class PsicologoController {
 
     @GetMapping
     public ResponseEntity<Object> listar() {
-        List<Psicologo> lista = service.listar();
-        return ResponseEntity.ok().body(lista);
+        try {
+            List<PsicologoDto> lista = toDto(service.listar());
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    private List<PsicologoDto> toDto(List<Psicologo> lista) {
+        List<PsicologoDto> listaDto = new ArrayList<>();
+        for (Psicologo psicologo : lista){
+            PsicologoDto dto = new PsicologoDto();
+            dto.setId(psicologo.getId());
+            dto.setNomeCompleto(psicologo.getNomeCompleto());
+            dto.setCelular1(psicologo.getCelular1());
+            dto.setCelular2(psicologo.getCelular2());
+            dto.setIsWhatsapp1(psicologo.getIsWhatsapp1().toString());
+            dto.setCrp(psicologo.getCRP());
+            dto.setIsWhatsapp2(psicologo.getIsWhatsapp2().toString());
+            dto.setLogin(psicologo.getLogin());
+            dto.setEmail(psicologo.getEmail());
+            dto.setPerfil(psicologo.getPerfil().name());
+            listaDto.add(dto);
+        }
+        return listaDto;
     }
 
     @GetMapping(value = "/buscarNome/{nome}")
