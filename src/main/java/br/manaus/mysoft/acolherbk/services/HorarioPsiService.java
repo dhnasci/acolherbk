@@ -29,8 +29,8 @@ public class HorarioPsiService {
         );
     }
 
-    public List<Object[]> listar() {
-        return repository.obterInfoPsicologoHorario();
+    public List<Object[]> listar(Integer id) {
+        return repository.obterInfoPsicologoHorario(id);
     }
 
     public List<HorarioPsi> obterHorariosPsicologo(Psicologo psicologo) {

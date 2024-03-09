@@ -8,6 +8,7 @@ import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,10 +25,10 @@ public class HorarioPacienteController {
 
     Mapper mapper = new Mapper();
 
-    @GetMapping
-    public ResponseEntity<Object> listar() {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> listar(@PathVariable Integer id) {
         try {
-            List<HorarioDto> lista = mapper.converteParaHorarioDto(service.listar());
+            List<HorarioDto> lista = mapper.converteParaHorarioDto(service.listar(id));
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(403, ACESSO_NAO_AUTORIZADO, System.currentTimeMillis());

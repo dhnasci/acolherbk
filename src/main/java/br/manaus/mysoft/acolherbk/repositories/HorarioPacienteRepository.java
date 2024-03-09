@@ -8,6 +8,7 @@ import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.dto.HorarioDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public interface HorarioPacienteRepository extends JpaRepository<HorarioPaciente
     @Query("SELECT hp.id, p.nomeCompleto AS nomePaciente, h.dia, h.turno " +
             "FROM HorarioPaciente hp " +
             "JOIN hp.paciente p " +
-            "JOIN hp.horario h")
-    List<Object[]> obterInfoPacienteHorario();
+            "JOIN hp.horario h " +
+            "WHERE p.id = :pacienteId")
+    List<Object[]> obterInfoPacienteHorario(@Param("pacienteId") Integer pacienteId);
 }

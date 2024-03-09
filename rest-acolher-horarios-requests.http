@@ -12,12 +12,12 @@ Access-Control-Allow-Origin: *
 
 
 ### horarios paciente
-GET http://localhost:8080/horariopaciente
+GET http://localhost:8080/horariopaciente/27
 Content-Type: application/json
 Authorization: {{auth_token}}
 
 ### horarios psicologo
-GET http://localhost:8080/horariopsicologo
+GET http://localhost:8080/horariopsicologo/1
 Content-Type: application/json
 Authorization: {{auth_token}}
 

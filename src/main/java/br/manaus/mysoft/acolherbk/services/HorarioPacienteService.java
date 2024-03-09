@@ -27,8 +27,8 @@ public class HorarioPacienteService {
         );
     }
 
-    public List<Object[]> listar() {
-        return repository.obterInfoPacienteHorario();
+    public List<Object[]> listar(Integer id) {
+        return repository.obterInfoPacienteHorario(id);
     }
 
     public List<HorarioPaciente> obterHorariosPaciente(Paciente paciente) {
