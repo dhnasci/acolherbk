@@ -44,7 +44,7 @@ public class Paciente {
     private List<EspecialidadePaciente> especialidades;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "paciente")
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<HorarioPaciente> horarios;
 
     @JsonIgnore

@@ -20,8 +20,7 @@ public class HorarioPsi {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonIgnore
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "horario_id")
     private Horario horario;
 

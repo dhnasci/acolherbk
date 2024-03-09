@@ -23,4 +23,5 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 
     @Transactional(readOnly = true)   // para ver pacientes pendentes de triagem
     List<Paciente> findPacientesByTriagemsIsPacienteAlocado(Boolean isPacienteAlocado);
+
 }

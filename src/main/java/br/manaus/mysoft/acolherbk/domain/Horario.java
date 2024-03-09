@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
+import java.util.List;
 
 @Data
 @Builder
@@ -30,10 +31,10 @@ public class Horario {
     private DayOfWeek dia;
     private Turno turno;
 
-    @OneToOne(mappedBy = "horario")
-    private HorarioPaciente horarioPaciente;
+    @OneToMany(mappedBy = "horario")
+    private List<HorarioPaciente> horarioPaciente;
 
-    @OneToOne(mappedBy = "horario")
-    private HorarioPsi horarioPsicologo;
+    @OneToMany(mappedBy = "horario")
+    private List<HorarioPsi> horarioPsicologo;
 
 }
