@@ -18,6 +18,13 @@ public class TriagemService {
     TriagemRepository repository;
 
     public Triagem insert(Triagem obj) {
+        obj.setIsPacienteAlocado(true);
+        return repository.save(obj);
+    }
+
+    public Triagem cancel(Triagem obj) {
+        obj.setIsPacienteAlocado(false);
+        obj.setIsCancelado(true);
         return repository.save(obj);
     }
 

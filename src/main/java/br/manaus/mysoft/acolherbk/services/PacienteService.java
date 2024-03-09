@@ -30,7 +30,7 @@ public class PacienteService {
     }
 
     public List<Paciente> listar() {
-        return repository.findAll();
+        return repository.findPacientesByTriagemsIsPacienteAlocado(true);
     }
 
     public List<Paciente> buscarPorNome(String nome) {

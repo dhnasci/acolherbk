@@ -36,15 +36,19 @@ public class Psicologo {
     private String email;
     private LocalDateTime cadastro;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "psicologo")
     private List<EspecialidadePsicologo> especialidades;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "psicologo")
     private List<HorarioPsi> horarios;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "psicologo")
     private List<Triagem> triagems;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "psicologo")
     private List<Sessao> sessoes;
 

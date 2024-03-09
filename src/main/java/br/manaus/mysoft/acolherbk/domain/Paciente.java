@@ -1,5 +1,6 @@
 package br.manaus.mysoft.acolherbk.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,15 +39,19 @@ public class Paciente {
     private Integer genero_id;
     private Integer escolaridade_id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<EspecialidadePaciente> especialidades;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<HorarioPaciente> horarios;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<Triagem> triagems;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<Sessao> sessoes;
 
