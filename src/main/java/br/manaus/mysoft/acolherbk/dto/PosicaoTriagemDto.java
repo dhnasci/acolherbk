@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TriagemDto {
+public class PosicaoTriagemDto {
 
     private Integer id;
     private String login;
-    private String psicologoId;
-    private String pacienteId;
+    private String psicologo;
+    private String paciente;
+    private String diaAlocacao;
+    private String status;
 
 }

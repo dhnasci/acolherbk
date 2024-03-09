@@ -54,8 +54,8 @@ public class PacienteController {
             Genero genero = generoService.getByDescricao(registro.getGenero());
             Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, null);
             Paciente reg = service.insert(paciente);
-            List<HorarioPaciente> horarios = converteHorarios(registro.getHorarios(), reg);
-            horarioPacienteService.salvar(horarios);
+//            List<HorarioPaciente> horarios = converteHorarios(registro.getHorarios(), reg);
+//            horarioPacienteService.salvar(horarios);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
             return ResponseEntity.created(uri).body(reg);
         } catch (DataIntegrityViolationException e) {

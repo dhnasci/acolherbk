@@ -1,0 +1,23 @@
+### LOGIN
+POST {{server}}/login
+Content-Type: application/json
+Access-Control-Allow-Origin: *
+
+{
+  "login":    "edilce",
+  "senha":    "OlfbH5jQw0"
+}
+
+> {% client.global.set("auth_token", response.headers.valueOf("Authorization")); %}
+
+
+### horarios paciente
+GET http://localhost:8080/horariopaciente
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### horarios psicologo
+GET http://localhost:8080/horariopsicologo
+Content-Type: application/json
+Authorization: {{auth_token}}
+

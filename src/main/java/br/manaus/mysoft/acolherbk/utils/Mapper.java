@@ -1,16 +1,21 @@
 package br.manaus.mysoft.acolherbk.utils;
 
 import br.manaus.mysoft.acolherbk.domain.*;
+import br.manaus.mysoft.acolherbk.dto.HorarioDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteDto;
+import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
 import br.manaus.mysoft.acolherbk.dto.TriagemDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
+import br.manaus.mysoft.acolherbk.enums.Turno;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class Mapper {
     public static LocalDateTime converteParaData(String inicio) {
@@ -107,6 +112,37 @@ public class Mapper {
         triagem.setLoginAlocador(triagemDto.getLogin());
         triagem.setDiaAlocacao(LocalDateTime.now());
         return triagem;
+    }
+
+    public static Psicologo toPsicologo(PsicologoDto registro) {
+        Psicologo psicologo = new Psicologo();
+        psicologo.setId(registro.getId());
+        psicologo.setNomeCompleto(registro.getNomeCompleto());
+        psicologo.setLogin(registro.getLogin());
+        psicologo.setPerfil(Perfil.valueOf(registro.getPerfil()));
+        psicologo.setCRP(registro.getCrp());
+        psicologo.setCadastro(LocalDateTime.now());
+        psicologo.setCelular1(registro.getCelular1());
+        psicologo.setCelular2(registro.getCelular2());
+        psicologo.setIsWhatsapp1(Boolean.valueOf(registro.getIsWhatsapp1()));
+        psicologo.setIsWhatsapp2(Boolean.valueOf(registro.getIsWhatsapp2()));
+        psicologo.setEmail(registro.getEmail());
+        return psicologo;
+    }
+
+    public  List<HorarioDto> converteParaHorarioDto(List<Object[]> resultList) {
+        return resultList.stream()
+                .map(this::toHorarioDto)
+                .collect(Collectors.toList());
+    }
+
+    private HorarioDto toHorarioDto(Object[] result) {
+        return HorarioDto.builder()
+                .id((Integer) result[0])
+                .nome((String) result[1])
+                .dia(((DayOfWeek) result[2]).getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")))
+                .turno(((Enum) result[3]).name())
+                .build();
     }
 
     public  Paciente dtoToPaciente(PacienteDto registro, Perfil perfil, Profissao profissao, Escolaridade escolaridade, Genero genero, List<EspecialidadePaciente> especialidades) {

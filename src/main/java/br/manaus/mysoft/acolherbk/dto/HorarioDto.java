@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TriagemDto {
+public class HorarioDto {
 
     private Integer id;
-    private String login;
-    private String psicologoId;
-    private String pacienteId;
+    private String nome;
+    private String dia;
+    private String turno;
 
 }

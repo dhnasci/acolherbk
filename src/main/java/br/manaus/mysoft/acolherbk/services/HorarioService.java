@@ -2,12 +2,14 @@ package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Genero;
 import br.manaus.mysoft.acolherbk.domain.Horario;
+import br.manaus.mysoft.acolherbk.enums.Turno;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.GeneroRepository;
 import br.manaus.mysoft.acolherbk.repositories.HorarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,9 @@ public class HorarioService {
     }
 
     public Horario getByDescricao(String horario) {
-        // TODO implementar
-        return null;
+        String[] lista = horario.split("-");
+        Turno turno = Turno.valueOf(lista[1]);
+        DayOfWeek dia = DayOfWeek.valueOf(lista[0]);
+        return repository.findByDiaAndTurno(dia, turno);
     }
 }

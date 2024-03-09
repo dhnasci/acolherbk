@@ -1,9 +1,7 @@
 package br.manaus.mysoft.acolherbk.services;
 
-import br.manaus.mysoft.acolherbk.domain.Horario;
 import br.manaus.mysoft.acolherbk.domain.HorarioPaciente;
 import br.manaus.mysoft.acolherbk.domain.Paciente;
-import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.HorarioPacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,8 @@ public class HorarioPacienteService {
         );
     }
 
-    public List<HorarioPaciente> listar() {
-        return repository.findAll();
+    public List<Object[]> listar() {
+        return repository.obterInfoPacienteHorario();
     }
 
     public List<HorarioPaciente> obterHorariosPaciente(Paciente paciente) {

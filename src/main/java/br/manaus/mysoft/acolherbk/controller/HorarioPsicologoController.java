@@ -1,38 +1,37 @@
 package br.manaus.mysoft.acolherbk.controller;
 
-import br.manaus.mysoft.acolherbk.domain.Horario;
-import br.manaus.mysoft.acolherbk.services.HorarioService;
+import br.manaus.mysoft.acolherbk.domain.HorarioPsi;
+import br.manaus.mysoft.acolherbk.domain.StandardError;
+import br.manaus.mysoft.acolherbk.dto.HorarioDto;
+import br.manaus.mysoft.acolherbk.services.HorarioPsiService;
+import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.manaus.mysoft.acolherbk.utils.Mapper;
-import br.manaus.mysoft.acolherbk.domain.StandardError;
-import static br.manaus.mysoft.acolherbk.utils.Constantes.*;
 
 import java.util.List;
 
+import static br.manaus.mysoft.acolherbk.utils.Constantes.ACESSO_NAO_AUTORIZADO;
 
 @RestController
-@RequestMapping(value = "/horario")
-public class HorarioController {
+@RequestMapping(value = "/horariopsicologo")
+public class HorarioPsicologoController {
 
     @Autowired
-    HorarioService service;
-
+    HorarioPsiService service;
+    Mapper mapper = new Mapper();
     @GetMapping
     public ResponseEntity<Object> listar() {
         try {
-            List<Horario> lista = service.listar();
-            return ResponseEntity.ok().body(Mapper.preparaHorarios(lista));
+            List<HorarioDto> lista = mapper.converteParaHorarioDto(service.listar());
+            return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(403, ACESSO_NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
 
     }
-
 
 }

@@ -30,11 +30,11 @@ public class PsicologoController {
     PsicologoService service;
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody Psicologo registro) {
+    public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro) {
 
         try {
-            Psicologo reg = service.inserir(registro);
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
+            Psicologo reg = service.inserir(Mapper.toPsicologo(registro));
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(reg.getId()).toUri();
             return ResponseEntity.created(uri).body(reg);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());

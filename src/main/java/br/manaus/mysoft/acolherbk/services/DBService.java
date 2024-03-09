@@ -122,9 +122,6 @@ public class DBService {
             } catch (Exception e) {
                 throw new PersistenciaException("Erro ao salvar especialidades", e);
             }
-
-
-
         }
 
         if (!isHorarioPopulado()) {
@@ -182,8 +179,8 @@ public class DBService {
         return especialidadeService.listar().size() > 0;
     }
 
-    public boolean isHorarioPopulado() {
-        return horarioService.listar().size() > 0;
+    public boolean isHorarioPopulado() throws ObjetoException {
+        return horarioService.find(1)!=null;
     }
 
     public boolean isGeneroPopulado() {
