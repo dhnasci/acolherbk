@@ -53,17 +53,36 @@ public class PsicologoController {
         }
     }
 
+    @GetMapping( value = "/nomes")
+    public ResponseEntity<Object> listarNomes() {
+        try {
+            List<String> lista = Mapper.preparaPsicologosNomes (service.listar());
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     private List<PsicologoDto> toDto(List<Psicologo> lista) {
         List<PsicologoDto> listaDto = new ArrayList<>();
-        for (Psicologo psicologo : lista){
+        for (Psicologo psicologo : lista) {
             PsicologoDto dto = new PsicologoDto();
             dto.setId(psicologo.getId());
             dto.setNomeCompleto(psicologo.getNomeCompleto());
             dto.setCelular1(psicologo.getCelular1());
             dto.setCelular2(psicologo.getCelular2());
-            dto.setIsWhatsapp1(psicologo.getIsWhatsapp1().toString());
+            if (psicologo.getIsWhatsapp1() != null) {
+                dto.setIsWhatsapp1(psicologo.getIsWhatsapp1().toString());
+            } else {
+                dto.setIsWhatsapp1("");
+            }
             dto.setCrp(psicologo.getCRP());
-            dto.setIsWhatsapp2(psicologo.getIsWhatsapp2().toString());
+            if (psicologo.getIsWhatsapp2() != null) {
+                dto.setIsWhatsapp2(psicologo.getIsWhatsapp2().toString());
+            } else {
+                dto.setIsWhatsapp2("");
+            }
             dto.setLogin(psicologo.getLogin());
             dto.setEmail(psicologo.getEmail());
             dto.setPerfil(psicologo.getPerfil().name());
@@ -113,8 +132,8 @@ public class PsicologoController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(value="/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Integer id)  {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
         try {
             service.apagar(id);
             return ResponseEntity.noContent().build();

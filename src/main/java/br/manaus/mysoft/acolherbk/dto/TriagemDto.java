@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 public class TriagemDto {
 
     private Integer id;
-    private String login;
-    private String psicologoId;
+    private String login;  // é do Psicologo
     private String pacienteId;
 
 }

@@ -62,6 +62,14 @@ public class Mapper {
         return especialidades;
     }
 
+    public static List<String> preparaPsicologosNomes(List<Psicologo> lista) {
+        List<String> psicologosNomes = new ArrayList<>();
+        for (Psicologo psicologo : lista) {
+            psicologosNomes.add(psicologo.getNomeCompleto());
+        }
+        return psicologosNomes;
+    }
+
     public static List<String> preparaEspecialidadePsicologo(List<EspecialidadePsicologo> lista) {
         List<String> especialidades = new ArrayList<>();
         for (EspecialidadePsicologo especialidade : lista) {

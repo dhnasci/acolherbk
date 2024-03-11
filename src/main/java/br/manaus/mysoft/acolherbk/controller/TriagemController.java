@@ -35,7 +35,7 @@ public class TriagemController {
             try {
                 Triagem original = Mapper.toTriagem(triagemDto);
                 original.setPaciente(pacienteService.find(Integer.parseInt(triagemDto.getPacienteId())));
-                original.setPsicologo(psicologoService.find(Integer.parseInt(triagemDto.getPsicologoId())));
+                original.setPsicologo(psicologoService.buscarPeloLogin(triagemDto.getLogin()));
                 Triagem triagem = triagemService.insert(original);
                 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(triagem.getId()).toUri();
                 return ResponseEntity.created(uri).body(triagem);

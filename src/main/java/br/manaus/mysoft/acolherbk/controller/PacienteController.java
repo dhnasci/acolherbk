@@ -106,9 +106,17 @@ public class PacienteController {
             dto.setId(paciente.getId());
             dto.setNomeCompleto(paciente.getNomeCompleto());
             dto.setCelular1(paciente.getCelular1());
-            dto.setIsWhatsapp1(paciente.getIsWhatsapp1().toString());
+            if (paciente.getIsWhatsapp1() != null) {
+                dto.setIsWhatsapp1(paciente.getIsWhatsapp1().toString());
+            } else {
+                dto.setIsWhatsapp1("");
+            }
             dto.setCelular2(paciente.getCelular2());
-            dto.setIsWhatsapp2(paciente.getIsWhatsapp2().toString());
+            if (paciente.getIsWhatsapp2() != null) {
+                dto.setIsWhatsapp2(paciente.getIsWhatsapp2().toString());
+            } else {
+                dto.setIsWhatsapp2("");
+            }
             dto.setNomeIndicacao(paciente.getNomeIndicacao());
             dto.setJaFezTerapia(paciente.getJaFezTerapia().toString());
             dto.setQueixa(paciente.getQueixa());
