@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+import static br.manaus.mysoft.acolherbk.utils.Constantes.INFORMACOES_INSUFICIENTES;
 import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 
 @RestController
@@ -31,9 +32,13 @@ public class TriagemController {
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody TriagemDto triagemDto, @PathVariable Perfil perfil) {
 
-        if (perfil.equals(Perfil.TRIAGEM)) {
+        if (perfil.equals(Perfil.TRIAGEM) || perfil.equals(Perfil.ADMIN)) {
             try {
                 Triagem original = Mapper.toTriagem(triagemDto);
+                if (triagemDto.getLogin().equals("") || triagemDto.getPacienteId().equals("")) {
+                    StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), INFORMACOES_INSUFICIENTES, System.currentTimeMillis());
+                    return ResponseEntity.badRequest().body(error);
+                }
                 original.setPaciente(pacienteService.find(Integer.parseInt(triagemDto.getPacienteId())));
                 original.setPsicologo(psicologoService.buscarPeloLogin(triagemDto.getLogin()));
                 Triagem triagem = triagemService.insert(original);

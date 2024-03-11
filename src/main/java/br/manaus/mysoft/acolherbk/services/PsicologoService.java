@@ -101,4 +101,12 @@ public class PsicologoService {
     public Psicologo buscarPeloLogin(String nome) {
         return repository.findPsicologoByLogin(nome);
     }
+
+    public Psicologo obterPeloNomeCompleto(String nome) throws ObjetoException {
+        try {
+            return repository.findPsicologoByNomeCompleto(nome);
+        } catch (Exception e) {
+            throw new ObjetoException(PSICOLOGO_NAO_ENCONTRADO);
+        }
+    }
 }

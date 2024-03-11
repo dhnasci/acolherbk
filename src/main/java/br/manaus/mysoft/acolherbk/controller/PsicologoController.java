@@ -1,10 +1,11 @@
 package br.manaus.mysoft.acolherbk.controller;
 
-import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
+import br.manaus.mysoft.acolherbk.services.EspecialidadePsicologoService;
+import br.manaus.mysoft.acolherbk.services.HorarioPsiService;
 import br.manaus.mysoft.acolherbk.services.PsicologoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,10 @@ public class PsicologoController {
 
     @Autowired
     PsicologoService service;
+    @Autowired
+    HorarioPsiService horarioPsicologoService;
+    @Autowired
+    EspecialidadePsicologoService especialidadePsicologoService;
 
     @PostMapping
     public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro) {
@@ -45,7 +50,7 @@ public class PsicologoController {
     @GetMapping
     public ResponseEntity<Object> listar() {
         try {
-            List<PsicologoDto> lista = toDto(service.listar());
+            List<PsicologoDto> lista = toListaDto(service.listar());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -64,36 +69,43 @@ public class PsicologoController {
         }
     }
 
-    private List<PsicologoDto> toDto(List<Psicologo> lista) {
+    private List<PsicologoDto> toListaDto(List<Psicologo> lista) {
         List<PsicologoDto> listaDto = new ArrayList<>();
         for (Psicologo psicologo : lista) {
-            PsicologoDto dto = new PsicologoDto();
-            dto.setId(psicologo.getId());
-            dto.setNomeCompleto(psicologo.getNomeCompleto());
-            dto.setCelular1(psicologo.getCelular1());
-            dto.setCelular2(psicologo.getCelular2());
-            if (psicologo.getIsWhatsapp1() != null) {
-                dto.setIsWhatsapp1(psicologo.getIsWhatsapp1().toString());
-            } else {
-                dto.setIsWhatsapp1("");
-            }
-            dto.setCrp(psicologo.getCRP());
-            if (psicologo.getIsWhatsapp2() != null) {
-                dto.setIsWhatsapp2(psicologo.getIsWhatsapp2().toString());
-            } else {
-                dto.setIsWhatsapp2("");
-            }
-            dto.setLogin(psicologo.getLogin());
-            dto.setEmail(psicologo.getEmail());
-            dto.setPerfil(psicologo.getPerfil().name());
+            PsicologoDto dto = toDto(psicologo);
             listaDto.add(dto);
         }
         return listaDto;
     }
 
+    private PsicologoDto toDto(Psicologo psicologo) {
+        PsicologoDto dto = new PsicologoDto();
+        dto.setId(psicologo.getId());
+        dto.setNomeCompleto(psicologo.getNomeCompleto());
+        dto.setCelular1(psicologo.getCelular1());
+        dto.setCelular2(psicologo.getCelular2());
+        if (psicologo.getIsWhatsapp1() != null) {
+            dto.setIsWhatsapp1(psicologo.getIsWhatsapp1().toString());
+        } else {
+            dto.setIsWhatsapp1("");
+        }
+        dto.setCrp(psicologo.getCRP());
+        if (psicologo.getIsWhatsapp2() != null) {
+            dto.setIsWhatsapp2(psicologo.getIsWhatsapp2().toString());
+        } else {
+            dto.setIsWhatsapp2("");
+        }
+        dto.setLogin(psicologo.getLogin());
+        dto.setEmail(psicologo.getEmail());
+        dto.setPerfil(psicologo.getPerfil().name());
+        dto.setHorarios(Mapper.preparaHorariosPsicologo( horarioPsicologoService.obterHorariosPsicologo(psicologo)));
+        dto.setEspecialidades(Mapper.preparaEspecialidadePsicologo(especialidadePsicologoService.getByPsicologo(psicologo)));
+        return dto;
+    }
+
     @GetMapping(value = "/buscarNome/{nome}")
     public ResponseEntity<Object> buscarPeloNome(@PathVariable String nome) {
-        List<Psicologo> lista = service.buscarPeloNome(nome);
+        List<PsicologoDto> lista = toListaDto(service.buscarPeloNome(nome));
         return ResponseEntity.ok().body(lista);
     }
 
@@ -111,7 +123,19 @@ public class PsicologoController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> buscarPorId(@PathVariable Integer id) {
         try {
-            Psicologo psicologo = service.find(id);
+            PsicologoDto psicologo = toDto(service.find(id));
+            return ResponseEntity.ok().body(psicologo);
+        } catch (ObjetoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+
+    }
+
+    @GetMapping(value = "/pelonomecompleto/{nome}")
+    public ResponseEntity<Object> buscarPeloNomeCompleto(@PathVariable String nome) {
+        try {
+            PsicologoDto psicologo = toDto(service.obterPeloNomeCompleto(nome));
             return ResponseEntity.ok().body(psicologo);
         } catch (ObjetoException e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());

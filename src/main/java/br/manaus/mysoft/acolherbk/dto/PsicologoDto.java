@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,4 +22,6 @@ public class PsicologoDto {
     private String perfil;
     private String email;
     private String crp;
+    private List<String> especialidades;
+    private List<String> horarios;
 }

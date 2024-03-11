@@ -20,5 +20,8 @@ public interface PsicologoRepository extends JpaRepository<Psicologo, Integer> {
 
     @Transactional(readOnly = true)
     List<Psicologo> findPsicologosByNomeCompletoContainingIgnoreCaseOrderByNomeCompleto(String nome);
+
+    @Transactional(readOnly = true)
+    Psicologo findPsicologoByNomeCompleto(String nome);
 }
 
