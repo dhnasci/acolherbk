@@ -43,14 +43,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/escolaridade/**",
             "/horario/**",
             "/horario",
-            "/paciente/**"
+            "/paciente/**",
+            "/horariopaciente",
+            "/horariopaciente/**",
+
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
             "/triagem/**",
+            "/triagem",
             "/psicologo/**",
+            "/psicologo",
             "/agendamento/**",
-            "/paciente/**"
+            "/agendamento",
+            "/paciente/**",
+            "/paciente"
     };
 
     private static final String[] PUBLIC_MATCHERS_PUT = {
