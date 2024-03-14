@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.controller;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
+import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.services.EspecialidadePsicologoService;
 import br.manaus.mysoft.acolherbk.services.HorarioPsiService;
@@ -34,17 +35,22 @@ public class PsicologoController {
     @Autowired
     EspecialidadePsicologoService especialidadePsicologoService;
 
-    @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro) {
-
-        try {
-            Psicologo reg = service.inserir(Mapper.toPsicologo(registro));
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(reg.getId()).toUri();
-            return ResponseEntity.created(uri).body(reg);
-        } catch (Exception e) {
+    @PostMapping(value="/{perfil}")
+    public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro, @PathVariable Perfil perfil) {
+        if (!perfil.equals(Perfil.PSICOLOGO)) {
+            try {
+                Psicologo reg = service.inserir(Mapper.toPsicologo(registro));
+                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(reg.getId()).toUri();
+                return ResponseEntity.created(uri).body(reg);
+            } catch (Exception e) {
+                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
+                return ResponseEntity.badRequest().body(error);
+            }
+        } else {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
+
     }
 
     @GetMapping
