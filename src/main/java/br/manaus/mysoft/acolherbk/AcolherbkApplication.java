@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AcolherbkApplication implements CommandLineRunner {
 
     private static boolean isMigration = false;
-    private static boolean desenvolvimento = true;
+    private static boolean desenvolvimento = false;
     private static final String MINHA_URL = "jdbc:sqlserver://localhost;databaseName=acolher";
     private static final String MINHA_URL_PROD = "jdbc:sqlserver://eu-az-sql-serv1.database.windows.net:1433;database=d3yn0bi94s8zvey";
     private static final String MEU_LOGIN = "sa";
