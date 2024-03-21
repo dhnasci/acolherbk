@@ -40,6 +40,7 @@ public class PsicologoController {
         if (!perfil.equals(Perfil.PSICOLOGO)) {
             try {
                 Psicologo reg = service.inserir(Mapper.toPsicologo(registro));
+                reg.setSenha(service.getNovaSenha());
                 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(reg.getId()).toUri();
                 return ResponseEntity.created(uri).body(reg);
             } catch (Exception e) {
