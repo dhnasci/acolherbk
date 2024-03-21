@@ -37,12 +37,14 @@ public class PsicologoController {
 
     @PostMapping(value="/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro, @PathVariable Perfil perfil) {
+        Map<String, Object> response = new HashMap<>();
         if (!perfil.equals(Perfil.PSICOLOGO)) {
             try {
-                Psicologo reg = service.inserir(Mapper.toPsicologo(registro));
-                reg.setSenha(service.getNovaSenha());
-                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(reg.getId()).toUri();
-                return ResponseEntity.created(uri).body(reg);
+                Psicologo psi = service.inserir(Mapper.toPsicologo(registro));
+                response.put("psicologo", psi);
+                response.put("senha", service.getNovaSenha());
+                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(psi.getId()).toUri();
+                return ResponseEntity.created(uri).body(response);
             } catch (Exception e) {
                 StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
                 return ResponseEntity.badRequest().body(error);
