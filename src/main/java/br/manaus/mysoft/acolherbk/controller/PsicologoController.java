@@ -46,7 +46,7 @@ public class PsicologoController {
                 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(psi.getId()).toUri();
                 return ResponseEntity.created(uri).body(response);
             } catch (Exception e) {
-                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
+                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
                 return ResponseEntity.badRequest().body(error);
             }
         } else {
@@ -182,6 +182,7 @@ public class PsicologoController {
             Psicologo psicologo = service.find(id);
             Map<String, Object> response = new HashMap<>();
             service.reset(psicologo);
+            response.put("login", psicologo.getLogin());
             response.put("senha", service.getNovaSenha());
             return ResponseEntity.ok(response);
         } catch (ObjetoException e) {
