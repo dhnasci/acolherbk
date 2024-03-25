@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.List;
 
 import static br.manaus.mysoft.acolherbk.utils.Constantes.ACESSO_NAO_AUTORIZADO;
+import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 
 @RestController
 @RequestMapping(value = "/horariopaciente")
@@ -46,8 +47,12 @@ public class HorarioPacienteController {
 
     }
 
-    @PostMapping(value="/perfil")
+    @PostMapping(value="/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody HorarioPacienteForm horarioForm, @PathVariable Perfil perfil) {
+        if (perfil.equals(Perfil.PSICOLOGO)) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
         try {
             Horario horario = horarioService.getByDescricao(horarioForm.getHorario());
             Paciente paciente = pacienteService.find(horarioForm.getPacienteId());

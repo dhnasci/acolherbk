@@ -50,8 +50,8 @@ public class HorarioPsicologoController {
 
     }
 
-    @PostMapping(value="/perfil")
-    public ResponseEntity<Object> inserir(@RequestBody HorarioPsicologoForm horarioForm, @PathVariable Perfil perfil) {
+    @PostMapping
+    public ResponseEntity<Object> inserir(@RequestBody HorarioPsicologoForm horarioForm) {
         try {
             Horario horario = horarioService.getByDescricao(horarioForm.getHorario());
             Psicologo psicologo = psicologoService.find(horarioForm.getPsicologoId());

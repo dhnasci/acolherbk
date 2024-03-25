@@ -61,7 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/paciente/**",
             "/paciente",
             "/horariopsicologo/**",
-            "/horariopaciente/**"
+            "/horariopsicologo",
+            "/horariopaciente/**",
+            "/horariopaciente",
 
     };
 
