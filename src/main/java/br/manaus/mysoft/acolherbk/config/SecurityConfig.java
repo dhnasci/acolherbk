@@ -46,6 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/paciente/**",
             "/horariopaciente",
             "/horariopaciente/**",
+            "/horariopsicologo/**",
+            "/horariopsicologo"
 
     };
 
@@ -57,19 +59,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/agendamento/**",
             "/agendamento",
             "/paciente/**",
-            "/paciente"
+            "/paciente",
+            "/horariopsicologo/**",
+            "/horariopaciente/**"
+
     };
 
     private static final String[] PUBLIC_MATCHERS_PUT = {
             "/triagem/**",
             "/psicologo/**",
             "/agendamento/**",
-            "/paciente/**"
+            "/paciente/**",
     };
 
     public static final String[] PUBLIC_MATCHERS_DELETE = {
             "/paciente/**",
-            "/psicologo/**"
+            "/horariopsicologo/**",
+            "/psicologo/**",
+            "/horariopaciente/**"
     };
 
     @Override
