@@ -35,7 +35,7 @@ public class PsicologoController {
     @Autowired
     EspecialidadePsicologoService especialidadePsicologoService;
 
-    @PostMapping(value="/{perfil}")
+    @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro, @PathVariable Perfil perfil) {
         Map<String, Object> response = new HashMap<>();
         if (!perfil.equals(Perfil.PSICOLOGO)) {
@@ -67,10 +67,10 @@ public class PsicologoController {
         }
     }
 
-    @GetMapping( value = "/nomes")
+    @GetMapping(value = "/nomes")
     public ResponseEntity<Object> listarNomes() {
         try {
-            List<String> lista = Mapper.preparaPsicologosNomes (service.listar());
+            List<String> lista = Mapper.preparaPsicologosNomes(service.listar());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -107,7 +107,7 @@ public class PsicologoController {
         dto.setLogin(psicologo.getLogin());
         dto.setEmail(psicologo.getEmail());
         dto.setPerfil(psicologo.getPerfil().name());
-        dto.setHorarios(Mapper.preparaHorariosPsicologo( horarioPsicologoService.obterHorariosPsicologo(psicologo)));
+        dto.setHorarios(Mapper.preparaHorariosPsicologo(horarioPsicologoService.obterHorariosPsicologo(psicologo)));
         dto.setEspecialidades(Mapper.preparaEspecialidadePsicologo(especialidadePsicologoService.getByPsicologo(psicologo)));
         return dto;
     }
@@ -160,9 +160,15 @@ public class PsicologoController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> atualizar(@RequestBody Psicologo obj) {
-        service.alterar(obj);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Object> atualizar(@RequestBody PsicologoDto dto) {
+        Psicologo psicologo = Mapper.toPsicologo(dto);
+        try {
+            service.alterar(psicologo);
+            return ResponseEntity.noContent().build();
+        } catch (ObjetoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @DeleteMapping(value = "/{id}")

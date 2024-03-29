@@ -78,7 +78,9 @@ public class PsicologoService {
         return repository.save(psi);
     }
 
-    public Psicologo alterar(Psicologo psi) {
+    public Psicologo alterar(Psicologo psi) throws ObjetoException {
+        Psicologo psicologo = find(psi.getId());
+        psi.setSenha(psicologo.getSenha());
         return repository.save(psi);
     }
 
