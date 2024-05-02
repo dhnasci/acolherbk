@@ -25,6 +25,7 @@ import java.util.List;
 public class PacienteController {
 
     private static final String FALTA_PREENCHER_CAMPOS_OBRIGATORIOS = "Falta preencher campos obrigatórios!";
+    private static final String PERFIL_NAO_AUTORIZADO = "Perfil não autorizado!";
     @Autowired
     PacienteService service;
 
@@ -47,25 +48,31 @@ public class PacienteController {
 
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
-        if (registro.getNomeCompleto() != null && registro.getCelular1() !=null && registro.getRegistroGeral() != null && registro.getQueixa() != null) {
-            try {
-                Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
-                Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
-                Genero genero = generoService.getByDescricao(registro.getGenero());
-                Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, null);
-                Paciente reg = service.insert(paciente);
-                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
-                return ResponseEntity.created(uri).body(reg);
-            } catch (DataIntegrityViolationException e) {
-                Throwable sqlException = e.getCause();
-                String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
-                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
+        if (!perfil.equals(Perfil.PSICOLOGO)) {
+            if (registro.getNomeCompleto() != null && registro.getCelular1() !=null && registro.getRegistroGeral() != null && registro.getQueixa() != null) {
+                try {
+                    Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
+                    Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
+                    Genero genero = generoService.getByDescricao(registro.getGenero());
+                    Paciente paciente = mapper.dtoToPaciente(registro, perfil, profissao, escolaridade, genero, null);
+                    Paciente reg = service.insert(paciente);
+                    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
+                    return ResponseEntity.created(uri).body(reg);
+                } catch (DataIntegrityViolationException e) {
+                    Throwable sqlException = e.getCause();
+                    String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
+                    StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
+                    return ResponseEntity.badRequest().body(error);
+                }
+            } else {
+                StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), FALTA_PREENCHER_CAMPOS_OBRIGATORIOS, System.currentTimeMillis());
                 return ResponseEntity.badRequest().body(error);
             }
         } else {
-            StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), FALTA_PREENCHER_CAMPOS_OBRIGATORIOS, System.currentTimeMillis());
+            StandardError error = new StandardError(HttpStatus.UNAUTHORIZED.value(), PERFIL_NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
+
 
     }
 
