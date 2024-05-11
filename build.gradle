@@ -35,13 +35,6 @@ dependencies {
     testImplementation "org.mockito:mockito-all:1.10.19"
 }
 
-flyway {
-    url = 'jdbc:sqlserver://localhost;databaseName=acolher'
-    user = 'sa'
-    password = 'MeuChapa15'
-    locations = ['classpath:db/migration']
-}
-
 test {
     useJUnitPlatform()
 }
