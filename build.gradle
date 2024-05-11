@@ -22,6 +22,7 @@ dependencies {
     implementation 'org.hibernate:hibernate-core'
     implementation 'org.flywaydb:flyway-core:7.0.0'
     implementation 'com.microsoft.sqlserver:mssql-jdbc'
+    implementation 'org.postgresql:postgresql:42.7.3'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
