@@ -1,23 +1,13 @@
-
-create table dbo.especialidade_paciente
+create table especialidade_paciente
 (
-    id               int identity
-        primary key,
+    id               serial primary key,
     especialidade_id int,
-    paciente_id      int
-        constraint FKpaciente_especialidade_paciente
-            references dbo.psicologo
-)
-go
+    paciente_id      int references paciente
+);
 
-create table dbo.especialidade_psicologo
+create table especialidade_psicologo
 (
-    id               int identity
-        primary key,
+    id               serial primary key,
     especialidade_id int,
-    psicologo_id     int
-        constraint FKpsicologo_especialidade_psicologo
-            references dbo.psicologo
-)
-go
-
+    psicologo_id     int references psicologo
+);
