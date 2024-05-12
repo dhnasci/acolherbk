@@ -1,13 +1,13 @@
-create table especialidade_paciente
+create table especialidadepaciente
 (
     id               serial primary key,
-    especialidade_id int,
-    paciente_id      int references paciente
+    especialidadeid int,
+    pacienteid      int references paciente
 );
 
-create table especialidade_psicologo
+create table especialidadepsicologo
 (
     id               serial primary key,
-    especialidade_id int,
-    psicologo_id     int references psicologo
+    especialidadeid int,
+    psicologoid     int references psicologo
 );

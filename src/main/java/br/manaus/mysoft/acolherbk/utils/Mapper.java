@@ -65,7 +65,7 @@ public class Mapper {
     public static List<String> preparaPsicologosNomes(List<Psicologo> lista) {
         List<String> psicologosNomes = new ArrayList<>();
         for (Psicologo psicologo : lista) {
-            psicologosNomes.add(psicologo.getNome_completo());
+            psicologosNomes.add(psicologo.getNomeCompleto());
         }
         return psicologosNomes;
     }
@@ -168,13 +168,13 @@ public class Mapper {
         paciente.setRegistroGeral(registro.getRegistroGeral());
         paciente.setRenda(Float.parseFloat( (registro.getRenda()==null)?"0.00":registro.getRenda() ));
         if (profissao!=null) {
-            paciente.setProfissao_id(profissao.getId());
+            paciente.setProfissaoid(profissao.getId());
         }
         if (escolaridade!=null) {
-            paciente.setEscolaridade_id(escolaridade.getId());
+            paciente.setEscolaridadeid(escolaridade.getId());
         }
         if (genero!=null) {
-            paciente.setGenero_id(genero.getId());
+            paciente.setGeneroid(genero.getId());
         }
 
         if(!perfil.equals(Perfil.PSICOLOGO) && especialidades!=null){

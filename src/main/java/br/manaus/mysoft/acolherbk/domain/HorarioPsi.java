@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="horario_psicologo")
+@Table(name="horarioPsicologo")
 public class HorarioPsi {
 
     @Id
@@ -21,10 +21,10 @@ public class HorarioPsi {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "horario_id")
+    @JoinColumn(name = "horarioid")
     private Horario horario;
 
     @ManyToOne
-    @JoinColumn(name = "psicologo_id")
+    @JoinColumn(name = "psicologoid")
     private Psicologo psicologo;
 }

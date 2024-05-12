@@ -135,9 +135,9 @@ public class PacienteController {
             DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
             dto.setCadastro(paciente.getCadastro().format(formatoDia));
             dto.setRegistroGeral(paciente.getRegistroGeral());
-            dto.setProfissao(profissaoService.find(paciente.getProfissao_id()).getDescricao());
-            dto.setGenero(generoService.find(paciente.getGenero_id()).getDescricao());
-            dto.setEscolaridade(escolaridadeService.find(paciente.getEscolaridade_id()).getDescricao());
+            dto.setProfissao(profissaoService.find(paciente.getProfissaoid()).getDescricao());
+            dto.setGenero(generoService.find(paciente.getGeneroid()).getDescricao());
+            dto.setEscolaridade(escolaridadeService.find(paciente.getEscolaridadeid()).getDescricao());
             dto.setEspecialidades(Mapper.preparaEspecialidadePaciente(especialidadePacienteService.obterEspecialidadesPorPaciente(paciente)));
             dto.setHorarios(Mapper.preparaHorariosPaciente(horarioPacienteService.obterHorariosPaciente(paciente)));
             listaDto.add(dto);

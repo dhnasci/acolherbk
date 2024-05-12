@@ -35,9 +35,9 @@ public class Paciente {
     private Float renda;
     private LocalDateTime cadastro;
 
-    private Integer profissao_id;
-    private Integer genero_id;
-    private Integer escolaridade_id;
+    private Integer profissaoid;
+    private Integer generoid;
+    private Integer escolaridadeid;
 
     @JsonIgnore
     @OneToMany(mappedBy = "paciente")

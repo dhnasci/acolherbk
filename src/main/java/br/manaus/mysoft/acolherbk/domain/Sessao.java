@@ -29,11 +29,11 @@ public class Sessao {
     private Boolean is_cancelado;
 
     @ManyToOne
-    @JoinColumn(name = "psicologo_id")
+    @JoinColumn(name = "psicologoid")
     private Psicologo psicologo;
 
     @ManyToOne
-    @JoinColumn(name = "paciente_id")
+    @JoinColumn(name = "pacienteid")
     private Paciente paciente;
 
 }
