@@ -23,7 +23,8 @@ public class Psicologo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String nome_completo;
+    @Column(name = "nomecompleto")
+    private String nomeCompleto;
     private String celular1;
     private Boolean is_whatsapp1;
     private String celular2;

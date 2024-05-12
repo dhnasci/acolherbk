@@ -20,10 +20,14 @@ public class Triagem {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Boolean is_paciente_alocado;
-    private LocalDateTime dia_alocacao;
-    private String login_alocador;
-    private Boolean is_cancelado;
+    @Column(name = "ispacientealocado")
+    private Boolean isPacienteAlocado;
+    @Column(name = "diaalocacao")
+    private LocalDateTime diaAlocacao;
+    @Column(name = "loginalocador")
+    private String loginAlocador;
+    @Column(name = "iscancelado")
+    private Boolean isCancelado;
 
     @ManyToOne
     @JoinColumn(name = "psicologoid")

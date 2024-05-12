@@ -22,7 +22,8 @@ public class Paciente {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String nome_ompleto;
+    @Column(name = "nomecompleto")
+    private String nomeCompleto;
     private String celular1;
     private Boolean is_whatsapp1;
     private String celular2;
