@@ -65,7 +65,7 @@ public class Mapper {
     public static List<String> preparaPsicologosNomes(List<Psicologo> lista) {
         List<String> psicologosNomes = new ArrayList<>();
         for (Psicologo psicologo : lista) {
-            psicologosNomes.add(psicologo.getNomeCompleto());
+            psicologosNomes.add(psicologo.getNome_completo());
         }
         return psicologosNomes;
     }

@@ -22,14 +22,14 @@ public class Paciente {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String nomeCompleto;
+    private String nome_ompleto;
     private String celular1;
-    private Boolean isWhatsapp1;
+    private Boolean is_whatsapp1;
     private String celular2;
-    private Boolean isWhatsapp2;
-    private String nomeIndicacao;
-    private String registroGeral;
-    private Boolean jaFezTerapia;
+    private Boolean is_whatsapp2;
+    private String nome_indicacao;
+    private String registro_geral;
+    private Boolean ja_fez_terapia;
     private String queixa;
     private Integer idade;
     private Float renda;

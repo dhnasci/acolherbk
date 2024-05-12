@@ -32,9 +32,9 @@ public class Horario {
     private Turno turno;
 
     @OneToMany(mappedBy = "horario")
-    private List<HorarioPaciente> horarioPaciente;
+    private List<HorarioPaciente> horario_paciente;
 
     @OneToMany(mappedBy = "horario")
-    private List<HorarioPsi> horarioPsicologo;
+    private List<HorarioPsi> horario_psicologo;
 
 }

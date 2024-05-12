@@ -23,11 +23,11 @@ public class Psicologo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String nomeCompleto;
+    private String nome_completo;
     private String celular1;
-    private Boolean isWhatsapp1;
+    private Boolean is_whatsapp1;
     private String celular2;
-    private Boolean isWhatsapp2;
+    private Boolean is_whatsapp2;
     private String login;
     @JsonIgnore
     private String senha;

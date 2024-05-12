@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="horarioPsicologo")
+@Table(name="horario_psicologo")
 public class HorarioPsi {
 
     @Id

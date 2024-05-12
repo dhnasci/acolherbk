@@ -26,8 +26,8 @@ public class Especialidade {
     }
 
     @OneToOne(mappedBy = "especialidade")
-    private EspecialidadePaciente especialidadePaciente;
+    private EspecialidadePaciente especialidade_paciente;
 
     @OneToOne(mappedBy = "especialidade")
-    private EspecialidadePsicologo especialidadePsicologo;
+    private EspecialidadePsicologo especialidade_psicologo;
 }

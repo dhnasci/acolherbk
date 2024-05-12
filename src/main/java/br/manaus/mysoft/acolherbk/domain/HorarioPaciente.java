@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="horarioPaciente")
+@Table(name="horario_paciente")
 public class HorarioPaciente {
 
     @Id
