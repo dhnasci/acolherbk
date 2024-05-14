@@ -27,12 +27,26 @@ public class Paciente {
 
     @Column(name = "celular1")
     private String celular1;
-    private Boolean is_whatsapp1;
+
+    @Column(name = "is_whatsapp1")
+    private Boolean isWhatsapp1;
+
+    @Column(name = "celular2")
     private String celular2;
-    private Boolean is_whatsapp2;
-    private String nome_indicacao;
-    private String registro_geral;
-    private Boolean ja_fez_terapia;
+
+    @Column(name = "is_whatsapp2")
+    private Boolean isWhatsapp2;
+
+    @Column(name = "nome_indicacao")
+    private String nomeIndicacao;
+
+    @Column(name = "registro_geral")
+    private String registroGeral;
+
+    @Column(name = "ja_fez_terapia")
+    private Boolean jaFezTerapia;
+
+    @Column(name = "queixa")
     private String queixa;
 
     @Column(name = "idade")

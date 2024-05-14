@@ -128,7 +128,7 @@ public class Mapper {
         psicologo.setNomeCompleto(registro.getNomeCompleto());
         psicologo.setLogin(registro.getLogin());
         psicologo.setPerfil(Perfil.valueOf(registro.getPerfil()));
-        psicologo.setCRP(registro.getCrp());
+        psicologo.setCrp(registro.getCrp());
         psicologo.setCadastro(LocalDateTime.now());
         psicologo.setCelular1(registro.getCelular1());
         psicologo.setCelular2(registro.getCelular2());

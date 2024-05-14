@@ -98,7 +98,7 @@ public class PsicologoController {
         } else {
             dto.setIsWhatsapp1("");
         }
-        dto.setCrp(psicologo.getCRP());
+        dto.setCrp(psicologo.getCrp());
         if (psicologo.getIsWhatsapp2() != null) {
             dto.setIsWhatsapp2(psicologo.getIsWhatsapp2().toString());
         } else {

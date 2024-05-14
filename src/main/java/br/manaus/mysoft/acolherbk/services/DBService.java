@@ -155,7 +155,7 @@ public class DBService {
             psicologo.setCelular1("92 98109-1934");
             psicologo.setIsWhatsapp1(false);
             psicologo.setCadastro(LocalDateTime.now());
-            psicologo.setCRP("20/08155");
+            psicologo.setCrp("20/08155");
             psicologo.setEmail("edilceangel@gmail.com");
             try {
                 psicologoService.inserir(psicologo);

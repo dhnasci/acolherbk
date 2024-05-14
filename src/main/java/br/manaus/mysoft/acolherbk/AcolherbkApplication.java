@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AcolherbkApplication implements CommandLineRunner {
 
-    private static boolean isMigration = true;
+    private static boolean isMigration = false;
     private static boolean desenvolvimento = false;
     private static final String MINHA_URL = "jdbc:sqlserver://localhost;databaseName=acolher";
     private static final String MINHA_URL_PROD = "jdbc:postgresql://cf9gid2f6uallg.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dbq6n1jnmrlssa";
@@ -44,7 +44,7 @@ public class AcolherbkApplication implements CommandLineRunner {
             //flyway.baseline();
             // flyway.repair();
             // Executa as migrações
-            //flyway.migrate();
+            flyway.migrate();
         }
         SpringApplication.run(AcolherbkApplication.class, args);
     }

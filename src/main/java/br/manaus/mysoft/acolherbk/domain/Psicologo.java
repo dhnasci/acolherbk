@@ -34,7 +34,11 @@ public class Psicologo {
 
     @Column(name = "celular2")
     private String celular2;
-    private Boolean is_whatsapp2;
+
+    @Column(name = "is_whatsapp2")
+    private Boolean isWhatsapp2;
+
+    @Column(name = "login")
     private String login;
     @JsonIgnore
 
@@ -44,8 +48,8 @@ public class Psicologo {
     @Column(name = "perfil")
     private Perfil perfil;
 
-    @Column(name = "CRP")
-    private String CRP;
+    @Column(name = "crp")
+    private String crp;
 
     @Column(name = "email")
     private String email;

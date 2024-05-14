@@ -31,9 +31,15 @@ public class Sessao {
 
     @Column(name = "login_psicologo")
     private String loginPsicologo;
+
+    @Column(name = "feedback")
     private String feedback;
-    private String motivo_cancelamento;
-    private Boolean is_cancelado;
+
+    @Column(name = "motivo_cancelamento")
+    private String motivoCancelamento;
+
+    @Column(name = "is_cancelado")
+    private Boolean isCancelado;
 
     @ManyToOne
     @JoinColumn(name = "psicologo_id")
