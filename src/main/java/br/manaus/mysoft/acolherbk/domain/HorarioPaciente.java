@@ -23,11 +23,11 @@ public class HorarioPaciente {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "horarioid")
+    @JoinColumn(name = "horario_id")
     private Horario horario;
 
     @ManyToOne
-    @JoinColumn(name = "pacienteid")
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
 }

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="especialidadePsicologo")
+@Table(name="especialidade_psicologo")
 public class EspecialidadePsicologo {
 
     @Id
@@ -20,11 +20,11 @@ public class EspecialidadePsicologo {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "especialidadeid")
+    @JoinColumn(name = "especialidade_id")
     private Especialidade especialidade;
 
     @ManyToOne
-    @JoinColumn(name = "psicologoid")
+    @JoinColumn(name = "psicologo_id")
     private Psicologo psicologo;
 
 }

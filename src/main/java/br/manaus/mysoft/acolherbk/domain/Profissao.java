@@ -19,6 +19,7 @@ public class Profissao {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "descricao")
     private String descricao;
 
     public Profissao(String descricao) {

@@ -22,8 +22,10 @@ public class Paciente {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nomecompleto")
+    @Column(name = "nome_completo")
     private String nomeCompleto;
+
+    @Column(name = "celular1")
     private String celular1;
     private Boolean is_whatsapp1;
     private String celular2;
@@ -32,12 +34,23 @@ public class Paciente {
     private String registro_geral;
     private Boolean ja_fez_terapia;
     private String queixa;
+
+    @Column(name = "idade")
     private Integer idade;
+
+    @Column(name = "renda")
     private Float renda;
+
+    @Column(name = "cadastro")
     private LocalDateTime cadastro;
 
+    @Column(name = "profissao_id")
     private Integer profissaoid;
+
+    @Column(name = "genero_id")
     private Integer generoid;
+
+    @Column(name = "escolaridade_id")
     private Integer escolaridadeid;
 
     @JsonIgnore

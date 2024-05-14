@@ -23,18 +23,34 @@ public class Psicologo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nomecompleto")
+    @Column(name = "nome_completo")
     private String nomeCompleto;
+
+    @Column(name = "celular1")
     private String celular1;
-    private Boolean is_whatsapp1;
+
+    @Column(name = "is_whatsapp1")
+    private Boolean isWhatsapp1;
+
+    @Column(name = "celular2")
     private String celular2;
     private Boolean is_whatsapp2;
     private String login;
     @JsonIgnore
+
+    @Column(name = "senha")
     private String senha;
+
+    @Column(name = "perfil")
     private Perfil perfil;
+
+    @Column(name = "CRP")
     private String CRP;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "cadastro")
     private LocalDateTime cadastro;
 
     @JsonIgnore

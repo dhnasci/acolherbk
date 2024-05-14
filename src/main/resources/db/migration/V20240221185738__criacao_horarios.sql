@@ -5,16 +5,16 @@ create table horario
     turno int
 );
 
-create table horariopaciente
+create table horario_paciente
 (
     id          serial primary key,
-    horarioid  int references horario,
-    pacienteid int references paciente
+    horario_id  int references horario,
+    paciente_id int references paciente
 );
 
-create table horariopsicologo
+create table horario_psicologo
 (
     id           serial primary key,
-    horarioid   int references horario,
-    psicologoid int references psicologo
+    horario_id   int references horario,
+    psicologo_id int references psicologo
 );

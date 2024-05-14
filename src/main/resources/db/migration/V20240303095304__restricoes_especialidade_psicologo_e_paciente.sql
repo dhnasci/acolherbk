@@ -1,7 +1,7 @@
-alter table especialidadepaciente
+alter table especialidade_paciente
     add constraint FKespecialidadePacienteEspecialidade
-        foreign key (especialidadeid) references especialidade;
+        foreign key (especialidade_id) references especialidade;
 
-alter table especialidadepsicologo
+alter table especialidade_psicologo
     add constraint FKespecialidadePsicologoEspecialidade
-        foreign key (especialidadeid) references especialidade;
+        foreign key (especialidade_id) references especialidade;

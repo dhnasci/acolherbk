@@ -20,27 +20,27 @@ public class Sessao {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "numerosessao")
+    @Column(name = "numero_sessao")
     private Integer numeroSessao;  // pode ter no máximo 4 sessões
 
-    @Column(name = "ispacienteatendido")
+    @Column(name = "is_paciente_atendido")
     private Boolean isPacienteAtendido;
 
-    @Column(name = "diaagendado")
+    @Column(name = "dia_agendado")
     private LocalDateTime diaAgendado;
 
-    @Column(name = "loginpsicologo")
+    @Column(name = "login_psicologo")
     private String loginPsicologo;
     private String feedback;
     private String motivo_cancelamento;
     private Boolean is_cancelado;
 
     @ManyToOne
-    @JoinColumn(name = "psicologoid")
+    @JoinColumn(name = "psicologo_id")
     private Psicologo psicologo;
 
     @ManyToOne
-    @JoinColumn(name = "pacienteid")
+    @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
 }

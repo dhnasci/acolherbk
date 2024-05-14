@@ -12,10 +12,10 @@ create table psicologo
     celular1      varchar(255),
     celular2      varchar(255),
     email         varchar(255),
-    iswhatsapp1  boolean,
-    iswhatsapp2  boolean,
+    is_whatsapp1  boolean,
+    is_whatsapp2  boolean,
     login         varchar(255),
-    nomecompleto varchar(255),
+    nome_completo varchar(255),
     perfil        int,
     senha         varchar(255)
 );
@@ -45,40 +45,40 @@ create table paciente
     celular1         varchar(255),
     celular2         varchar(255),
     idade            int,
-    iswhatsapp1     boolean,
-    iswhatsapp2     boolean,
-    jafezterapia   boolean,
-    nomecompleto    varchar(255) unique,
-    nomeindicacao   varchar(255),
+    is_whatsapp1     boolean,
+    is_whatsapp2     boolean,
+    ja_fez_terapia   boolean,
+    nome_completo    varchar(255) unique,
+    nome_indicacao   varchar(255),
     queixa           varchar(255),
     renda            float,
-    escolaridadeid  int,
-    generoid        int,
-    profissaoid     int,
-    registrogeral   varchar(20)
+    escolaridade_id  int,
+    genero_id        int,
+    profissao_id     int,
+    registro_geral   varchar(20)
 );
 
 create table sessao
 (
     id                   serial primary key,
-    diaagendado         timestamp,
+    dia_agendado         timestamp,
     feedback             varchar(255),
-    iscancelado         boolean,
-    ispacienteatendido boolean,
-    loginpsicologo      varchar(255),
-    motivocancelamento  varchar(255),
-    numerosessao        int,
-    pacienteid          int references paciente,
-    psicologoid         int references psicologo
+    is_cancelado         boolean,
+    is_paciente_atendido boolean,
+    login_psicologo      varchar(255),
+    motivo_cancelamento  varchar(255),
+    numero_sessao        int,
+    paciente_id          int references paciente,
+    psicologo_id         int references psicologo
 );
 
 create table triagem
 (
     id                  serial primary key,
-    diaalocacao        timestamp,
-    iscancelado        boolean,
-    ispacientealocado boolean,
-    loginalocador      varchar(255),
-    pacienteid         int references paciente,
-    psicologoid        int references psicologo
+    dia_alocacao        timestamp,
+    is_cancelado        boolean,
+    is_paciente_alocado boolean,
+    login_alocador      varchar(255),
+    paciente_id         int references paciente,
+    psicologo_id        int references psicologo
 );
