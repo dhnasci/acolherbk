@@ -20,8 +20,12 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.TOKEN;
 @RequestMapping(value = "/escolaridade")
 public class EscolaridadeController {
 
-    @Autowired
     EscolaridadeService service;
+
+    @Autowired
+    public EscolaridadeController(EscolaridadeService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<Object> listar() {

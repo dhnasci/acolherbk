@@ -20,8 +20,12 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.TOKEN;
 @RequestMapping(value = "/profissao")
 public class ProfissaoController {
 
-    @Autowired
     ProfissaoService service;
+
+    @Autowired
+    public ProfissaoController(ProfissaoService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<Object> listar() {

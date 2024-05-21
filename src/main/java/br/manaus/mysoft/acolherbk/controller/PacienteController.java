@@ -26,25 +26,29 @@ public class PacienteController {
 
     private static final String FALTA_PREENCHER_CAMPOS_OBRIGATORIOS = "Falta preencher campos obrigatórios!";
     private static final String PERFIL_NAO_AUTORIZADO = "Perfil não autorizado!";
-    @Autowired
-    PacienteService service;
 
-    @Autowired
+    PacienteService service;
     EscolaridadeService escolaridadeService;
-    @Autowired
     ProfissaoService profissaoService;
-    @Autowired
     GeneroService generoService;
-    @Autowired
     EspecialidadeService especialidadeService;
-    @Autowired
     EspecialidadePacienteService especialidadePacienteService;
-    @Autowired
     HorarioPacienteService horarioPacienteService;
-    @Autowired
     HorarioService horarioService;
 
     private Mapper mapper = new Mapper();
+
+    @Autowired
+    public PacienteController(PacienteService service, EscolaridadeService escolaridadeService, ProfissaoService profissaoService, GeneroService generoService, EspecialidadeService especialidadeService, EspecialidadePacienteService especialidadePacienteService, HorarioPacienteService horarioPacienteService, HorarioService horarioService) {
+        this.service = service;
+        this.escolaridadeService = escolaridadeService;
+        this.profissaoService = profissaoService;
+        this.generoService = generoService;
+        this.especialidadeService = especialidadeService;
+        this.especialidadePacienteService = especialidadePacienteService;
+        this.horarioPacienteService = horarioPacienteService;
+        this.horarioService = horarioService;
+    }
 
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {

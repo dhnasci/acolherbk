@@ -29,14 +29,18 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.ACESSO_NAO_AUTORIZADO;
 @RequestMapping(value = "/horariopsicologo")
 public class HorarioPsicologoController {
 
-    @Autowired
     HorarioPsiService service;
-    @Autowired
     HorarioService horarioService;
-    @Autowired
     PsicologoService psicologoService;
 
     Mapper mapper = new Mapper();
+
+    @Autowired
+    public HorarioPsicologoController(HorarioPsiService service, HorarioService horarioService, PsicologoService psicologoService) {
+        this.service = service;
+        this.horarioService = horarioService;
+        this.psicologoService = psicologoService;
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> listar(@PathVariable Integer id) {

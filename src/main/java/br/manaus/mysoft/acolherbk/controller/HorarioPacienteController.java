@@ -26,14 +26,18 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 @RequestMapping(value = "/horariopaciente")
 public class HorarioPacienteController {
 
-    @Autowired
     HorarioPacienteService service;
-    @Autowired
     HorarioService horarioService;
-    @Autowired
     PacienteService pacienteService;
 
     Mapper mapper = new Mapper();
+
+    @Autowired
+    public HorarioPacienteController(HorarioPacienteService service, HorarioService horarioService, PacienteService pacienteService) {
+        this.service = service;
+        this.horarioService = horarioService;
+        this.pacienteService = pacienteService;
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> listar(@PathVariable Integer id) {

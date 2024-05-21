@@ -20,8 +20,12 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.TOKEN;
 @RequestMapping(value = "/genero")
 public class GeneroController {
 
-    @Autowired
     GeneroService service;
+
+    @Autowired
+    public GeneroController(GeneroService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<Object> listar() {

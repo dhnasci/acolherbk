@@ -28,12 +28,16 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.PSICOLOGO_NAO_ENCONTRA
 @RequestMapping(value = "/psicologo")
 public class PsicologoController {
 
-    @Autowired
     PsicologoService service;
-    @Autowired
     HorarioPsiService horarioPsicologoService;
-    @Autowired
     EspecialidadePsicologoService especialidadePsicologoService;
+
+    @Autowired
+    public PsicologoController(PsicologoService service, HorarioPsiService horarioPsicologoService, EspecialidadePsicologoService especialidadePsicologoService) {
+        this.service = service;
+        this.horarioPsicologoService = horarioPsicologoService;
+        this.especialidadePsicologoService = especialidadePsicologoService;
+    }
 
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro, @PathVariable Perfil perfil) {

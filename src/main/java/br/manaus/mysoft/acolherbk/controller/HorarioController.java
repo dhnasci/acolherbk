@@ -19,8 +19,12 @@ import java.util.List;
 @RequestMapping(value = "/horario")
 public class HorarioController {
 
-    @Autowired
     HorarioService service;
+
+    @Autowired
+    public HorarioController(HorarioService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<Object> listar() {

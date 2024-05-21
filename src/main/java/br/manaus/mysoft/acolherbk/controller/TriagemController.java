@@ -22,12 +22,17 @@ import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 @RestController
 @RequestMapping(value = "/triagem")
 public class TriagemController {
-    @Autowired
+
     TriagemService triagemService;
-    @Autowired
     PsicologoService psicologoService;
-    @Autowired
     PacienteService pacienteService;
+
+    @Autowired
+    public TriagemController(TriagemService triagemService, PsicologoService psicologoService, PacienteService pacienteService) {
+        this.triagemService = triagemService;
+        this.psicologoService = psicologoService;
+        this.pacienteService = pacienteService;
+    }
 
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody TriagemDto triagemDto, @PathVariable Perfil perfil) {
