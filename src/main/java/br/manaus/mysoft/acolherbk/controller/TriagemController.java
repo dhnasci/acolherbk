@@ -1,5 +1,6 @@
 package br.manaus.mysoft.acolherbk.controller;
 
+import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.domain.Triagem;
 import br.manaus.mysoft.acolherbk.dto.TriagemDto;

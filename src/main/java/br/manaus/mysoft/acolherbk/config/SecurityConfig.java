@@ -26,11 +26,14 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     UserDetailsService userDetailsService;
+    JWTUtil jwtUtil;
 
     @Autowired
-    JWTUtil jwtUtil;
+    public SecurityConfig(UserDetailsService user, JWTUtil util) {
+        this.jwtUtil = util;
+        this.userDetailsService = user;
+    }
 
     private final static String[] PUBLIC_MATCHERS = {
             "/home",
@@ -68,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_PUT = {
-            "/triagem/**",
+            "/triagem",
             "/psicologo/**",
             "/agendamento/**",
             "/paciente/**",
