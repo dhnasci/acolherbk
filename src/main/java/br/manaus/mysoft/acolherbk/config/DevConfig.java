@@ -16,8 +16,12 @@ public class DevConfig {
 
     private Logger log = LoggerFactory.getLogger(DevConfig.class);
 
+    DBService dbService;
+
     @Autowired
-    private DBService dbService;
+    public DevConfig(DBService dbService) {
+        this.dbService = dbService;
+    }
 
     @Bean
     public boolean instantiateDatabase() {
