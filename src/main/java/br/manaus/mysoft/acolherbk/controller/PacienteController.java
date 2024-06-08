@@ -113,6 +113,17 @@ public class PacienteController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<Object> listarPorLogin(@PathVariable String login) {
+        try {
+            List<PacienteDto> lista = toDto(service.listar());
+            return ResponseEntity.ok().body(lista);
+        } catch (ObjetoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     private List<PacienteDto> toDto(List<Paciente> listaPacientes) throws ObjetoException {
         List<PacienteDto> listaDto = new ArrayList<>();
         for (Paciente paciente : listaPacientes) {
