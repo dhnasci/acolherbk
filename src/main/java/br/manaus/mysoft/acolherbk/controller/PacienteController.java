@@ -113,17 +113,6 @@ public class PacienteController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<Object> listarPorLogin(@PathVariable String login) {
-        try {
-            List<PacienteDto> lista = toDto(service.listar());
-            return ResponseEntity.ok().body(lista);
-        } catch (ObjetoException e) {
-            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
-            return ResponseEntity.badRequest().body(error);
-        }
-    }
-
     private List<PacienteDto> toDto(List<Paciente> listaPacientes) throws ObjetoException {
         List<PacienteDto> listaDto = new ArrayList<>();
         for (Paciente paciente : listaPacientes) {
@@ -174,28 +163,59 @@ public class PacienteController {
 
     @GetMapping(value = "/{nome}")
     public ResponseEntity<Object> buscarPorNome(@PathVariable String nome) {
-        List<Paciente> lista = service.buscarPorNome(nome);
-        return ResponseEntity.ok().body(lista);
+        try {
+            List<Paciente> lista = service.buscarPorNome(nome);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
 
     }
 
     @GetMapping(value = "/{inicio}/{fim}")
     public ResponseEntity<Object> buscarPacientesAgendados(@PathVariable String inicio, @PathVariable String fim) {
-        List<Paciente> lista = service.buscarPacientesAgendadosNoIntervalo(Mapper.converteParaData(inicio), Mapper.converteParaData(fim));
-        return ResponseEntity.ok().body(lista);
+        try {
+            List<Paciente> lista = service.buscarPacientesAgendadosNoIntervalo(Mapper.converteParaData(inicio), Mapper.converteParaData(fim));
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @GetMapping(value = "/triagem/{inicio}/{fim}")
     public ResponseEntity<Object> buscarPacientesTriagemRealizada(@PathVariable String inicio, @PathVariable String fim) {
-        List<Paciente> lista = service.buscarPacientesAlocadosNoIntervalo(Mapper.converteParaData(inicio), Mapper.converteParaData(fim));
-        return ResponseEntity.ok().body(lista);
+        try {
+            List<Paciente> lista = service.buscarPacientesAlocadosNoIntervalo(Mapper.converteParaData(inicio), Mapper.converteParaData(fim));
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @GetMapping(value = "/pendentes")
     public ResponseEntity<Object> buscarPendentesTriagem() {
-        List<Paciente> lista = service.buscarPacientesPendentesDeTriagem();
-        return ResponseEntity.ok().body(lista);
+        try {
+            List<Paciente> lista = service.buscarPacientesPendentesDeTriagem();
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
+
+//    @GetMapping(value = "/triagem/{psicologoId}")
+//    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologo(@PathVariable Integer psicologoId) {
+//        try {
+//            List<Paciente> lista = service.buscarPacientesAlocadosAoPsicologoId(psicologoId);
+//            return ResponseEntity.ok().body(lista);
+//        } catch (Exception e) {
+//            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+//            return ResponseEntity.badRequest().body(error);
+//        }
+//    }
 
     @PutMapping(value = "/{perfil}")
     public ResponseEntity<Object> update(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {

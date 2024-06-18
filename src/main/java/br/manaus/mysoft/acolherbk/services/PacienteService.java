@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,11 @@ public class PacienteService {
     }
     public List<Paciente> buscarPacientesPendentesDeTriagem() {
         return repository.findPacientesByTriagemsIsPacienteAlocado(false);
+    }
+
+    public List<Paciente> buscarPacientesAlocadosAoPsicologoId(Integer id) {
+        return new ArrayList<>();
+//        return repository.findPacientesByTriagemsByPsicologoIdAndByPacienteAlocado(id, true);
     }
     public Paciente update(Paciente obj) {
         return repository.save(obj);
