@@ -10,13 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AcolherbkApplication implements CommandLineRunner {
 
     private static boolean isMigration = false;
-    private static boolean desenvolvimento = false;
-    private static final String MINHA_URL = "jdbc:sqlserver://localhost;databaseName=acolher";
-    private static final String MINHA_URL_PROD = "jdbc:postgresql://cf9gid2f6uallg.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dbq6n1jnmrlssa";
-    private static final String MEU_LOGIN = "sa";
+    private static boolean desenvolvimento = true;
+    private static final String MINHA_URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String MINHA_URL_PROD = "jdbc:postgresql://c97r84s7psuajm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d4jgr2qoeh16lc";
+    private static final String MEU_LOGIN = "postgres";
     private static final String MEU_LOGIN_PROD = "u5fmceib9av9a3";
-    private static final String SENHA = "MeuChapa15";
-    private static final String SENHA_PROD = "p9bdd34295d1f2256dbf82df7ac3c37332965262edbf6855bd0da1fce35ecaa99";
+    private static final String SENHA = "Selenio17!";
+    private static final String SENHA_PROD = "p7ea5c6562070b4d4f6739169290d9f9465486085c76d1ca967d78762a4542f73";
     private static final String FLYWAY_LOCATION = "classpath:db/migration" ;
 
 
@@ -42,7 +42,7 @@ public class AcolherbkApplication implements CommandLineRunner {
 
             // Primeira vez
             //flyway.baseline();
-            // flyway.repair();
+            //flyway.repair();
             // Executa as migrações
             flyway.migrate();
         }
