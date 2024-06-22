@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AcolherbkApplication implements CommandLineRunner {
 
     private static boolean isMigration = false;
-    private static boolean desenvolvimento = true;
+    private static boolean desenvolvimento = false;
     private static final String MINHA_URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String MINHA_URL_PROD = "jdbc:postgresql://c97r84s7psuajm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d4jgr2qoeh16lc";
     private static final String MEU_LOGIN = "postgres";
