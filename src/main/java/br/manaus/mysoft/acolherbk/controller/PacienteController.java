@@ -55,6 +55,15 @@ public class PacienteController {
         if (!perfil.equals(Perfil.PSICOLOGO)) {
             if (registro.getNomeCompleto() != null && registro.getCelular1() !=null && registro.getRegistroGeral() != null && registro.getQueixa() != null) {
                 try {
+                    if (registro.getProfissao() == null) {
+                        registro.setProfissao("Estudante");
+                    }
+                    if (registro.getEscolaridade() == null) {
+                        registro.setEscolaridade("Fundamental");
+                    }
+                    if (registro.getGenero() == null) {
+                        registro.setGenero("Feminino");
+                    }
                     Profissao profissao = profissaoService.getByDescricao(registro.getProfissao());
                     Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
                     Genero genero = generoService.getByDescricao(registro.getGenero());
@@ -76,8 +85,6 @@ public class PacienteController {
             StandardError error = new StandardError(HttpStatus.UNAUTHORIZED.value(), PERFIL_NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
-
-
     }
 
     private List<HorarioPaciente> converteHorarios(List<String> horarios, Paciente paciente) {
