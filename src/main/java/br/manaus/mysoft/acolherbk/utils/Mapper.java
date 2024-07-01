@@ -13,15 +13,31 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Mapper {
+
+    public HashMap<String, DayOfWeek> diaDaSemana;
+
+    public Mapper() {
+        diaDaSemana = new HashMap<>();
+        diaDaSemana.put("segunda-feira", DayOfWeek.MONDAY);
+        diaDaSemana.put("terça-feira", DayOfWeek.TUESDAY);
+        diaDaSemana.put("quarta-feira", DayOfWeek.WEDNESDAY);
+        diaDaSemana.put("quinta-feira", DayOfWeek.THURSDAY);
+        diaDaSemana.put("sexta-feira", DayOfWeek.FRIDAY);
+        diaDaSemana.put("sábado", DayOfWeek.SATURDAY);
+
+    }
+
     public static LocalDateTime converteParaData(String inicio) {
         DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return LocalDateTime.parse(inicio, formatoDia);
     }
+
     public static List<String> preparaEscolaridade(List<Escolaridade> lista) {
         List<String> escolaridades = new ArrayList<>();
         for( Escolaridade escolaridade : lista) {

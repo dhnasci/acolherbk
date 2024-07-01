@@ -6,6 +6,7 @@ import br.manaus.mysoft.acolherbk.enums.Turno;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.GeneroRepository;
 import br.manaus.mysoft.acolherbk.repositories.HorarioRepository;
+import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,16 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Optional;
 
+import static br.manaus.mysoft.acolherbk.utils.Constantes.PIPE;
+
 @Service
 public class HorarioService {
 
-    public static final String PIPE = "\\|";
 
     @Autowired
     HorarioRepository repository;
+
+    Mapper mapper = new Mapper();
 
     public Horario insert(Horario obj) {
         return repository.save(obj);
@@ -54,8 +58,8 @@ public class HorarioService {
 
     public Horario getByDescricao(String horario) {
         String[] lista = horario.split(PIPE);
-        Turno turno = Turno.valueOf(lista[1]);
-        DayOfWeek dia = DayOfWeek.valueOf(lista[0]);
+        DayOfWeek dia = mapper.diaDaSemana.get(lista[0]);
+        Turno turno = Turno.valueOf(lista[1].trim());
         return repository.findByDiaAndTurno(dia, turno);
     }
 }
