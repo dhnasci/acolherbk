@@ -16,6 +16,8 @@ import java.util.Optional;
 @Service
 public class HorarioService {
 
+    public static final String PIPE = "\\|";
+
     @Autowired
     HorarioRepository repository;
 
@@ -51,7 +53,7 @@ public class HorarioService {
     }
 
     public Horario getByDescricao(String horario) {
-        String[] lista = horario.split("-");
+        String[] lista = horario.split(PIPE);
         Turno turno = Turno.valueOf(lista[1]);
         DayOfWeek dia = DayOfWeek.valueOf(lista[0]);
         return repository.findByDiaAndTurno(dia, turno);

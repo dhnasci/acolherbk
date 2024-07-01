@@ -14,3 +14,8 @@ Ele está hospedado no servidor do **Heroku** com o nome de **acolher**
 Para implantar novo flyway vindo de produção no ambiente local, precisa 
 fazer o **repair** primeiro e depois configurar os endereços locais de acordo com o 
 git apontando para ambiente local
+
+## Instruções
+para rodar o projeto:
+1. executar esta aplicação AcolherbkApplication apontando para prod ou dev
+2. executar o frontend atraves de janela de cmd apontando para .env-dev: **yarn dev** 
