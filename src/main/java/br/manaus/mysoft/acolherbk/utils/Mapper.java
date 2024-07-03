@@ -119,15 +119,15 @@ public class Mapper {
     }
 
     private static String converteHorario(Horario horario) {
-        return horario.getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getTurno().name();
+        return horario.getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + ", " + horario.getTurno().name();
     }
 
     private static String converteHorarioPaciente(HorarioPaciente horario) {
-        return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getHorario().getTurno().name();
+        return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + ", " + horario.getHorario().getTurno().name();
     }
 
     private static String converteHorarioPsi(HorarioPsi horario) {
-        return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + " - " + horario.getHorario().getTurno().name();
+        return horario.getHorario().getDia().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")) + ", " + horario.getHorario().getTurno().name();
     }
 
     public static Triagem toTriagem(TriagemDto triagemDto) {
