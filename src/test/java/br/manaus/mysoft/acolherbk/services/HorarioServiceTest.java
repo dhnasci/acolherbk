@@ -31,26 +31,27 @@ class HorarioServiceTest {
 
     String horarioStr;
 
+    @BeforeEach
+    void setUp() throws Exception {
+        MockitoAnnotations.openMocks(this);
+        horarioStr = "terça-feira, MANHA";
+    }
 
 
     @Test
     void getByDescricao() {
-        
+
         String[] lista = horarioStr.split(PIPE);
         String dia = lista[0];
         Mapper mapper = new Mapper();
         DayOfWeek diaSemana = mapper.diaDaSemana.get(dia);
         Turno turno = Turno.valueOf(lista[1].trim());
+        Assertions.assertEquals("MANHA", turno.name());
         System.out.println(turno.name());
         System.out.println(diaSemana.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("pt-br")));
 
     }
 
-    @BeforeEach
-    void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        horarioStr = "terça-feira, MANHA";
-    }
 
     @Test
     void testaConversao() {

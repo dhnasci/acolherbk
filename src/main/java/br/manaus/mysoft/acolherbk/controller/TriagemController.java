@@ -10,6 +10,7 @@ import br.manaus.mysoft.acolherbk.services.PsicologoService;
 import br.manaus.mysoft.acolherbk.services.TriagemService;
 import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,10 @@ public class TriagemController {
                 Triagem triagem = triagemService.insert(original);
                 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(triagem.getId()).toUri();
                 return ResponseEntity.created(uri).body(triagem);
-            } catch (Exception e) {
+            } catch (DataIntegrityViolationException e) {
+                StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+                return ResponseEntity.badRequest().body(error);
+            }catch (Exception e) {
                 StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
                 return ResponseEntity.badRequest().body(error);
             }
