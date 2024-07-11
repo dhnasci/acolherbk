@@ -1,6 +1,7 @@
 package br.manaus.mysoft.acolherbk.controller;
 
 import br.manaus.mysoft.acolherbk.domain.*;
+import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
@@ -213,16 +214,16 @@ public class PacienteController {
         }
     }
 
-//    @GetMapping(value = "/triagem/{psicologoId}")
-//    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologo(@PathVariable Integer psicologoId) {
-//        try {
-//            List<Paciente> lista = service.buscarPacientesAlocadosAoPsicologoId(psicologoId);
-//            return ResponseEntity.ok().body(lista);
-//        } catch (Exception e) {
-//            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
-//            return ResponseEntity.badRequest().body(error);
-//        }
-//    }
+    @GetMapping(value = "/triagem/{psicologoId}")
+    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologo(@PathVariable Integer psicologoId) {
+        try {
+            List<PacienteAlocadoDto> lista = service.buscarPacientesAlocadosAoPsicologo(psicologoId);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
 
     @PutMapping(value = "/{perfil}")
     public ResponseEntity<Object> update(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {

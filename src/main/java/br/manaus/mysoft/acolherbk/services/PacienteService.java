@@ -1,6 +1,7 @@
 package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
+import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
 import org.apache.tomcat.jni.Local;
@@ -49,10 +50,10 @@ public class PacienteService {
         return repository.findPacientesByTriagemsIsPacienteAlocado(false);
     }
 
-    public List<Paciente> buscarPacientesAlocadosAoPsicologoId(Integer id) {
-        return new ArrayList<>();
-//        return repository.findPacientesByTriagemsByPsicologoIdAndByPacienteAlocado(id, true);
+    public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologo(Integer id) {
+        return repository.findAllPacientesAlocados(id);
     }
+
     public Paciente update(Paciente obj) {
         return repository.save(obj);
     }
