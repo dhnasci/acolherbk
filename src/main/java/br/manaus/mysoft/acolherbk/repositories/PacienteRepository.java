@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.repositories;
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
+import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -38,8 +39,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "        JOIN\n" +
             "    triagem t ON p.id = t.paciente_id\n" +
             "WHERE\n" +
-            "    t.psicologo_id = $1 \n" +
+            "    t.psicologo_id = ?1 \n" +
             "  AND\n" +
             "    t.is_paciente_alocado = TRUE", nativeQuery = true)
-    List<PacienteAlocadoDto> findAllPacientesAlocados(Integer psicologoId);
+    List<PacienteAlocadoProjection> findAllPacientesAlocados(Integer psicologoId);
 }
