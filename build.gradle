@@ -35,6 +35,13 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.9.0'
 }
 
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/postgres'
+    user = 'postgres'
+    password = 'Selenio17!'
+    locations = ['classpath:db/migration']
+}
+
 test {
     useJUnitPlatform()
 }
