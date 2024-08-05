@@ -64,7 +64,7 @@ public class SessaoController {
     @GetMapping(value = "/{idPaciente}/{idPsicologo}")
     public ResponseEntity<Object> listar(@PathVariable Integer idPaciente, @PathVariable Integer idPsicologo) {
         try {
-            List<Sessao> lista = service.listarSessoes(idPaciente, idPsicologo);
+            List<SessaoDto> lista = service.listarSessoes(idPaciente, idPsicologo);
             return ResponseEntity.ok().body(lista);
         } catch (SessaoException e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
