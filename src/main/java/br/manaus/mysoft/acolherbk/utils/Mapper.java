@@ -1,10 +1,7 @@
 package br.manaus.mysoft.acolherbk.utils;
 
 import br.manaus.mysoft.acolherbk.domain.*;
-import br.manaus.mysoft.acolherbk.dto.HorarioDto;
-import br.manaus.mysoft.acolherbk.dto.PacienteDto;
-import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
-import br.manaus.mysoft.acolherbk.dto.TriagemDto;
+import br.manaus.mysoft.acolherbk.dto.*;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.enums.Turno;
 
@@ -200,5 +197,14 @@ public class Mapper {
     }
 
 
-
+    public Sessao dtoToSessao(SessaoDto dto, Psicologo psicologo, Paciente paciente) {
+        Sessao section = new Sessao();
+        section.setNumeroSessao(dto.getNumeroSessao());
+        String dataCompleta = String.format("%s %s", dto.getDia(), dto.getHora());
+        section.setDiaAgendado(converteParaData(dataCompleta));
+        section.setLoginPsicologo(psicologo.getLogin());
+        section.setPsicologo(psicologo);
+        section.setPaciente(paciente);
+        return section;
+    }
 }
