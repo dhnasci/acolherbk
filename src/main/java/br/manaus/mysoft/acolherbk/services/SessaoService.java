@@ -31,7 +31,6 @@ public class SessaoService {
 
     public Sessao insert(Sessao sessao) {
         return repository.save(sessao);
-
     }
 
     public List<SessaoDto> listarSessoes(Integer idPaciente, Integer idPsicologo) throws SessaoException {
