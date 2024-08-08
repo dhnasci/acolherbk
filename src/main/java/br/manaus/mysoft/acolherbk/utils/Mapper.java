@@ -31,7 +31,8 @@ public class Mapper {
     }
 
     public static LocalDateTime converteParaData(String inicio) {
-        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        inicio = inicio.replace(".0", "");
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(inicio, formatoDia);
     }
 

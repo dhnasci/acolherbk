@@ -1,9 +1,7 @@
 package br.manaus.mysoft.acolherbk.repositories;
 
-import br.manaus.mysoft.acolherbk.domain.Paciente;
-import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.Sessao;
-import br.manaus.mysoft.acolherbk.dto.SessaoDto;
+import br.manaus.mysoft.acolherbk.dto.SessaoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,5 +21,5 @@ public interface SessaoRepository extends JpaRepository<Sessao, Integer> {
             "    dia_agendado as \"diaAgendado\"\n" +
             "     FROM sessao\n" +
             "WHERE paciente_id = ?1 and psicologo_id = ?2", nativeQuery = true)
-    List<SessaoDto> findAllSessoesAlocadas(Integer idPsicologo, Integer idPaciente);
+    List<SessaoProjection> findAllSessoesAlocadas(Integer idPaciente, Integer idPsicologo );
 }

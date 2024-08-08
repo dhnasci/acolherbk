@@ -1,26 +1,33 @@
 package br.manaus.mysoft.acolherbk.services;
 
-import br.manaus.mysoft.acolherbk.domain.Paciente;
-import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.Sessao;
 import br.manaus.mysoft.acolherbk.dto.SessaoDto;
+import br.manaus.mysoft.acolherbk.dto.SessaoProjection;
 import br.manaus.mysoft.acolherbk.exceptions.SessaoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
 import br.manaus.mysoft.acolherbk.repositories.PsicologoRepository;
 import br.manaus.mysoft.acolherbk.repositories.SessaoRepository;
+import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SessaoService {
 
+    private static final String STATUS_PENDENTE = "PENDENTE";
+    private static final String STATUS_CONCLUIDA = "CONCLUIDA";
+    private static final String STATUS_CANCELADA = "CANCELADA";
+
     SessaoRepository repository;
     PacienteRepository pacienteRepository;
     PsicologoRepository psicologoRepository;
+    Mapper mapper;
 
     @Autowired
     public SessaoService(SessaoRepository repository, PacienteRepository pacienteRepository, PsicologoRepository psicologoRepository) {
@@ -34,7 +41,44 @@ public class SessaoService {
     }
 
     public List<SessaoDto> listarSessoes(Integer idPaciente, Integer idPsicologo) throws SessaoException {
-        return repository.findAllSessoesAlocadas(idPsicologo, idPaciente);
+        List<SessaoProjection> projections = repository.findAllSessoesAlocadas(idPaciente, idPsicologo);
+        List<SessaoDto> lista = projections.stream()
+                .map(
+                        proj -> SessaoDto.builder()
+                                .id( proj.getId())
+                                .dia( extraiDia(proj.getDiaAgendado()) )
+                                .hora( extraiHora(proj.getDiaAgendado()))
+                                .numeroSessao( proj.getNumeroSessao())
+                                .status( defineStatusSessao(proj.getIsAtendido(), proj.getIsCancelado()))
+                                .idPaciente(idPaciente)
+                                .idPsicologo(idPsicologo)
+                                .build()
+                ).collect(Collectors.toList());
+        return lista;
+    }
+
+    private String defineStatusSessao(Boolean isAtendido, Boolean isCancelado) {
+        if (isCancelado == null) {
+            if (isAtendido == null) {
+                return STATUS_PENDENTE;
+            } else {
+                return STATUS_CONCLUIDA;
+            }
+        } else {
+            return STATUS_CANCELADA;
+        }
+    }
+
+    protected String extraiHora(String diaAgendado) {
+        LocalDateTime data = mapper.converteParaData(diaAgendado);
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+        return data.toLocalTime().format(formatoHora);
+    }
+
+    protected String extraiDia(String diaAgendado) {
+        LocalDateTime data = mapper.converteParaData(diaAgendado);
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return data.toLocalDate().format(formatoDia);
     }
 
     public Sessao alterar(Sessao sessao) {
