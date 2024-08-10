@@ -22,4 +22,13 @@ public interface SessaoRepository extends JpaRepository<Sessao, Integer> {
             "     FROM sessao\n" +
             "WHERE paciente_id = ?1 and psicologo_id = ?2", nativeQuery = true)
     List<SessaoProjection> findAllSessoesAlocadas(Integer idPaciente, Integer idPsicologo );
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT\n" +
+            "    numero_sessao as \"numeroSessao\"\n" +
+            "     FROM sessao\n" +
+            "WHERE paciente_id = ?1 and psicologo_id = ?2 " +
+            "ORDER BY numero_sessao DESC\n" +
+            "LIMIT 1", nativeQuery = true)
+    Integer findLastSection(Integer idPaciente, Integer idPsicologo);
 }

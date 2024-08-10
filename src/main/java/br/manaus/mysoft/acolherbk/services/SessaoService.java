@@ -42,7 +42,7 @@ public class SessaoService {
 
     public List<SessaoDto> listarSessoes(Integer idPaciente, Integer idPsicologo) throws SessaoException {
         List<SessaoProjection> projections = repository.findAllSessoesAlocadas(idPaciente, idPsicologo);
-        List<SessaoDto> lista = projections.stream()
+        return projections.stream()
                 .map(
                         proj -> SessaoDto.builder()
                                 .id( proj.getId())
@@ -54,7 +54,6 @@ public class SessaoService {
                                 .idPsicologo(idPsicologo)
                                 .build()
                 ).collect(Collectors.toList());
-        return lista;
     }
 
     private String defineStatusSessao(Boolean isAtendido, Boolean isCancelado) {
@@ -89,4 +88,7 @@ public class SessaoService {
         return repository.findById(id);
     }
 
+    public Integer obterUltimaSessao(Integer idPaciente, Integer idPsicologo) throws SessaoException {
+        return repository.findLastSection(idPaciente, idPsicologo);
+    }
 }

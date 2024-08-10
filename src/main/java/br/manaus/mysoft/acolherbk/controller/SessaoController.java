@@ -72,6 +72,17 @@ public class SessaoController {
         }
     }
 
+    @GetMapping(value = "/obterUltima/{idPaciente}/{idPsicologo}")
+    public ResponseEntity<Object> obterUltimaSessao(@PathVariable Integer idPaciente, @PathVariable Integer idPsicologo) {
+        try {
+            Integer nroUltimaSessao = service.obterUltimaSessao(idPaciente, idPsicologo);
+            return ResponseEntity.ok().body(nroUltimaSessao);
+        } catch (SessaoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     @GetMapping(value = "/cancelar/{id}")
     public ResponseEntity<Object> cancelar(@PathVariable Integer id) {
         Optional<Sessao> optionalSessao = service.getById(id);
