@@ -33,7 +33,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "    p.celular1,\n" +
             "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
             "    p.celular2,\n" +
-            "    p.registro_geral as \"registroGeral\"\n" +
+            "    p.registro_geral as \"registroGeral\",\n" +
+            "    p.id as \"idPaciente\"\n" +
             "FROM\n" +
             "    paciente p\n" +
             "        JOIN\n" +

@@ -76,6 +76,7 @@ public class SessaoController {
     public ResponseEntity<Object> obterUltimaSessao(@PathVariable Integer idPaciente, @PathVariable Integer idPsicologo) {
         try {
             Integer nroUltimaSessao = service.obterUltimaSessao(idPaciente, idPsicologo);
+            nroUltimaSessao = (nroUltimaSessao==null) ? 0: nroUltimaSessao;
             return ResponseEntity.ok().body(nroUltimaSessao);
         } catch (SessaoException e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());

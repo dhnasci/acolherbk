@@ -61,6 +61,7 @@ public class PacienteService {
                         .isWhatsapp1(projection.getIsWhatsapp1().toString())
                         .celular2(projection.getCelular2())
                         .registroGeral(projection.getRegistroGeral())
+                        .idPaciente(projection.getIdPaciente())
                         .build())
                 .collect(Collectors.toList());
         return dtos;

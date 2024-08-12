@@ -6,4 +6,5 @@ public interface PacienteAlocadoProjection {
     Boolean getIsWhatsapp1(); // Ajuste para Boolean
     String getCelular2();
     String getRegistroGeral();
+    Integer getIdPaciente();
 }

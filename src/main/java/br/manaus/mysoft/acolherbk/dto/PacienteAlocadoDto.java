@@ -16,5 +16,6 @@ public class PacienteAlocadoDto {
     private String isWhatsapp1;
     private String celular2;
     private String registroGeral;
+    private Integer idPaciente;
 
 }
