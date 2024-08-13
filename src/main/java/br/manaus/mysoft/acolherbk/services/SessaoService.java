@@ -46,8 +46,8 @@ public class SessaoService {
                 .map(
                         proj -> SessaoDto.builder()
                                 .id( proj.getId())
-                                .dia( extraiDia(proj.getDiaAgendado()) )
-                                .hora( extraiHora(proj.getDiaAgendado()))
+                                .dia( extraiDiaBD(proj.getDiaAgendado()) )
+                                .hora( extraiHoraBD(proj.getDiaAgendado()))
                                 .numeroSessao( proj.getNumeroSessao())
                                 .status( defineStatusSessao(proj.getIsAtendido(), proj.getIsCancelado()))
                                 .idPaciente(idPaciente)
@@ -76,7 +76,19 @@ public class SessaoService {
 
     protected String extraiDia(String diaAgendado) {
         LocalDateTime data = mapper.converteParaData(diaAgendado);
-        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd-MM-yy");
+        return data.toLocalDate().format(formatoDia);
+    }
+
+    protected String extraiHoraBD(String diaAgendado) {
+        LocalDateTime data = mapper.converteParaDataBD(diaAgendado);
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+        return data.toLocalTime().format(formatoHora);
+    }
+
+    protected String extraiDiaBD(String diaAgendado) {
+        LocalDateTime data = mapper.converteParaDataBD(diaAgendado);
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd-MM-yy");
         return data.toLocalDate().format(formatoDia);
     }
 

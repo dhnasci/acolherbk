@@ -4,6 +4,7 @@ import br.manaus.mysoft.acolherbk.domain.*;
 import br.manaus.mysoft.acolherbk.dto.*;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.enums.Turno;
+import br.manaus.mysoft.acolherbk.exceptions.SessaoException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -30,7 +31,11 @@ public class Mapper {
 
     }
 
-    public static LocalDateTime converteParaData(String inicio) {
+    public static LocalDateTime converteParaData(String inicio)  {
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+        return LocalDateTime.parse(inicio, formatoDia);
+    }
+    public static LocalDateTime converteParaDataBD(String inicio)  {
         inicio = inicio.replace(".0", "");
         DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(inicio, formatoDia);
