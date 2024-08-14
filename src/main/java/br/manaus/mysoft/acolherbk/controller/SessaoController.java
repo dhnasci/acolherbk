@@ -84,6 +84,18 @@ public class SessaoController {
         }
     }
 
+    @GetMapping(value = "/obterConcluidas/{idPaciente}/{idPsicologo}")
+    public ResponseEntity<Object> obterTotalConcluidas(@PathVariable Integer idPaciente, @PathVariable Integer idPsicologo) {
+        try {
+            Integer totalConcluidas = service.obterTotalConcluidas(idPaciente, idPsicologo);
+            totalConcluidas = (totalConcluidas==null) ? 0: totalConcluidas;
+            return ResponseEntity.ok().body(totalConcluidas);
+        } catch (SessaoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     @GetMapping(value = "/cancelar/{id}")
     public ResponseEntity<Object> cancelar(@PathVariable Integer id) {
         Optional<Sessao> optionalSessao = service.getById(id);

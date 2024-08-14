@@ -51,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/horariopaciente",
             "/horariopaciente/**",
             "/horariopsicologo/**",
-            "/horariopsicologo"
+            "/horariopsicologo",
+            "/sessao/**"
 
     };
 
@@ -68,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/horariopsicologo",
             "/horariopaciente/**",
             "/horariopaciente",
-
+            "/sessao/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_PUT = {

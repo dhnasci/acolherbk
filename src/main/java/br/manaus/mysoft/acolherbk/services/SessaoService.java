@@ -103,4 +103,8 @@ public class SessaoService {
     public Integer obterUltimaSessao(Integer idPaciente, Integer idPsicologo) throws SessaoException {
         return repository.findLastSection(idPaciente, idPsicologo);
     }
+
+    public Integer obterTotalConcluidas(Integer idPaciente, Integer idPsicologo) throws SessaoException {
+        return repository.getTotalSessoesConcluidas(idPaciente, idPsicologo);
+    }
 }

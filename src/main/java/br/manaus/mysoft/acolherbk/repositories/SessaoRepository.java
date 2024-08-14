@@ -31,4 +31,11 @@ public interface SessaoRepository extends JpaRepository<Sessao, Integer> {
             "ORDER BY numero_sessao DESC\n" +
             "LIMIT 1", nativeQuery = true)
     Integer findLastSection(Integer idPaciente, Integer idPsicologo);
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT COUNT(*) AS TOTAL FROM sessao\n" +
+            "WHERE paciente_id = ?1 AND psicologo_id = ?2 AND\n" +
+            "      is_paciente_atendido = true"
+    , nativeQuery = true)
+    Integer getTotalSessoesConcluidas(Integer idPaciente, Integer idPsicologo);
 }
