@@ -157,7 +157,7 @@ public class PacienteController {
         return listaDto;
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/peloId/{id}")
     public ResponseEntity<Object> buscarPorId(@PathVariable Integer id) {
         try {
             Paciente paciente = service.find(id);
