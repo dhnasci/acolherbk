@@ -4,6 +4,7 @@ import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.Sessao;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
+import br.manaus.mysoft.acolherbk.dto.ConclusaoDto;
 import br.manaus.mysoft.acolherbk.dto.SessaoDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.SessaoException;
@@ -134,5 +135,45 @@ public class SessaoController {
             return ResponseEntity.badRequest().body(error);
         }
 
+    }
+
+    @PostMapping(value = "/encerrarAtendimento")
+    public ResponseEntity<Object> encerrarAtendimento(@RequestBody ConclusaoDto conclusaoDto) {
+        try {
+            Optional<Sessao> sessaoOpt = service.getById(conclusaoDto.getIdSessao());
+            if (sessaoOpt.isEmpty()) {
+                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), "Sessão não existe!", System.currentTimeMillis());
+                return ResponseEntity.badRequest().body(error);
+            }
+            Sessao sessao = sessaoOpt.get();
+            sessao.setIsPacienteAtendido(true);
+            sessao.setFeedback(conclusaoDto.getFeedback());
+            Sessao sessao1 = service.alterar(sessao);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
+            return ResponseEntity.created(uri).body(sessao1);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @PostMapping(value = "/cancelarAtendimento")
+    public ResponseEntity<Object> cancelarAtendimento(@RequestBody ConclusaoDto conclusaoDto) {
+        try {
+            Optional<Sessao> sessaoOpt = service.getById(conclusaoDto.getIdSessao());
+            if (sessaoOpt.isEmpty()) {
+                StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), "Sessão não existe!", System.currentTimeMillis());
+                return ResponseEntity.badRequest().body(error);
+            }
+            Sessao sessao = sessaoOpt.get();
+            sessao.setIsCancelado(true);
+            sessao.setMotivoCancelamento(sessao.getMotivoCancelamento());
+            Sessao sessao1 = service.alterar(sessao);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
+            return ResponseEntity.created(uri).body(sessao1);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 }
