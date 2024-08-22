@@ -12,7 +12,7 @@ public class AcolherbkApplication implements CommandLineRunner {
     private static boolean isMigration = true;
     private static boolean desenvolvimento = false;
     private static final String MINHA_URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String MINHA_URL_PROD = "jdbc:postgresql://cbib4a865d7s88.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com";
+    private static final String MINHA_URL_PROD = "jdbc:postgresql://cbib4a865d7s88.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dd4mj61ddf8ls9";
     private static final String MEU_LOGIN = "postgres";
     private static final String MEU_LOGIN_PROD = "u5fmceib9av9a3";
     private static final String SENHA = "Selenio17!";
