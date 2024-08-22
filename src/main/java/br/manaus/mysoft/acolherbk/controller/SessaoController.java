@@ -167,7 +167,7 @@ public class SessaoController {
             }
             Sessao sessao = sessaoOpt.get();
             sessao.setIsCancelado(true);
-            sessao.setMotivoCancelamento(sessao.getMotivoCancelamento());
+            sessao.setMotivoCancelamento(conclusaoDto.getMotivoCancelamento());
             Sessao sessao1 = service.alterar(sessao);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
             return ResponseEntity.created(uri).body(sessao1);
@@ -176,4 +176,5 @@ public class SessaoController {
             return ResponseEntity.badRequest().body(error);
         }
     }
+    // TODO incluir o idSessao no frontend 20/08/24
 }
