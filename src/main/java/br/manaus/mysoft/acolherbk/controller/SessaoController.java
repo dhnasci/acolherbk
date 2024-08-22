@@ -176,5 +176,4 @@ public class SessaoController {
             return ResponseEntity.badRequest().body(error);
         }
     }
-    // TODO incluir o idSessao no frontend 20/08/24
 }
