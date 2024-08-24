@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class PacienteAlocadoDto {
 
     private String nomeCompleto;
+    private String status;
     private String celular1;
     private String isWhatsapp1;
     private String celular2;

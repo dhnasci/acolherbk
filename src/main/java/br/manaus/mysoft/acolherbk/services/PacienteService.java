@@ -52,11 +52,23 @@ public class PacienteService {
         return repository.findPacientesByTriagemsIsPacienteAlocado(false);
     }
 
+    public List<PacienteAlocadoDto> listarTodosPacientes() {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientes();
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
     public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologo(Integer id) {
         List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocados(id);
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    private static List<PacienteAlocadoDto> getPacienteAlocadoDtos(List<PacienteAlocadoProjection> projections) {
         List<PacienteAlocadoDto> dtos = projections.stream()
                 .map(projection -> PacienteAlocadoDto.builder()
                         .nomeCompleto(projection.getNomeCompleto())
+                        .status(projection.getStatus())
                         .celular1(projection.getCelular1())
                         .isWhatsapp1(projection.getIsWhatsapp1().toString())
                         .celular2(projection.getCelular2())

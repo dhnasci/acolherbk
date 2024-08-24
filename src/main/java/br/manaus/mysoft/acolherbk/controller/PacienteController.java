@@ -113,9 +113,9 @@ public class PacienteController {
     @GetMapping
     public ResponseEntity<Object> listar() {
         try {
-            List<PacienteDto> lista = toDto(service.listar());
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientes();
             return ResponseEntity.ok().body(lista);
-        } catch (ObjetoException e) {
+        } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }

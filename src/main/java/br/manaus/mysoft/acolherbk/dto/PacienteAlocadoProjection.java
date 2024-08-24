@@ -2,6 +2,7 @@ package br.manaus.mysoft.acolherbk.dto;
 
 public interface PacienteAlocadoProjection {
     String getNomeCompleto();
+    String getStatus();
     String getCelular1();
     Boolean getIsWhatsapp1(); // Ajuste para Boolean
     String getCelular2();
