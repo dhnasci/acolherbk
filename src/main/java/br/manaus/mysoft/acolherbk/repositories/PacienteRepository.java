@@ -28,21 +28,21 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     List<Paciente> findPacientesByTriagemsIsPacienteAlocado(Boolean isPacienteAlocado);
 
     @Transactional(readOnly = true)
-    @Query(value = "SELECT\n" +
+    @Query(value = "SELECT DISTINCT ON (p.id)\n" +
             "    p.nome_completo AS \"nomeCompleto\",\n" +
             "    p.celular1,\n" +
             "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
             "    p.celular2,\n" +
             "    p.registro_geral as \"registroGeral\",\n" +
             "    p.id as \"idPaciente\"\n" +
-            "FROM\n" +
-            "    paciente p\n" +
-            "        JOIN\n" +
-            "    triagem t ON p.id = t.paciente_id\n" +
+            "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
             "WHERE\n" +
             "    t.psicologo_id = ?1 \n" +
             "  AND\n" +
-            "    t.is_paciente_alocado = TRUE", nativeQuery = true)
+            "    t.is_paciente_alocado = TRUE AND \n" +
+            "    s.motivo_cancelamento IS NULL and s.feedback IS NULL ", nativeQuery = true)
     List<PacienteAlocadoProjection> findAllPacientesAlocados(Integer psicologoId);
 
     @Transactional(readOnly = true)
@@ -59,7 +59,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "    p.celular1,\n" +
             "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
             "    p.celular2,\n" +
-            "    p.registro_geral as \"registroGeral\"\n" +
+            "    p.registro_geral as \"registroGeral\", \n" +
+            "    p.id as \"idPaciente\" " +
             "FROM paciente p\n" +
             "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
             "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
