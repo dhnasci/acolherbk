@@ -258,7 +258,7 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/pendentes")
+    @GetMapping(value = "/pendentesTriagem")
     public ResponseEntity<Object> buscarPendentesTriagem() {
         try {
             List<Paciente> lista = service.buscarPacientesPendentesDeTriagem();
