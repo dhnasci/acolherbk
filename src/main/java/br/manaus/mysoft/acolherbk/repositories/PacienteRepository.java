@@ -69,4 +69,126 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "ORDER BY p.id, s.id DESC;", nativeQuery = true)
     List<PacienteAlocadoProjection> findAllPacientes();
 
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT DISTINCT ON (p.id)\n" +
+            "    p.nome_completo AS \"nomeCompleto\",\n" +
+            "    CASE\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NOT NULL THEN 'ATENDIDO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL THEN 'CANCELADO'\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NULL THEN 'EM ATENDIMENTO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NULL THEN 'EM CANCELAMENTO'\n" +
+            "        WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "        WHEN t.id IS NOT NULL and s.id IS NULL THEN 'TRIAGEM'\n" +
+            "        END AS \"status\",\n" +
+            "    p.celular1,\n" +
+            "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
+            "    p.celular2,\n" +
+            "    p.registro_geral as \"registroGeral\", \n" +
+            "    p.id as \"idPaciente\" " +
+            "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "WHERE\n" +
+            "    s.is_paciente_atendido = true AND s.feedback IS NOT NULL \n" +
+            "ORDER BY p.id, s.id DESC;", nativeQuery = true)
+    List<PacienteAlocadoProjection> findAllPacientesAtendidos();
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT DISTINCT ON (p.id)\n" +
+            "    p.nome_completo AS \"nomeCompleto\",\n" +
+            "    CASE\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NOT NULL THEN 'ATENDIDO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL THEN 'CANCELADO'\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NULL THEN 'EM ATENDIMENTO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NULL THEN 'EM CANCELAMENTO'\n" +
+            "        WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "        WHEN t.id IS NOT NULL and s.id IS NULL THEN 'TRIAGEM'\n" +
+            "        END AS \"status\",\n" +
+            "    p.celular1,\n" +
+            "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
+            "    p.celular2,\n" +
+            "    p.registro_geral as \"registroGeral\", \n" +
+            "    p.id as \"idPaciente\" " +
+            "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "WHERE\n" +
+            "    s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL \n" +
+            "ORDER BY p.id, s.id DESC;", nativeQuery = true)
+    List<PacienteAlocadoProjection> findAllPacientesCancelados();
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT DISTINCT ON (p.id)\n" +
+            "    p.nome_completo AS \"nomeCompleto\",\n" +
+            "    CASE\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NOT NULL THEN 'ATENDIDO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL THEN 'CANCELADO'\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NULL THEN 'EM ATENDIMENTO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NULL THEN 'EM CANCELAMENTO'\n" +
+            "        WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "        WHEN t.id IS NOT NULL and s.id IS NULL THEN 'TRIAGEM'\n" +
+            "        END AS \"status\",\n" +
+            "    p.celular1,\n" +
+            "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
+            "    p.celular2,\n" +
+            "    p.registro_geral as \"registroGeral\", \n" +
+            "    p.id as \"idPaciente\" " +
+            "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "WHERE\n" +
+            "    s.is_paciente_atendido = true AND s.feedback IS NULL \n" +
+            "ORDER BY p.id, s.id DESC;", nativeQuery = true)
+    List<PacienteAlocadoProjection> findAllPacientesEmAtendimento();
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT DISTINCT ON (p.id)\n" +
+            "    p.nome_completo AS \"nomeCompleto\",\n" +
+            "    CASE\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NOT NULL THEN 'ATENDIDO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL THEN 'CANCELADO'\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NULL THEN 'EM ATENDIMENTO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NULL THEN 'EM CANCELAMENTO'\n" +
+            "        WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "        WHEN t.id IS NOT NULL and s.id IS NULL THEN 'TRIAGEM'\n" +
+            "        END AS \"status\",\n" +
+            "    p.celular1,\n" +
+            "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
+            "    p.celular2,\n" +
+            "    p.registro_geral as \"registroGeral\", \n" +
+            "    p.id as \"idPaciente\" " +
+            "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "WHERE\n" +
+            "    s.id IS NULL AND t.id IS NULL  \n" +
+            "ORDER BY p.id, s.id DESC;", nativeQuery = true)
+    List<PacienteAlocadoProjection> findAllPacientesPendentes();
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT DISTINCT ON (p.id)\n" +
+            "    p.nome_completo AS \"nomeCompleto\",\n" +
+            "    CASE\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NOT NULL THEN 'ATENDIDO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL THEN 'CANCELADO'\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback IS NULL THEN 'EM ATENDIMENTO'\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NULL THEN 'EM CANCELAMENTO'\n" +
+            "        WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "        WHEN t.id IS NOT NULL and s.id IS NULL THEN 'TRIAGEM'\n" +
+            "        END AS \"status\",\n" +
+            "    p.celular1,\n" +
+            "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
+            "    p.celular2,\n" +
+            "    p.registro_geral as \"registroGeral\", \n" +
+            "    p.id as \"idPaciente\" " +
+            "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "WHERE\n" +
+            "    t.id IS NOT NULL and s.id IS NULL  \n" +
+            "ORDER BY p.id, s.id DESC;", nativeQuery = true)
+    List<PacienteAlocadoProjection> findAllPacientesEmTriagem();
+
+
+
 }

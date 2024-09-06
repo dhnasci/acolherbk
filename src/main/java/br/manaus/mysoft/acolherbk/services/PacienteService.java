@@ -58,6 +58,36 @@ public class PacienteService {
         return dtos;
     }
 
+    public List<PacienteAlocadoDto> listarTodosPacientesPendentes() {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPendentes();
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> listarTodosPacientesAtendidos() {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesAtendidos();
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> listarTodosPacientesEmAtendimento() {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesEmAtendimento();
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> listarTodosPacientesCancelados() {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesCancelados();
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> listarTodosPacientesEmTriagem() {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesEmTriagem();
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
     public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologo(Integer id) {
         List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocados(id);
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);

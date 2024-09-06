@@ -121,6 +121,61 @@ public class PacienteController {
         }
     }
 
+    @GetMapping(value = "/atendidos")
+    public ResponseEntity<Object> listarAtendidos() {
+        try {
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesAtendidos();
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/emTriagem")
+    public ResponseEntity<Object> listarEmTriagem() {
+        try {
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesEmTriagem();
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/cancelados")
+    public ResponseEntity<Object> listarCancelados() {
+        try {
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesCancelados();
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/pendentes")
+    public ResponseEntity<Object> listarPendentes() {
+        try {
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesPendentes();
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/emAtendimento")
+    public ResponseEntity<Object> listarEmAtendimento() {
+        try {
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesEmAtendimento();
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     private List<PacienteDto> toDto(List<Paciente> listaPacientes) throws ObjetoException {
         List<PacienteDto> listaDto = new ArrayList<>();
         for (Paciente paciente : listaPacientes) {
