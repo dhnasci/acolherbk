@@ -3,8 +3,6 @@ package br.manaus.mysoft.acolherbk.utils;
 import br.manaus.mysoft.acolherbk.domain.*;
 import br.manaus.mysoft.acolherbk.dto.*;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
-import br.manaus.mysoft.acolherbk.enums.Turno;
-import br.manaus.mysoft.acolherbk.exceptions.SessaoException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -172,7 +170,7 @@ public class Mapper {
                 .build();
     }
 
-    public  Paciente dtoToPaciente(PacienteDto registro, Perfil perfil, Profissao profissao, Escolaridade escolaridade, Genero genero, List<EspecialidadePaciente> especialidades) {
+    public  Paciente dtoToPaciente(PacienteDto registro, Perfil perfil, Escolaridade escolaridade, Genero genero, List<EspecialidadePaciente> especialidades) {
         Paciente paciente = new Paciente();
         paciente.setNomeCompleto(registro.getNomeCompleto());
         paciente.setCadastro(LocalDateTime.now());
@@ -186,9 +184,6 @@ public class Mapper {
         paciente.setQueixa(registro.getQueixa());
         paciente.setRegistroGeral(registro.getRegistroGeral());
         paciente.setRenda(Float.parseFloat( (registro.getRenda()==null)?"0.00":registro.getRenda() ));
-        if (profissao!=null) {
-            paciente.setProfissaoid(profissao.getId());
-        }
         if (escolaridade!=null) {
             paciente.setEscolaridadeid(escolaridade.getId());
         }

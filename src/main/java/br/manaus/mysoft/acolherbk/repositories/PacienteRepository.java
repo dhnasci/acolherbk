@@ -2,7 +2,6 @@ package br.manaus.mysoft.acolherbk.repositories;
 
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
-import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
