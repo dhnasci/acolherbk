@@ -58,6 +58,9 @@ public class Paciente {
     @Column(name = "cadastro")
     private LocalDateTime cadastro;
 
+    @Column(name = "profissao")
+    private String profissao;
+
     @Column(name = "profissao_id")
     private Integer profissaoid;
 
