@@ -182,7 +182,8 @@ public class Mapper {
         paciente.setNomeIndicacao(registro.getNomeIndicacao());
         paciente.setJaFezTerapia(Boolean.parseBoolean(registro.getJaFezTerapia()));
         paciente.setQueixa(registro.getQueixa());
-        paciente.setRegistroGeral(registro.getRegistroGeral());
+        paciente.setRegistroGeral(registro.getRegistroGeral());;
+        paciente.setProfissao(registro.getProfissao());
         paciente.setRenda(Float.parseFloat( (registro.getRenda()==null)?"0.00":registro.getRenda() ));
         if (escolaridade!=null) {
             paciente.setEscolaridadeid(escolaridade.getId());
