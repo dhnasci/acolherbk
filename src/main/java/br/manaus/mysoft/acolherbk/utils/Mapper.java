@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.utils;
 import br.manaus.mysoft.acolherbk.domain.*;
 import br.manaus.mysoft.acolherbk.dto.*;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
+import br.manaus.mysoft.acolherbk.services.EscolaridadeService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 public class Mapper {
 
+    private static final String FORMATO_DATA_PADRAO = "dd-MM-yy HH:mm";
     public HashMap<String, DayOfWeek> diaDaSemana;
 
     public Mapper() {
@@ -30,7 +32,7 @@ public class Mapper {
     }
 
     public static LocalDateTime converteParaData(String inicio)  {
-        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern(FORMATO_DATA_PADRAO);
         return LocalDateTime.parse(inicio, formatoDia);
     }
     public static LocalDateTime converteParaDataBD(String inicio)  {
@@ -196,6 +198,27 @@ public class Mapper {
             paciente.setEspecialidades(especialidades);
         }
         return paciente;
+    }
+
+    public PacienteDto pacienteToDto(Paciente paciente, String escolaridade, String genero) {
+        PacienteDto dto = new PacienteDto();
+        dto.setNomeCompleto(paciente.getNomeCompleto());
+        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern(FORMATO_DATA_PADRAO);
+        dto.setCadastro(paciente.getCadastro().format(formatoDia));
+        dto.setIdade(String.valueOf(paciente.getIdade()));
+        dto.setCelular1(paciente.getCelular1());
+        dto.setCelular2(paciente.getCelular2());
+        dto.setIsWhatsapp1(String.valueOf(paciente.getIsWhatsapp1()));
+        dto.setIsWhatsapp2(String.valueOf(paciente.getIsWhatsapp2()));
+        dto.setNomeIndicacao(paciente.getNomeIndicacao());
+        dto.setJaFezTerapia(String.valueOf(paciente.getJaFezTerapia()));
+        dto.setQueixa(paciente.getQueixa());
+        dto.setRegistroGeral(paciente.getRegistroGeral());
+        dto.setProfissao(paciente.getProfissao());
+        dto.setRenda(String.valueOf(paciente.getRenda()));
+        dto.setEscolaridade(escolaridade);
+        dto.setGenero(genero);
+        return dto;
     }
 
 

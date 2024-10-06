@@ -175,7 +175,9 @@ public class PacienteController {
     public ResponseEntity<Object> buscarPorId(@PathVariable Integer id) {
         try {
             Paciente paciente = service.find(id);
-            return ResponseEntity.ok().body(paciente);
+            String escolaridade = escolaridadeService.find(paciente.getEscolaridadeid()).getDescricao();
+            String genero = generoService.find(paciente.getGeneroid()).getDescricao();
+            return ResponseEntity.ok().body(mapper.pacienteToDto(paciente, escolaridade, genero));
         } catch (ObjetoException e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
