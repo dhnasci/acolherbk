@@ -81,12 +81,12 @@ public class Mapper {
         return especialidades;
     }
 
-    public static List<String> preparaPsicologosNomes(List<Psicologo> lista) {
-        List<String> psicologosNomes = new ArrayList<>();
-        for (Psicologo psicologo : lista) {
-            psicologosNomes.add(psicologo.getNomeCompleto());
-        }
-        return psicologosNomes;
+    public static List<NomePsicologoDto> preparaPsicologosNomes(List<Psicologo> lista) {
+        return lista.stream()
+                .map( psi -> NomePsicologoDto.builder()
+                        .psicologo(psi.getNomeCompleto())
+                        .id(psi.getId()).build() )
+                .collect(Collectors.toList());
     }
 
     public static List<String> preparaEspecialidadePsicologo(List<EspecialidadePsicologo> lista) {
