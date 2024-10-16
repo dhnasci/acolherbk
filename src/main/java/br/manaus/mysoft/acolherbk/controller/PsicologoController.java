@@ -2,6 +2,7 @@ package br.manaus.mysoft.acolherbk.controller;
 
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
+import br.manaus.mysoft.acolherbk.dto.NomePsicologoDto;
 import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
@@ -74,7 +75,7 @@ public class PsicologoController {
     @GetMapping(value = "/nomes")
     public ResponseEntity<Object> listarNomes() {
         try {
-            List<String> lista = Mapper.preparaPsicologosNomes(service.listar());
+            List<NomePsicologoDto> lista = Mapper.preparaPsicologosNomes(service.listar());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
