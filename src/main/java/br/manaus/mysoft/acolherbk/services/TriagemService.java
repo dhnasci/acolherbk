@@ -1,9 +1,7 @@
 package br.manaus.mysoft.acolherbk.services;
 
-import br.manaus.mysoft.acolherbk.domain.Genero;
 import br.manaus.mysoft.acolherbk.domain.Triagem;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
-import br.manaus.mysoft.acolherbk.repositories.GeneroRepository;
 import br.manaus.mysoft.acolherbk.repositories.TriagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

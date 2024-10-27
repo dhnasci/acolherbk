@@ -9,12 +9,14 @@ import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.services.EspecialidadePsicologoService;
 import br.manaus.mysoft.acolherbk.services.HorarioPsiService;
 import br.manaus.mysoft.acolherbk.services.PsicologoService;
+import br.manaus.mysoft.acolherbk.utils.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import br.manaus.mysoft.acolherbk.utils.Mapper;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class PsicologoController {
     PsicologoService service;
     HorarioPsiService horarioPsicologoService;
     EspecialidadePsicologoService especialidadePsicologoService;
+
+    private Logger log = LoggerFactory.getLogger(PsicologoController.class);
 
     @Autowired
     public PsicologoController(PsicologoService service, HorarioPsiService horarioPsicologoService, EspecialidadePsicologoService especialidadePsicologoService) {
@@ -58,7 +62,6 @@ public class PsicologoController {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
-
     }
 
     @GetMapping
