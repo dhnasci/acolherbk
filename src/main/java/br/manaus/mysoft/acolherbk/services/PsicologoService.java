@@ -3,7 +3,6 @@ package br.manaus.mysoft.acolherbk.services;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PsicologoRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static br.manaus.mysoft.acolherbk.utils.Constantes.PSICOLOGO_NAO_ENCONTRADO;
-import static br.manaus.mysoft.acolherbk.utils.Constantes.TAMANHO_SENHA;
-import static br.manaus.mysoft.acolherbk.utils.Constantes.CHARACTERS;
+import static br.manaus.mysoft.acolherbk.utils.Constantes.*;
 
 @Service
 public class PsicologoService {
