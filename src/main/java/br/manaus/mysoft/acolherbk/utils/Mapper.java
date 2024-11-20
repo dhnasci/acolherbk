@@ -232,4 +232,63 @@ public class Mapper {
         section.setPaciente(paciente);
         return section;
     }
+
+    public ChartDto fromStatusAtendimentoToGrafico(List<StatusAtendimentoProjection> projections) {
+        ChartDto chart = new ChartDto();
+        List<String> labels = projections.stream()
+                .map( proj -> proj.getStatus() )
+                .collect(Collectors.toList());
+        chart.setLabels(labels);
+        List<Integer> valores = projections.stream()
+                .map( proj -> proj.getTotal())
+                .collect(Collectors.toList());
+        List<DataSet> datasets = new ArrayList<>();
+        DataSet dataset = new DataSet();
+        dataset.setData(valores);
+        dataset.setBackgroundColor(getBackgroundColorBarChart());
+        dataset.setLabel("Atendimento 2024");
+        dataset.setBorderWidth(1);
+        dataset.setBorderColor(getBackgroundColorRoscaChart());
+        datasets.add(dataset);
+        chart.setDatasets(datasets);
+        return chart;
+    }
+
+    private List<String> getBackgroundColorBarChart() {
+        List<String> backgrounds = new ArrayList<>();
+        backgrounds.add("rgb(255, 99, 132, 0.2)");
+        backgrounds.add("rgb(255, 159, 64, 0.2)");
+        backgrounds.add("rgb(255, 205, 86, 0.2)");
+        backgrounds.add("rgb(75, 192, 192, 0.2)");
+        backgrounds.add("rgb(54, 162, 235, 0.2)");
+        return backgrounds;
+    }
+
+    public ChartDto fromDistribuicaoFaixaEtariaToGrafico(List<FaixaEtariaDistribuicaoProjection> projections) {
+        ChartDto chart = new ChartDto();
+        List<String> labels = projections.stream()
+                .map( proj -> proj.getFaixaEtaria() )
+                .collect(Collectors.toList());
+        chart.setLabels(labels);
+        List<Integer> valores = projections.stream()
+                .map( proj -> proj.getQuantidade() )
+                .collect(Collectors.toList());
+        List<DataSet> datasets = new ArrayList<>();
+        DataSet dataset = new DataSet();
+        dataset.setData(valores);
+        dataset.setBackgroundColor(getBackgroundColorRoscaChart());
+        datasets.add(dataset);
+        chart.setDatasets(datasets);
+        return chart;
+    }
+
+    private List<String> getBackgroundColorRoscaChart() {
+        List<String> backgrounds = new ArrayList<>();
+        backgrounds.add("rgb(255, 99, 132)");
+        backgrounds.add("rgb(255, 159, 64)");
+        backgrounds.add("rgb(255, 205, 86)");
+        backgrounds.add("rgb(75, 192, 192)");
+        backgrounds.add("rgb(54, 162, 235)");
+        return backgrounds;
+    }
 }

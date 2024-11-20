@@ -1,10 +1,10 @@
 package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
-import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
-import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoProjection;
+import br.manaus.mysoft.acolherbk.dto.*;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
+import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,8 @@ public class PacienteService {
 
     @Autowired
     PacienteRepository repository;
+
+    Mapper mapper;
 
     public Paciente insert(Paciente obj) {
         return repository.save(obj);
@@ -87,6 +89,17 @@ public class PacienteService {
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
+
+    public ChartDto obterStatusAtendimentoParaGrafico() {
+        List<StatusAtendimentoProjection> projections = repository.getAllStatusAtendimento();
+        return mapper.fromStatusAtendimentoToGrafico(projections);
+    }
+
+    public ChartDto obterDistribuicaoFaixaEtariaParaGrafico() {
+        List<FaixaEtariaDistribuicaoProjection> projections = repository.getAllDistribuicaoFaixaEtaria();
+        return mapper.fromDistribuicaoFaixaEtariaToGrafico(projections);
+    }
+
 
     public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologo(Integer id) {
         List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocados(id);

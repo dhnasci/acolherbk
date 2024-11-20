@@ -2,7 +2,10 @@ package br.manaus.mysoft.acolherbk.repositories;
 
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
+import br.manaus.mysoft.acolherbk.dto.ChartDto;
+import br.manaus.mysoft.acolherbk.dto.FaixaEtariaDistribuicaoProjection;
 import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoProjection;
+import br.manaus.mysoft.acolherbk.dto.StatusAtendimentoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -188,6 +191,45 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "ORDER BY p.id, s.id DESC;", nativeQuery = true)
     List<PacienteAlocadoProjection> findAllPacientesEmTriagem();
 
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT A.status, count(*) as total\n" +
+            "    FROM (\n" +
+            "        SELECT DISTINCT ON (p.id)\n" +
+            "            p.nome_completo,\n" +
+            "            CASE\n" +
+            "                WHEN s.is_paciente_atendido = true AND s.feedback IS NOT NULL THEN 'ATENDIDO'\n" +
+            "                WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NOT NULL THEN 'CANCELADO'\n" +
+            "                WHEN s.is_paciente_atendido = true AND s.feedback IS NULL THEN 'EM ATENDIMENTO'\n" +
+            "                WHEN s.is_cancelado = true AND s.motivo_cancelamento IS NULL THEN 'EM CANCELAMENTO'\n" +
+            "                WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "                WHEN t.id IS NOT NULL and s.id IS NULL THEN 'TRIAGEM'\n" +
+            "                END AS \"status\",\n" +
+            "            p.celular1,\n" +
+            "            p.registro_geral\n" +
+            "        FROM paciente p\n" +
+            "                 LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "                 LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "        WHERE\n" +
+            "            s.id IS NULL OR (s.feedback IS NOT NULL OR s.motivo_cancelamento IS NOT NULL)\n" +
+            "        ORDER BY p.id, s.id DESC\n" +
+            "         ) A\n" +
+            "GROUP BY status\n" +
+            "ORDER BY status;", nativeQuery = true)
+    List<StatusAtendimentoProjection> getAllStatusAtendimento();
 
-
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT\n" +
+            "    CASE\n" +
+            "        WHEN idade <= 12 THEN 'Criancas'\n" +
+            "        WHEN idade BETWEEN 13 AND 18 THEN 'Adolescentes'\n" +
+            "        WHEN idade BETWEEN 19 AND 25 THEN 'Jovens'\n" +
+            "        WHEN idade BETWEEN 26 AND 60 THEN 'Adultos'\n" +
+            "        WHEN idade > 60 THEN 'Idosos'\n" +
+            "        --ELSE 'Idade inválida'\n" +
+            "        END AS faixaetaria,\n" +
+            "    COUNT(*) AS quantidade\n" +
+            "FROM paciente\n" +
+            "GROUP BY faixaetaria\n" +
+            "ORDER BY quantidade DESC;", nativeQuery = true)
+    List<FaixaEtariaDistribuicaoProjection> getAllDistribuicaoFaixaEtaria();
 }
