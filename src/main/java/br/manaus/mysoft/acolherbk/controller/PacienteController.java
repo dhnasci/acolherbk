@@ -1,6 +1,7 @@
 package br.manaus.mysoft.acolherbk.controller;
 
 import br.manaus.mysoft.acolherbk.domain.*;
+import br.manaus.mysoft.acolherbk.dto.ChartDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
@@ -261,6 +262,28 @@ public class PacienteController {
             service.delete(id);
             return ResponseEntity.noContent().build();
         } catch (ObjetoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/graficoStatusAtendimento")
+    public ResponseEntity<Object> obterGraficoStatusAtendimento() {
+        try {
+            ChartDto grafico = service.obterStatusAtendimentoParaGrafico();
+            return ResponseEntity.ok().body(grafico);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria")
+    public ResponseEntity<Object> obterGraficoDistribuicaoFaixaEtaria() {
+        try {
+            ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico();
+            return ResponseEntity.ok().body(grafico);
+        } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
