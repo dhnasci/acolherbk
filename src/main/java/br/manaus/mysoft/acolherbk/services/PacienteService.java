@@ -22,7 +22,7 @@ public class PacienteService {
     @Autowired
     PacienteRepository repository;
 
-    Mapper mapper;
+    Mapper mapper = new Mapper();
 
     public Paciente insert(Paciente obj) {
         return repository.save(obj);
