@@ -22,6 +22,9 @@ public class PacienteService {
     @Autowired
     PacienteRepository repository;
 
+    @Autowired
+    PsicologoService psicologoService;
+
     Mapper mapper = new Mapper();
 
     public Paciente insert(Paciente obj) {
@@ -132,5 +135,11 @@ public class PacienteService {
         } catch (Exception e) {
             throw new ObjetoException("Erro ao apagar Paciente");
         }
+    }
+
+    public TotalDto obterTotais() {
+        Integer numPacientes = listar().size();
+        Integer numPsis = psicologoService.listar().size();
+        return new TotalDto(numPacientes, numPsis);
     }
 }

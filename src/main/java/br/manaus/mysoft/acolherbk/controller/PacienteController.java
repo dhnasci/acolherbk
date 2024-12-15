@@ -4,6 +4,7 @@ import br.manaus.mysoft.acolherbk.domain.*;
 import br.manaus.mysoft.acolherbk.dto.ChartDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteAlocadoDto;
 import br.manaus.mysoft.acolherbk.dto.PacienteDto;
+import br.manaus.mysoft.acolherbk.dto.TotalDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.services.*;
@@ -283,6 +284,18 @@ public class PacienteController {
         try {
             ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico();
             return ResponseEntity.ok().body(grafico);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/gettingTotals")
+    public ResponseEntity<Object> obterTotais() {
+
+        try {
+            TotalDto totais = service.obterTotais();
+            return ResponseEntity.ok().body(totais);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
