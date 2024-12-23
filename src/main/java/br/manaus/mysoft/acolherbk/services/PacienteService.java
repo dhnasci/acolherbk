@@ -138,8 +138,8 @@ public class PacienteService {
     }
 
     public TotalDto obterTotais() {
-        Integer numPacientes = listar().size();
-        Integer numPsis = psicologoService.listar().size();
-        return new TotalDto(numPacientes, numPsis);
+        String numPacientes = String.valueOf(listar().size());
+        String numPsis = String.valueOf(psicologoService.listar().size());
+        return new TotalDto(  numPacientes, numPsis);
     }
 }

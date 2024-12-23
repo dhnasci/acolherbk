@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TotalDto {
 
-    private Integer numPacientes;
-    private Integer numPsicologos;
+    private String numPacientes;
+    private String numPsicologos;
 }
