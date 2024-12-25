@@ -241,7 +241,7 @@ public class Mapper {
         List<Integer> valores = projections.stream()
                 .map( proj -> proj.getTotal())
                 .collect(Collectors.toList());
-        List<DataSet> datasets = new ArrayList<>();
+        DataSet[] datasets = new DataSet[1];
         DataSet dataset = new DataSet();
         dataset.setData(valores);
         Integer tamanho = valores.size();
@@ -249,7 +249,7 @@ public class Mapper {
         dataset.setLabel("Atendimento 2024");
         dataset.setBorderWidth(1);
         dataset.setBorderColor(getBackgroundColorRoscaChart(tamanho));
-        datasets.add(dataset);
+        datasets[0] = dataset;
         chart.setDatasets(datasets);
         return chart;
     }
@@ -292,11 +292,11 @@ public class Mapper {
         List<Integer> valores = projections.stream()
                 .map( proj -> proj.getQuantidade() )
                 .collect(Collectors.toList());
-        List<DataSet> datasets = new ArrayList<>();
+        DataSet[] datasets = new DataSet[1];
         DataSet dataset = new DataSet();
         dataset.setData(valores);
         dataset.setBackgroundColor(getBackgroundColorRoscaChart(valores.size()));
-        datasets.add(dataset);
+        datasets[0] = dataset;
         chart.setDatasets(datasets);
         return chart;
     }

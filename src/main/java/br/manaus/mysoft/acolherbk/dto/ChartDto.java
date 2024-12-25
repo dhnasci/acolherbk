@@ -14,5 +14,5 @@ import java.util.List;
 public class ChartDto {
 
     private List<String> labels;
-    private List<DataSet> datasets;
+    private DataSet[] datasets;
 }

@@ -10,6 +10,7 @@ import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.services.*;
 import br.manaus.mysoft.acolherbk.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -268,7 +269,7 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/graficoStatusAtendimento")
+    @GetMapping(value = "/graficoStatusAtendimento", produces = "application/json")
     public ResponseEntity<Object> obterGraficoStatusAtendimento() {
         try {
             ChartDto grafico = service.obterStatusAtendimentoParaGrafico();
@@ -279,7 +280,7 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria")
+    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria", produces = "application/json")
     public ResponseEntity<Object> obterGraficoDistribuicaoFaixaEtaria() {
         try {
             ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico();
