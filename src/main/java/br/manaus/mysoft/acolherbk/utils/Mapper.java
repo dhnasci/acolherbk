@@ -3,7 +3,6 @@ package br.manaus.mysoft.acolherbk.utils;
 import br.manaus.mysoft.acolherbk.domain.*;
 import br.manaus.mysoft.acolherbk.dto.*;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
-import br.manaus.mysoft.acolherbk.services.EscolaridadeService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -245,23 +244,43 @@ public class Mapper {
         List<DataSet> datasets = new ArrayList<>();
         DataSet dataset = new DataSet();
         dataset.setData(valores);
-        dataset.setBackgroundColor(getBackgroundColorBarChart());
+        Integer tamanho = valores.size();
+        dataset.setBackgroundColor(getBackgroundColorBarChart(tamanho));
         dataset.setLabel("Atendimento 2024");
         dataset.setBorderWidth(1);
-        dataset.setBorderColor(getBackgroundColorRoscaChart());
+        dataset.setBorderColor(getBackgroundColorRoscaChart(tamanho));
         datasets.add(dataset);
         chart.setDatasets(datasets);
         return chart;
     }
 
-    private List<String> getBackgroundColorBarChart() {
+    private List<String> getBackgroundColorBarChart(Integer tamanho) {
         List<String> backgrounds = new ArrayList<>();
         backgrounds.add("rgb(255, 99, 132, 0.2)");
         backgrounds.add("rgb(255, 159, 64, 0.2)");
         backgrounds.add("rgb(255, 205, 86, 0.2)");
         backgrounds.add("rgb(75, 192, 192, 0.2)");
         backgrounds.add("rgb(54, 162, 235, 0.2)");
-        return backgrounds;
+        return ajustaTamanho(backgrounds, tamanho);
+    }
+
+    private List<String> ajustaTamanho(List<String> backgrounds, Integer tamanhoDesejado) {
+        List<String> listaAjustada = new ArrayList<>(backgrounds);
+        if (tamanhoDesejado < 0) {
+            throw new IllegalArgumentException("O tamanho desejado não pode ser negativo.");
+        }
+
+        if (listaAjustada.size() > tamanhoDesejado) {
+            // Reduz a lista ao tamanho desejado
+            listaAjustada = listaAjustada.subList(0, tamanhoDesejado);
+        } else if (listaAjustada.size() < tamanhoDesejado) {
+            // Preenche com strings vazias até o tamanho desejado
+            while (listaAjustada.size() < tamanhoDesejado) {
+                listaAjustada.add("");
+            }
+        }
+
+        return listaAjustada;
     }
 
     public ChartDto fromDistribuicaoFaixaEtariaToGrafico(List<FaixaEtariaDistribuicaoProjection> projections) {
@@ -276,19 +295,19 @@ public class Mapper {
         List<DataSet> datasets = new ArrayList<>();
         DataSet dataset = new DataSet();
         dataset.setData(valores);
-        dataset.setBackgroundColor(getBackgroundColorRoscaChart());
+        dataset.setBackgroundColor(getBackgroundColorRoscaChart(valores.size()));
         datasets.add(dataset);
         chart.setDatasets(datasets);
         return chart;
     }
 
-    private List<String> getBackgroundColorRoscaChart() {
+    private List<String> getBackgroundColorRoscaChart(Integer tamanho) {
         List<String> backgrounds = new ArrayList<>();
         backgrounds.add("rgb(255, 99, 132)");
         backgrounds.add("rgb(255, 159, 64)");
         backgrounds.add("rgb(255, 205, 86)");
         backgrounds.add("rgb(75, 192, 192)");
         backgrounds.add("rgb(54, 162, 235)");
-        return backgrounds;
+        return ajustaTamanho(backgrounds, tamanho);
     }
 }
