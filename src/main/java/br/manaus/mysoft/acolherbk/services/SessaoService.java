@@ -1,6 +1,8 @@
 package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Sessao;
+import br.manaus.mysoft.acolherbk.dto.RelatorioAnaliticoSessao;
+import br.manaus.mysoft.acolherbk.dto.RelatorioAnaliticoSessaoProjection;
 import br.manaus.mysoft.acolherbk.dto.SessaoDto;
 import br.manaus.mysoft.acolherbk.dto.SessaoProjection;
 import br.manaus.mysoft.acolherbk.exceptions.SessaoException;
@@ -106,5 +108,21 @@ public class SessaoService {
 
     public Integer obterTotalConcluidas(Integer idPaciente, Integer idPsicologo) throws SessaoException {
         return repository.getTotalSessoesConcluidas(idPaciente, idPsicologo);
+    }
+
+    public List<RelatorioAnaliticoSessao> obterRelatorioAnalitico(Integer ano) throws SessaoException {
+        return getRelatorioAnaliticoFromProjections(repository.getRelatorioAnalitico(ano));
+    }
+
+    private List<RelatorioAnaliticoSessao> getRelatorioAnaliticoFromProjections(List<RelatorioAnaliticoSessaoProjection> relatorioAnalitico) {
+        return relatorioAnalitico.stream()
+                .map(projection -> RelatorioAnaliticoSessao.builder()
+                        .psicologo(projection.getPsicologo())
+                        .paciente(projection.getPaciente())
+                        .atendimento(projection.getAtendimento())
+                        .feedback(projection.getFeedback())
+                        .sessao(projection.getSessao())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

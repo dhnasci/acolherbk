@@ -1,6 +1,8 @@
 package br.manaus.mysoft.acolherbk.repositories;
 
 import br.manaus.mysoft.acolherbk.domain.Sessao;
+import br.manaus.mysoft.acolherbk.dto.RelatorioAnaliticoSessao;
+import br.manaus.mysoft.acolherbk.dto.RelatorioAnaliticoSessaoProjection;
 import br.manaus.mysoft.acolherbk.dto.SessaoProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,4 +40,14 @@ public interface SessaoRepository extends JpaRepository<Sessao, Integer> {
             "      is_paciente_atendido = true"
     , nativeQuery = true)
     Integer getTotalSessoesConcluidas(Integer idPaciente, Integer idPsicologo);
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT  p2.login as psicologo, p.nome_completo as paciente, s.id as sessao, s.dia_agendado as \"atendimento\", s.feedback\n" +
+            "FROM sessao s\n" +
+            "         INNER JOIN paciente p on s.paciente_id = p.id\n" +
+            "         INNER JOIN psicologo p2 on p2.id = s.psicologo_id\n" +
+            "WHERE p2.perfil = 2\n" +
+            "  AND EXTRACT(YEAR FROM s.dia_agendado) = ?1 \n" +
+            "ORDER BY paciente, dia_agendado" , nativeQuery = true)
+    List<RelatorioAnaliticoSessaoProjection> getRelatorioAnalitico(Integer ano);
 }
