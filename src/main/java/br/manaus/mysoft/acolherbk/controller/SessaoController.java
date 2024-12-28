@@ -5,6 +5,7 @@ import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.Sessao;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.dto.ConclusaoDto;
+import br.manaus.mysoft.acolherbk.dto.RelatorioAnaliticoSessao;
 import br.manaus.mysoft.acolherbk.dto.SessaoDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.SessaoException;
@@ -67,6 +68,17 @@ public class SessaoController {
         try {
             List<SessaoDto> lista = service.listarSessoes(idPaciente, idPsicologo);
             return ResponseEntity.ok().body(lista);
+        } catch (SessaoException e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value="/relatorioAnalitico/{ano}")
+    public ResponseEntity<Object> getRelatorioAnalitico(@RequestBody Integer ano) {
+        try {
+            List<RelatorioAnaliticoSessao> relatorio = service.obterRelatorioAnalitico(ano);
+            return ResponseEntity.ok().body(relatorio);
         } catch (SessaoException e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);

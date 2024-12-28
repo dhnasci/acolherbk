@@ -111,7 +111,7 @@ public class PacienteService {
     }
 
     private static List<PacienteAlocadoDto> getPacienteAlocadoDtos(List<PacienteAlocadoProjection> projections) {
-        List<PacienteAlocadoDto> dtos = projections.stream()
+        return projections.stream()
                 .map(projection -> PacienteAlocadoDto.builder()
                         .nomeCompleto(projection.getNomeCompleto())
                         .status(projection.getStatus())
@@ -122,7 +122,6 @@ public class PacienteService {
                         .idPaciente(projection.getIdPaciente())
                         .build())
                 .collect(Collectors.toList());
-        return dtos;
     }
 
     public Paciente update(Paciente obj) {
