@@ -75,7 +75,7 @@ public class SessaoController {
     }
 
     @GetMapping(value="/relatorioAnalitico/{ano}")
-    public ResponseEntity<Object> getRelatorioAnalitico(@RequestBody Integer ano) {
+    public ResponseEntity<Object> getRelatorioAnalitico(@PathVariable Integer ano) {
         try {
             List<RelatorioAnaliticoSessao> relatorio = service.obterRelatorioAnalitico(ano);
             return ResponseEntity.ok().body(relatorio);
