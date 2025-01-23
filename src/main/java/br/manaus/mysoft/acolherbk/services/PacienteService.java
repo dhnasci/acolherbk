@@ -2,6 +2,7 @@ package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.dto.*;
+import br.manaus.mysoft.acolherbk.enums.Status;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
 import br.manaus.mysoft.acolherbk.utils.Mapper;
@@ -64,31 +65,31 @@ public class PacienteService {
     }
 
     public List<PacienteAlocadoDto> listarTodosPacientesPendentes() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPendentes();
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.PENDENTE.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
     public List<PacienteAlocadoDto> listarTodosPacientesAtendidos() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesAtendidos();
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.ATENDIDO.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
     public List<PacienteAlocadoDto> listarTodosPacientesEmAtendimento() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesEmAtendimento();
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.EM_ATENDIMENTO.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
     public List<PacienteAlocadoDto> listarTodosPacientesCancelados() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesCancelados();
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.CANCELADO.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
     public List<PacienteAlocadoDto> listarTodosPacientesEmTriagem() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesEmTriagem();
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.TRIAGEM.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
