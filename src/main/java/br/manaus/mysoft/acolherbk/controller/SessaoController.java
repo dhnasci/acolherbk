@@ -179,6 +179,7 @@ public class SessaoController {
             }
             Sessao sessao = sessaoOpt.get();
             sessao.setIsCancelado(true);
+            sessao.setIsPacienteAtendido(false);
             sessao.setMotivoCancelamento(conclusaoDto.getMotivoCancelamento());
             Sessao sessao1 = service.alterar(sessao);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
