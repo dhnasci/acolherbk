@@ -244,6 +244,17 @@ public class PacienteController {
         }
     }
 
+    @GetMapping(value = "/triagem/todos/{psicologoId}")
+    public ResponseEntity<Object> buscarTodosPacientesAlocadosAoPsicologo(@PathVariable Integer psicologoId) {
+        try {
+            List<PacienteAlocadoDto> lista = service.buscarTodosPacientesAlocadosAoPsicologo(psicologoId);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     @GetMapping(value = "/triagem/atendidos/{psicologoId}")
     public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologoAtendidos(@PathVariable Integer psicologoId) {
         try {
