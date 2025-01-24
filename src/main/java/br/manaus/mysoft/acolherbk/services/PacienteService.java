@@ -106,6 +106,22 @@ public class PacienteService {
 
 
     public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologo(Integer id) {
+        List<PacienteAlocadoProjection> triagem = repository.findAllPacientesAlocadosPorStatus(id, Status.TRIAGEM.getNome());
+        List<PacienteAlocadoProjection> emAtendimento = repository.findAllPacientesAlocadosPorStatus(id, Status.EM_ATENDIMENTO.getNome());
+        List<PacienteAlocadoProjection> projections = new ArrayList<>();
+        adiciona(triagem, projections);
+        adiciona(emAtendimento, projections);
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    private static void adiciona(List<PacienteAlocadoProjection> triagem, List<PacienteAlocadoProjection> projections) {
+        for (PacienteAlocadoProjection proj : triagem) {
+            projections.add(proj);
+        }
+    }
+
+    public List<PacienteAlocadoDto> buscarTodosPacientesAlocadosAoPsicologo(Integer id) {
         List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocados(id);
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
