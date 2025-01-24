@@ -32,18 +32,59 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
     @Transactional(readOnly = true)
     @Query(value = "SELECT DISTINCT ON (p.id)\n" +
             "    p.nome_completo AS \"nomeCompleto\",\n" +
+            "    p.id as \"idPaciente\",\n" +
+            "    CASE\n" +
+            "        WHEN s.is_cancelado = true AND s.motivo_cancelamento is not null THEN 'CANCELADO'\n" +
+            "        WHEN s.is_paciente_atendido = true AND s.feedback is not null THEN 'ATENDIDO'\n" +
+            "        WHEN s.id IS NULL AND t.id IS NULL THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "        WHEN t.id IS NOT NULL and t.is_paciente_alocado = false THEN 'TRIAGEM'\n" +
+            "        WHEN t.id IS NOT NULL and t.is_paciente_alocado = true THEN 'EM ATENDIMENTO'\n" +
+            "        END AS \"status\",\n" +
             "    p.celular1,\n" +
             "    p.is_whatsapp1 as \"isWhatsapp1\",\n" +
             "    p.celular2,\n" +
-            "    p.registro_geral as \"registroGeral\",\n" +
-            "    p.id as \"idPaciente\"\n" +
+            "    p.registro_geral as \"registroGeral\"\n" +
             "FROM paciente p\n" +
+            "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
             "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
-            "WHERE\n" +
-            "    t.psicologo_id = ?1 \n" +
-            "  AND\n" +
-            "    t.is_paciente_alocado = TRUE", nativeQuery = true)
+            "WHERE t.psicologo_id = ?1 AND t.is_paciente_alocado = TRUE\n" +
+            "ORDER BY p.id, s.id DESC;", nativeQuery = true)
     List<PacienteAlocadoProjection> findAllPacientesAlocados(Integer psicologoId);
+
+    @Transactional(readOnly = true)
+    @Query(value = "SELECT A.\"idPaciente\",\n" +
+            "       A.\"nomeCompleto\",\n" +
+            "        A.celular1,\n" +
+            "        A.\"isWhatsapp1\",\n" +
+            "        A.celular2,\n" +
+            "        A.\"registroGeral\",\n" +
+            "        A.status\n" +
+            "FROM (SELECT DISTINCT ON (p.id) p.nome_completo  AS \"nomeCompleto\",\n" +
+            "                                         p.id             as \"idPaciente\",\n" +
+            "                                         CASE\n" +
+            "                                             WHEN s.is_cancelado = true AND s.motivo_cancelamento is not null\n" +
+            "                                                 THEN 'CANCELADO'\n" +
+            "                                             WHEN s.is_paciente_atendido = true AND s.feedback is not null\n" +
+            "                                                 THEN 'ATENDIDO'\n" +
+            "                                             WHEN s.id IS NULL AND t.id IS NULL\n" +
+            "                                                 THEN 'PENDENTE' -- Quando não há sessão, o status é \"Pendente\"\n" +
+            "                                             WHEN t.id IS NOT NULL and t.is_paciente_alocado = false THEN 'TRIAGEM'\n" +
+            "                                             WHEN t.id IS NOT NULL and t.is_paciente_alocado = true\n" +
+            "                                                 THEN 'EM ATENDIMENTO'\n" +
+            "                                             END          AS \"status\",\n" +
+            "                                         p.celular1,\n" +
+            "                                         p.is_whatsapp1   as \"isWhatsapp1\",\n" +
+            "                                         p.celular2,\n" +
+            "                                         p.registro_geral as \"registroGeral\"\n" +
+            "               FROM paciente p\n" +
+            "                        LEFT JOIN sessao s on p.id = s.paciente_id\n" +
+            "                        LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "               WHERE t.psicologo_id = ?1\n" +
+            "                 AND t.is_paciente_alocado = TRUE\n" +
+            "               ORDER BY p.id, s.id DESC\n" +
+            "               ) A\n" +
+            "    WHERE status = ?2 ;", nativeQuery = true)
+    List<PacienteAlocadoProjection> findAllPacientesAlocadosPorStatus(Integer psicologoId, String status);
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT DISTINCT ON (p.id)\n" +
@@ -92,8 +133,6 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "      FROM paciente p\n" +
             "               LEFT JOIN sessao s on p.id = s.paciente_id\n" +
             "               LEFT JOIN triagem t on p.id = t.paciente_id\n" +
-            "      WHERE t.id IS NOT NULL\n" +
-            "        and t.is_paciente_alocado = true\n" +
             "      ORDER BY p.id, s.id DESC\n" +
             "      ) A\n" +
             "WHERE status = ?1 ;", nativeQuery = true)
