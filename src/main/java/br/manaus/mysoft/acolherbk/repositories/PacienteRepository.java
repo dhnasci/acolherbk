@@ -73,7 +73,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "       A.celular1,\n" +
             "       A.\"isWhatsapp1\",\n" +
             "       A.celular2,\n" +
-            "       A.\"registroGeral\"\n" +
+            "       A.\"registroGeral\",\n" +
+            "       A.status \n" +
             "FROM (SELECT DISTINCT ON (p.id) p.nome_completo  AS \"nomeCompleto\",\n" +
             "                                p.id             as \"idPaciente\",\n" +
             "                                CASE\n" +
