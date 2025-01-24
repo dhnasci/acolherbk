@@ -244,6 +244,50 @@ public class PacienteController {
         }
     }
 
+    @GetMapping(value = "/triagem/atendidos/{psicologoId}")
+    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologoAtendidos(@PathVariable Integer psicologoId) {
+        try {
+            List<PacienteAlocadoDto> lista = service.buscarPacientesAlocadosAoPsicologoAtendidos(psicologoId);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/triagem/emAtendimento/{psicologoId}")
+    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologoEmAtendimento(@PathVariable Integer psicologoId) {
+        try {
+            List<PacienteAlocadoDto> lista = service.buscarPacientesAlocadosAoPsicologoEmAtendimento(psicologoId);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/triagem/emTriagem/{psicologoId}")
+    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologoEmTriagem(@PathVariable Integer psicologoId) {
+        try {
+            List<PacienteAlocadoDto> lista = service.buscarPacientesAlocadosAoPsicologoEmTriagem(psicologoId);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    @GetMapping(value = "/triagem/cancelados/{psicologoId}")
+    public ResponseEntity<Object> buscarPacientesAlocadosAoPsicologoCancelados(@PathVariable Integer psicologoId) {
+        try {
+            List<PacienteAlocadoDto> lista = service.buscarPacientesAlocadosAoPsicologoCancelados(psicologoId);
+            return ResponseEntity.ok().body(lista);
+        } catch (Exception e) {
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
     @PutMapping(value = "/{perfil}")
     public ResponseEntity<Object> update(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
         try {

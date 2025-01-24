@@ -111,6 +111,30 @@ public class PacienteService {
         return dtos;
     }
 
+    public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologoEmTriagem(Integer id) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocadosPorStatus(id, Status.TRIAGEM.getNome());
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologoEmAtendimento(Integer id) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocadosPorStatus(id, Status.EM_ATENDIMENTO.getNome());
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologoAtendidos(Integer id) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocadosPorStatus(id, Status.ATENDIDO.getNome());
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
+    public List<PacienteAlocadoDto> buscarPacientesAlocadosAoPsicologoCancelados(Integer id) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesAlocadosPorStatus(id, Status.CANCELADO.getNome());
+        List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
+        return dtos;
+    }
+
     private static List<PacienteAlocadoDto> getPacienteAlocadoDtos(List<PacienteAlocadoProjection> projections) {
         return projections.stream()
                 .map(projection -> PacienteAlocadoDto.builder()
