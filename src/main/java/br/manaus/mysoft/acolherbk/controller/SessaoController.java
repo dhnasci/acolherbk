@@ -158,11 +158,16 @@ public class SessaoController {
                 return ResponseEntity.badRequest().body(error);
             }
             Sessao sessao = sessaoOpt.get();
-            sessao.setIsPacienteAtendido(true);
-            sessao.setFeedback(conclusaoDto.getFeedback());
-            Sessao sessao1 = service.alterar(sessao);
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
-            return ResponseEntity.created(uri).body(sessao1);
+            if(sessao.getIsPacienteAtendido() == null) {
+                sessao.setIsPacienteAtendido(true);
+                sessao.setFeedback(conclusaoDto.getFeedback());
+                Sessao sessao1 = service.alterar(sessao);
+                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
+                return ResponseEntity.created(uri).body(sessao1);
+            } else {
+                StandardError mensagem = new StandardError(HttpStatus.ALREADY_REPORTED.value(), "Paciente já atendido!", System.currentTimeMillis());
+                return ResponseEntity.ok().body(mensagem);
+            }
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
@@ -178,12 +183,17 @@ public class SessaoController {
                 return ResponseEntity.badRequest().body(error);
             }
             Sessao sessao = sessaoOpt.get();
-            sessao.setIsCancelado(true);
-            sessao.setIsPacienteAtendido(false);
-            sessao.setMotivoCancelamento(conclusaoDto.getMotivoCancelamento());
-            Sessao sessao1 = service.alterar(sessao);
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
-            return ResponseEntity.created(uri).body(sessao1);
+            if (sessao.getIsCancelado() == null ) {
+                sessao.setIsCancelado(true);
+                sessao.setIsPacienteAtendido(false);
+                sessao.setMotivoCancelamento(conclusaoDto.getMotivoCancelamento());
+                Sessao sessao1 = service.alterar(sessao);
+                URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
+                return ResponseEntity.created(uri).body(sessao1);
+            } else {
+                StandardError mensagem = new StandardError(HttpStatus.ALREADY_REPORTED.value(), "Paciente já atendido!", System.currentTimeMillis());
+                return ResponseEntity.ok().body(mensagem);
+            }
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
