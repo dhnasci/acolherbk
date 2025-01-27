@@ -158,8 +158,9 @@ public class SessaoController {
                 return ResponseEntity.badRequest().body(error);
             }
             Sessao sessao = sessaoOpt.get();
-            if(sessao.getIsPacienteAtendido() == null) {
+            if(sessao.getFeedback() == null) {
                 sessao.setIsPacienteAtendido(true);
+                sessao.setIsCancelado(false);
                 sessao.setFeedback(conclusaoDto.getFeedback());
                 Sessao sessao1 = service.alterar(sessao);
                 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sessao1.getId()).toUri();
@@ -183,7 +184,7 @@ public class SessaoController {
                 return ResponseEntity.badRequest().body(error);
             }
             Sessao sessao = sessaoOpt.get();
-            if (sessao.getIsCancelado() == null ) {
+            if (sessao.getMotivoCancelamento() == null ) {
                 sessao.setIsCancelado(true);
                 sessao.setIsPacienteAtendido(false);
                 sessao.setMotivoCancelamento(conclusaoDto.getMotivoCancelamento());
