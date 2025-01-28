@@ -71,9 +71,10 @@ public class PacienteController {
                     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
                     return ResponseEntity.created(uri).body(reg);
                 } catch (DataIntegrityViolationException e) {
-                    Throwable sqlException = e.getCause();
-                    String msg = (sqlException != null) ? sqlException.getCause().getMessage() : e.getMessage();
-                    StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), msg, System.currentTimeMillis());
+                    StandardError error = new StandardError(HttpStatus.CONFLICT.value(), "Erro de nome de paciente duplicado!", System.currentTimeMillis());
+                    return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(error);
+                } catch (Exception e) {
+                    StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), String.format("%s - causa: %s", e.getMessage(), e.getCause().getMessage()), System.currentTimeMillis());
                     return ResponseEntity.badRequest().body(error);
                 }
             } else {
@@ -304,14 +305,20 @@ public class PacienteController {
         try {
             Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
             Genero genero = generoService.getByDescricao(registro.getGenero());
-            Paciente paciente = mapper.dtoToPaciente(registro, perfil, escolaridade, genero, null);
+            Paciente pacienteConsultado = service.find(registro.getId());
+            pacienteConsultado.setEscolaridadeid(escolaridade.getId());
+            pacienteConsultado.setGeneroid(genero.getId());
+            Paciente paciente = mapper.dtoToPaciente(registro, pacienteConsultado);
             service.update(paciente);
             return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            StandardError error = new StandardError(HttpStatus.CONFLICT.value(), "Erro de nome de paciente duplicado!", System.currentTimeMillis());
+            return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(error);
         } catch (Exception e) {
-            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), String.format("%s - causa: %s", e.getMessage(), e.getCause().getMessage()), System.currentTimeMillis());
             return ResponseEntity.badRequest().body(error);
         }
-    }
+     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
