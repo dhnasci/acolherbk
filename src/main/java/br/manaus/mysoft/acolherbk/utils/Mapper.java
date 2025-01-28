@@ -199,6 +199,23 @@ public class Mapper {
         return paciente;
     }
 
+    public  Paciente dtoToPaciente(PacienteDto registro, Paciente paciente) {
+        paciente.setNomeCompleto(registro.getNomeCompleto());
+        paciente.setCadastro(LocalDateTime.now());
+        paciente.setIdade(Integer.parseInt( (registro.getIdade()==null)? "0":registro.getIdade() ));
+        paciente.setCelular1(registro.getCelular1());
+        paciente.setCelular2(registro.getCelular2());
+        paciente.setIsWhatsapp1(Boolean.parseBoolean(registro.getIsWhatsapp1()));
+        paciente.setIsWhatsapp2(Boolean.parseBoolean(registro.getIsWhatsapp2()));
+        paciente.setNomeIndicacao(registro.getNomeIndicacao());
+        paciente.setJaFezTerapia(Boolean.parseBoolean(registro.getJaFezTerapia()));
+        paciente.setQueixa(registro.getQueixa());
+        paciente.setRegistroGeral(registro.getRegistroGeral());;
+        paciente.setProfissao(registro.getProfissao());
+        paciente.setRenda(Float.parseFloat( (registro.getRenda()==null)?"0.00":registro.getRenda() ));
+        return paciente;
+    }
+
     public PacienteDto pacienteToDto(Paciente paciente, String escolaridade, String genero) {
         PacienteDto dto = new PacienteDto();
         dto.setNomeCompleto(paciente.getNomeCompleto());
