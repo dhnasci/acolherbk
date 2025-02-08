@@ -156,11 +156,12 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "        FROM paciente p\n" +
             "                 LEFT JOIN sessao s on p.id = s.paciente_id\n" +
             "                 LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "            WHERE EXTRACT(YEAR FROM p.cadastro) = ?1 \n" +
             "        ORDER BY p.id, s.id DESC\n" +
             "         ) A\n" +
             "GROUP BY status\n" +
             "ORDER BY status;", nativeQuery = true)
-    List<StatusAtendimentoProjection> getAllStatusAtendimento();
+    List<StatusAtendimentoProjection> getAllStatusAtendimento(Integer ano);
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT\n" +
@@ -173,8 +174,9 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "        --ELSE 'Idade inválida'\n" +
             "        END AS faixaetaria,\n" +
             "    COUNT(*) AS quantidade\n" +
-            "FROM paciente\n" +
+            "FROM paciente \n" +
+            "    WHERE EXTRACT(YEAR FROM cadastro) =?1 \n" +
             "GROUP BY faixaetaria\n" +
             "ORDER BY quantidade DESC;", nativeQuery = true)
-    List<FaixaEtariaDistribuicaoProjection> getAllDistribuicaoFaixaEtaria();
+    List<FaixaEtariaDistribuicaoProjection> getAllDistribuicaoFaixaEtaria(Integer ano);
 }

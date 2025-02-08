@@ -331,10 +331,10 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/graficoStatusAtendimento", produces = "application/json")
-    public ResponseEntity<Object> obterGraficoStatusAtendimento() {
+    @GetMapping(value = "/graficoStatusAtendimento/{ano}", produces = "application/json")
+    public ResponseEntity<Object> obterGraficoStatusAtendimento(@PathVariable Integer ano) {
         try {
-            ChartDto grafico = service.obterStatusAtendimentoParaGrafico();
+            ChartDto grafico = service.obterStatusAtendimentoParaGrafico(ano);
             return ResponseEntity.ok().body(grafico);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -342,10 +342,10 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria", produces = "application/json")
-    public ResponseEntity<Object> obterGraficoDistribuicaoFaixaEtaria() {
+    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria/{ano}", produces = "application/json")
+    public ResponseEntity<Object> obterGraficoDistribuicaoFaixaEtaria(@PathVariable Integer ano) {
         try {
-            ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico();
+            ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico(ano);
             return ResponseEntity.ok().body(grafico);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -353,11 +353,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/gettingTotals")
-    public ResponseEntity<Object> obterTotais() {
+    @GetMapping(value = "/gettingTotals/{ano}")
+    public ResponseEntity<Object> obterTotais(@PathVariable Integer ano) {
 
         try {
-            TotalDto totais = service.obterTotais();
+            TotalDto totais = service.obterTotais(ano);
             return ResponseEntity.ok().body(totais);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
