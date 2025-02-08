@@ -1,7 +1,9 @@
 package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Paciente;
+import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.dto.*;
+import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.enums.Status;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
@@ -94,13 +96,13 @@ public class PacienteService {
         return dtos;
     }
 
-    public ChartDto obterStatusAtendimentoParaGrafico() {
-        List<StatusAtendimentoProjection> projections = repository.getAllStatusAtendimento();
+    public ChartDto obterStatusAtendimentoParaGrafico(Integer ano) {
+        List<StatusAtendimentoProjection> projections = repository.getAllStatusAtendimento(ano);
         return mapper.fromStatusAtendimentoToGrafico(projections);
     }
 
-    public ChartDto obterDistribuicaoFaixaEtariaParaGrafico() {
-        List<FaixaEtariaDistribuicaoProjection> projections = repository.getAllDistribuicaoFaixaEtaria();
+    public ChartDto obterDistribuicaoFaixaEtariaParaGrafico(Integer ano) {
+        List<FaixaEtariaDistribuicaoProjection> projections = repository.getAllDistribuicaoFaixaEtaria(ano);
         return mapper.fromDistribuicaoFaixaEtariaToGrafico(projections);
     }
 
@@ -177,9 +179,22 @@ public class PacienteService {
         }
     }
 
-    public TotalDto obterTotais() {
-        String numPacientes = String.valueOf(listar().size());
-        String numPsis = String.valueOf(psicologoService.listar().size());
+    public TotalDto obterTotais(Integer ano) {
+        String numPacientes = String.valueOf(filtrarPacientesPorAno(listar(),ano).size());
+        String numPsis = String.valueOf(filtrarPsicologosPorPerfil(psicologoService.listar()).size());
         return new TotalDto(  numPacientes, numPsis);
     }
+
+    public List<Paciente> filtrarPacientesPorAno(List<Paciente> pacientes, Integer ano) {
+        return pacientes.stream()
+                .filter(paciente -> paciente.getCadastro() != null && paciente.getCadastro().getYear() == ano)
+                .collect(Collectors.toList());
+    }
+
+    public List<Psicologo> filtrarPsicologosPorPerfil(List<Psicologo> psicologos) {
+        return psicologos.stream()
+                .filter(psicologo -> psicologo.getPerfil() == Perfil.PSICOLOGO)
+                .collect(Collectors.toList());
+    }
+
 }
