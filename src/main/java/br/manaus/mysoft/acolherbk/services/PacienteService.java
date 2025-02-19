@@ -1,5 +1,6 @@
 package br.manaus.mysoft.acolherbk.services;
 
+import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.dto.*;
@@ -94,13 +95,13 @@ public class PacienteService {
         return dtos;
     }
 
-    public ChartDto obterStatusAtendimentoParaGrafico(Integer ano) {
-        List<StatusAtendimentoProjection> projections = repository.getAllStatusAtendimento(ano);
+    public ChartDto obterStatusAtendimentoParaGrafico(Integer ano, Empresa empresa ) {
+        List<StatusAtendimentoProjection> projections = repository.getAllStatusAtendimento(ano, empresa.getId() );
         return mapper.fromStatusAtendimentoToGrafico(projections);
     }
 
-    public ChartDto obterDistribuicaoFaixaEtariaParaGrafico(Integer ano) {
-        List<FaixaEtariaDistribuicaoProjection> projections = repository.getAllDistribuicaoFaixaEtaria(ano);
+    public ChartDto obterDistribuicaoFaixaEtariaParaGrafico(Integer ano, Empresa empresa) {
+        List<FaixaEtariaDistribuicaoProjection> projections = repository.getAllDistribuicaoFaixaEtaria(ano, empresa.getId());
         return mapper.fromDistribuicaoFaixaEtariaToGrafico(projections);
     }
 
@@ -177,9 +178,9 @@ public class PacienteService {
         }
     }
 
-    public TotalDto obterTotais(Integer ano) {
+    public TotalDto obterTotais(Integer ano, Empresa empresa) {
         String numPacientes = String.valueOf(filtrarPacientesPorAno(listar(),ano).size());
-        String numPsis = String.valueOf(filtrarPsicologosPorPerfil(psicologoService.listar(1)).size());
+        String numPsis = String.valueOf(filtrarPsicologosPorPerfil(psicologoService.listar(empresa)).size());
         return new TotalDto(  numPacientes, numPsis);
     }
 

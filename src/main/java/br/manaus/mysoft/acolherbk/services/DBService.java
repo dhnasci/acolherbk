@@ -38,6 +38,9 @@ public class DBService {
     @Autowired
     HorarioPsiService horarioPsiService;
 
+    @Autowired
+    EmpresaService empresaService;
+
     private Logger log = LoggerFactory.getLogger(DBService.class);
 
     public void instantiateTestDatabase() throws PersistenciaException, ObjetoException {
@@ -167,8 +170,8 @@ public class DBService {
         }
     }
 
-    private boolean isPsicologoPopulado() {
-        return psicologoService.listar(1).size() > 0;
+    private boolean isPsicologoPopulado() throws ObjetoException {
+        return !psicologoService.listar(empresaService.find(1)).isEmpty();
     }
 
     public boolean isEscolaridadePopulado() {

@@ -1,5 +1,6 @@
 package br.manaus.mysoft.acolherbk.services;
 
+import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PsicologoRepository;
@@ -33,8 +34,8 @@ public class PsicologoService {
         );
     }
 
-    public List<Psicologo> listar(Integer empresaId) {
-        return repository.listarPorEmpresa(empresaId);
+    public List<Psicologo> listar(Empresa empresa) {
+        return repository.findPsicologosByEmpresa(empresa);
     }
 
     public List<Psicologo> buscarPeloNome(String nome) {

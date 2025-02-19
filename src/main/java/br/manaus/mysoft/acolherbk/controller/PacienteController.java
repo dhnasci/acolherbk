@@ -345,10 +345,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/graficoStatusAtendimento/{ano}", produces = "application/json")
-    public ResponseEntity<Object> obterGraficoStatusAtendimento(@PathVariable Integer ano) {
+    @GetMapping(value = "/graficoStatusAtendimento/{ano}/empresa/{login}", produces = "application/json")
+    public ResponseEntity<Object> obterGraficoStatusAtendimento(@PathVariable Integer ano, @PathVariable String login) {
         try {
-            ChartDto grafico = service.obterStatusAtendimentoParaGrafico(ano);
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            ChartDto grafico = service.obterStatusAtendimentoParaGrafico(ano, psicologo.getEmpresa());
             return ResponseEntity.ok().body(grafico);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -356,10 +357,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria/{ano}", produces = "application/json")
-    public ResponseEntity<Object> obterGraficoDistribuicaoFaixaEtaria(@PathVariable Integer ano) {
+    @GetMapping(value = "/graficoDistribuicaoFaixaEtaria/{ano}/empresa/{login}", produces = "application/json")
+    public ResponseEntity<Object> obterGraficoDistribuicaoFaixaEtaria(@PathVariable Integer ano, @PathVariable String login) {
         try {
-            ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico(ano);
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            ChartDto grafico = service.obterDistribuicaoFaixaEtariaParaGrafico(ano, psicologo.getEmpresa());
             return ResponseEntity.ok().body(grafico);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -367,11 +369,12 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/gettingTotals/{ano}")
-    public ResponseEntity<Object> obterTotais(@PathVariable Integer ano) {
+    @GetMapping(value = "/gettingTotals/{ano}/empresa/{login}")
+    public ResponseEntity<Object> obterTotais(@PathVariable Integer ano, @PathVariable String login) {
 
         try {
-            TotalDto totais = service.obterTotais(ano);
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            TotalDto totais = service.obterTotais(ano, psicologo.getEmpresa());
             return ResponseEntity.ok().body(totais);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
