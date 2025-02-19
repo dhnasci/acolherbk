@@ -40,8 +40,8 @@ public class PacienteService {
         );
     }
 
-    public List<Paciente> listar() {
-        return repository.findAll();
+    public List<Paciente> listar(Empresa empresa) {
+        return repository.findPacientesByEmpresa(empresa);
     }
 
     public List<Paciente> buscarPorNome(String nome) {
@@ -179,7 +179,7 @@ public class PacienteService {
     }
 
     public TotalDto obterTotais(Integer ano, Empresa empresa) {
-        String numPacientes = String.valueOf(filtrarPacientesPorAno(listar(),ano).size());
+        String numPacientes = String.valueOf(filtrarPacientesPorAno(listar(empresa),ano).size());
         String numPsis = String.valueOf(filtrarPsicologosPorPerfil(psicologoService.listar(empresa)).size());
         return new TotalDto(  numPacientes, numPsis);
     }

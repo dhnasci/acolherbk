@@ -1,6 +1,7 @@
 package br.manaus.mysoft.acolherbk.repositories;
 
 
+import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Paciente;
 import br.manaus.mysoft.acolherbk.dto.ChartDto;
 import br.manaus.mysoft.acolherbk.dto.FaixaEtariaDistribuicaoProjection;
@@ -160,8 +161,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "        FROM paciente p\n" +
             "                 LEFT JOIN sessao s on p.id = s.paciente_id\n" +
             "                 LEFT JOIN triagem t on p.id = t.paciente_id\n" +
-            "                   RIGHT JOIN empresa e on on e.id = p.empresa_id\n" +
-            "            WHERE EXTRACT(YEAR FROM p.cadastro) = ?1  p.empresa_id = ?2  \n" +
+            "                   RIGHT JOIN empresa e on e.id = p.empresa_id\n" +
+            "            WHERE EXTRACT(YEAR FROM p.cadastro) = ?1 AND p.empresa_id = ?2  \n" +
             "        ORDER BY p.id, s.id DESC\n" +
             "         ) A\n" +
             "GROUP BY status\n" +
@@ -184,4 +185,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "GROUP BY faixaetaria\n" +
             "ORDER BY quantidade DESC;", nativeQuery = true)
     List<FaixaEtariaDistribuicaoProjection> getAllDistribuicaoFaixaEtaria(Integer ano, Integer empresaId);
+
+    @Transactional(readOnly = true)
+    List<Paciente> findPacientesByEmpresa( Empresa empresa);
 }
