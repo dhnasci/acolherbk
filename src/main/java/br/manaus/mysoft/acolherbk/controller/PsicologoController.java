@@ -41,10 +41,11 @@ public class PsicologoController {
     private Logger log = LoggerFactory.getLogger(PsicologoController.class);
 
     @Autowired
-    public PsicologoController(PsicologoService service, HorarioPsiService horarioPsicologoService, EspecialidadePsicologoService especialidadePsicologoService) {
+    public PsicologoController(PsicologoService service, HorarioPsiService horarioPsicologoService, EspecialidadePsicologoService especialidadePsicologoService, EmpresaService empresaService) {
         this.service = service;
         this.horarioPsicologoService = horarioPsicologoService;
         this.especialidadePsicologoService = especialidadePsicologoService;
+        this.empresaService = empresaService;
     }
 
     @PostMapping(value = "/{perfil}")

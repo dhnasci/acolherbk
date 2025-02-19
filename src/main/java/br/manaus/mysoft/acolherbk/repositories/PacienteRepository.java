@@ -104,8 +104,10 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
             "FROM paciente p\n" +
             "         LEFT JOIN sessao s on p.id = s.paciente_id\n" +
             "         LEFT JOIN triagem t on p.id = t.paciente_id\n" +
+            "           RIGHT JOIN empresa e on e.id = p.empresa_id\n" +
+            "WHERE p.empresa_id = ?1 " +
             "ORDER BY p.id, s.id DESC;", nativeQuery = true)
-    List<PacienteAlocadoProjection> findAllPacientes();
+    List<PacienteAlocadoProjection> findAllPacientes(Integer idEmpresa);
 
 
     @Transactional(readOnly = true)

@@ -58,8 +58,8 @@ public class PacienteService {
         return repository.findPacientesByTriagemsIsPacienteAlocado(false);
     }
 
-    public List<PacienteAlocadoDto> listarTodosPacientes() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientes();
+    public List<PacienteAlocadoDto> listarTodosPacientes(Integer idEmpresa) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientes(idEmpresa);
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
