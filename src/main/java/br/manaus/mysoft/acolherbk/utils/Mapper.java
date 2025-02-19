@@ -140,7 +140,7 @@ public class Mapper {
         return triagem;
     }
 
-    public static Psicologo toPsicologo(PsicologoDto registro) {
+    public static Psicologo toPsicologo(PsicologoDto registro, Empresa empresa) {
         Psicologo psicologo = new Psicologo();
         psicologo.setId(registro.getId());
         psicologo.setNomeCompleto(registro.getNomeCompleto());
@@ -153,6 +153,7 @@ public class Mapper {
         psicologo.setIsWhatsapp1(Boolean.valueOf(registro.getIsWhatsapp1()));
         psicologo.setIsWhatsapp2(Boolean.valueOf(registro.getIsWhatsapp2()));
         psicologo.setEmail(registro.getEmail());
+        psicologo.setEmpresa(empresa);
         return psicologo;
     }
 

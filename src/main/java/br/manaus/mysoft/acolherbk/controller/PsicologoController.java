@@ -1,11 +1,13 @@
 package br.manaus.mysoft.acolherbk.controller;
 
+import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.dto.NomePsicologoDto;
 import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
 import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
+import br.manaus.mysoft.acolherbk.services.EmpresaService;
 import br.manaus.mysoft.acolherbk.services.EspecialidadePsicologoService;
 import br.manaus.mysoft.acolherbk.services.HorarioPsiService;
 import br.manaus.mysoft.acolherbk.services.PsicologoService;
@@ -34,6 +36,7 @@ public class PsicologoController {
     PsicologoService service;
     HorarioPsiService horarioPsicologoService;
     EspecialidadePsicologoService especialidadePsicologoService;
+    EmpresaService empresaService;
 
     private Logger log = LoggerFactory.getLogger(PsicologoController.class);
 
@@ -49,7 +52,8 @@ public class PsicologoController {
         Map<String, Object> response = new HashMap<>();
         if (!perfil.equals(Perfil.PSICOLOGO)) {
             try {
-                Psicologo psi = service.inserir(Mapper.toPsicologo(registro));
+                Empresa empresa = empresaService.find(registro.getEmpresaId());
+                Psicologo psi = service.inserir(Mapper.toPsicologo(registro, empresa));
                 response.put("psicologo", psi);
                 response.put("senha", service.getNovaSenha());
                 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(psi.getId()).toUri();
@@ -169,8 +173,9 @@ public class PsicologoController {
 
     @PutMapping
     public ResponseEntity<Object> atualizar(@RequestBody PsicologoDto dto) {
-        Psicologo psicologo = Mapper.toPsicologo(dto);
         try {
+            Empresa empresa = empresaService.find(dto.getEmpresaId());
+            Psicologo psicologo = Mapper.toPsicologo(dto, empresa);
             service.alterar(psicologo);
             return ResponseEntity.noContent().build();
         } catch (ObjetoException e) {
