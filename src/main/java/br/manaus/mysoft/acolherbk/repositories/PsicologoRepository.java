@@ -23,5 +23,9 @@ public interface PsicologoRepository extends JpaRepository<Psicologo, Integer> {
 
     @Transactional(readOnly = true)
     Psicologo findPsicologoByNomeCompleto(String nome);
+
+    // todo implementar
+    @Transactional(readOnly = true)
+    List<Psicologo> listarPorEmpresa(Integer empresaId);
 }
 

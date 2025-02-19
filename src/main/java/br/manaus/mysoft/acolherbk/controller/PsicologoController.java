@@ -5,9 +5,7 @@ import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.domain.StandardError;
 import br.manaus.mysoft.acolherbk.dto.NomePsicologoDto;
 import br.manaus.mysoft.acolherbk.dto.PsicologoDto;
-import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
-import br.manaus.mysoft.acolherbk.services.EmpresaService;
 import br.manaus.mysoft.acolherbk.services.EspecialidadePsicologoService;
 import br.manaus.mysoft.acolherbk.services.HorarioPsiService;
 import br.manaus.mysoft.acolherbk.services.PsicologoService;
@@ -26,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static br.manaus.mysoft.acolherbk.utils.Constantes.NAO_AUTORIZADO;
 import static br.manaus.mysoft.acolherbk.utils.Constantes.PSICOLOGO_NAO_ENCONTRADO;
 
 @RestController
@@ -36,24 +33,23 @@ public class PsicologoController {
     PsicologoService service;
     HorarioPsiService horarioPsicologoService;
     EspecialidadePsicologoService especialidadePsicologoService;
-    EmpresaService empresaService;
 
     private Logger log = LoggerFactory.getLogger(PsicologoController.class);
 
     @Autowired
-    public PsicologoController(PsicologoService service, HorarioPsiService horarioPsicologoService, EspecialidadePsicologoService especialidadePsicologoService, EmpresaService empresaService) {
+    public PsicologoController(PsicologoService service, HorarioPsiService horarioPsicologoService,
+                               EspecialidadePsicologoService especialidadePsicologoService) {
         this.service = service;
         this.horarioPsicologoService = horarioPsicologoService;
         this.especialidadePsicologoService = especialidadePsicologoService;
-        this.empresaService = empresaService;
     }
 
-    @PostMapping(value = "/{perfil}")
-    public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro, @PathVariable Perfil perfil) {
+    @PostMapping(value = "/{login}")
+    public ResponseEntity<Object> inserir(@RequestBody PsicologoDto registro, @PathVariable String login) {
         Map<String, Object> response = new HashMap<>();
-        if (!perfil.equals(Perfil.PSICOLOGO)) {
             try {
-                Empresa empresa = empresaService.find(registro.getEmpresaId());
+                Psicologo admin = service.buscarPeloLogin(login);
+                Empresa empresa = admin.getEmpresa();
                 Psicologo psi = service.inserir(Mapper.toPsicologo(registro, empresa));
                 response.put("psicologo", psi);
                 response.put("senha", service.getNovaSenha());
@@ -63,16 +59,13 @@ public class PsicologoController {
                 StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
                 return ResponseEntity.badRequest().body(error);
             }
-        } else {
-            StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), NAO_AUTORIZADO, System.currentTimeMillis());
-            return ResponseEntity.badRequest().body(error);
-        }
     }
 
-    @GetMapping
-    public ResponseEntity<Object> listar() {
+    @GetMapping(value = "/todos/{login}")
+    public ResponseEntity<Object> listar(@PathVariable String login) {
         try {
-            List<PsicologoDto> lista = toListaDto(service.listar());
+            Empresa empresa = service.buscarPeloLogin(login).getEmpresa();
+            List<PsicologoDto> lista = toListaDto(service.listar(empresa.getId()));
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -80,10 +73,11 @@ public class PsicologoController {
         }
     }
 
-    @GetMapping(value = "/nomes")
-    public ResponseEntity<Object> listarNomes() {
+    @GetMapping(value = "/nomes/{login}")
+    public ResponseEntity<Object> listarNomes(@PathVariable String login) {
         try {
-            List<NomePsicologoDto> lista = Mapper.preparaPsicologosNomes(service.listar());
+            Empresa empresa = service.buscarPeloLogin(login).getEmpresa();
+            List<NomePsicologoDto> lista = Mapper.preparaPsicologosNomes(service.listar(empresa.getId()));
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -172,10 +166,11 @@ public class PsicologoController {
         return ResponseEntity.ok().body(lista);
     }
 
-    @PutMapping
-    public ResponseEntity<Object> atualizar(@RequestBody PsicologoDto dto) {
+    @PutMapping(value = "/{login}")
+    public ResponseEntity<Object> atualizar(@RequestBody PsicologoDto dto, @PathVariable String login) {
         try {
-            Empresa empresa = empresaService.find(dto.getEmpresaId());
+            Psicologo admin = service.buscarPeloLogin(login);
+            Empresa empresa = admin.getEmpresa();
             Psicologo psicologo = Mapper.toPsicologo(dto, empresa);
             service.alterar(psicologo);
             return ResponseEntity.noContent().build();

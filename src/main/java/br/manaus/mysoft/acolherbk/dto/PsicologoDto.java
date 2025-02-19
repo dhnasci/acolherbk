@@ -24,5 +24,4 @@ public class PsicologoDto {
     private String crp;
     private List<String> especialidades;
     private List<String> horarios;
-    private Integer empresaId;
 }

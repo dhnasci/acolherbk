@@ -179,7 +179,7 @@ public class PacienteService {
 
     public TotalDto obterTotais(Integer ano) {
         String numPacientes = String.valueOf(filtrarPacientesPorAno(listar(),ano).size());
-        String numPsis = String.valueOf(filtrarPsicologosPorPerfil(psicologoService.listar()).size());
+        String numPsis = String.valueOf(filtrarPsicologosPorPerfil(psicologoService.listar(1)).size());
         return new TotalDto(  numPacientes, numPsis);
     }
 

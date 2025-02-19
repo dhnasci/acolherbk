@@ -168,7 +168,7 @@ public class DBService {
     }
 
     private boolean isPsicologoPopulado() {
-        return psicologoService.listar().size() > 0;
+        return psicologoService.listar(1).size() > 0;
     }
 
     public boolean isEscolaridadePopulado() {
