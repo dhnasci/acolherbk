@@ -39,11 +39,16 @@ public class PacienteController {
     EspecialidadePacienteService especialidadePacienteService;
     HorarioPacienteService horarioPacienteService;
     HorarioService horarioService;
+    EmpresaService empresaService;
 
     private Mapper mapper = new Mapper();
 
     @Autowired
-    public PacienteController(PacienteService service, PsicologoService psicologoService, EscolaridadeService escolaridadeService, ProfissaoService profissaoService, GeneroService generoService, EspecialidadeService especialidadeService, EspecialidadePacienteService especialidadePacienteService, HorarioPacienteService horarioPacienteService, HorarioService horarioService) {
+    public PacienteController(PacienteService service, PsicologoService psicologoService, EscolaridadeService escolaridadeService, ProfissaoService profissaoService,
+                              GeneroService generoService, EspecialidadeService especialidadeService,
+                              EspecialidadePacienteService especialidadePacienteService,
+                              HorarioPacienteService horarioPacienteService, HorarioService horarioService,
+    EmpresaService empresaService) {
         this.service = service;
         this.psicologoService = psicologoService;
         this.escolaridadeService = escolaridadeService;
@@ -53,12 +58,12 @@ public class PacienteController {
         this.especialidadePacienteService = especialidadePacienteService;
         this.horarioPacienteService = horarioPacienteService;
         this.horarioService = horarioService;
+        this.empresaService = empresaService;
     }
 
 
-    @PostMapping(value = "/{perfil}")
-    public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
-        if (!perfil.equals(Perfil.PSICOLOGO)) {
+    @PostMapping(value = "/{login}")
+    public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable String login) {
             if (registro.getNomeCompleto() != null && registro.getCelular1() !=null && registro.getRegistroGeral() != null && registro.getQueixa() != null) {
                 try {
                     if (registro.getEscolaridade() == null) {
@@ -69,7 +74,10 @@ public class PacienteController {
                     }
                     Escolaridade escolaridade = escolaridadeService.getByDescricao(registro.getEscolaridade());
                     Genero genero = generoService.getByDescricao(registro.getGenero());
-                    Paciente paciente = mapper.dtoToPaciente(registro, perfil, escolaridade, genero, null);
+                    Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+                    Paciente paciente = mapper.dtoToPaciente(registro, psicologo.getPerfil(), escolaridade, genero, null);
+                    Empresa empresa = empresaService.find(psicologo.getEmpresa().getId());
+                    paciente.setEmpresa(empresa);
                     Paciente reg = service.insert(paciente);
                     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(registro.getId()).toUri();
                     return ResponseEntity.created(uri).body(reg);
@@ -84,10 +92,6 @@ public class PacienteController {
                 StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), FALTA_PREENCHER_CAMPOS_OBRIGATORIOS, System.currentTimeMillis());
                 return ResponseEntity.badRequest().body(error);
             }
-        } else {
-            StandardError error = new StandardError(HttpStatus.UNAUTHORIZED.value(), PERFIL_NAO_AUTORIZADO, System.currentTimeMillis());
-            return ResponseEntity.badRequest().body(error);
-        }
     }
 
     private List<HorarioPaciente> converteHorarios(List<String> horarios, Paciente paciente) {
@@ -112,10 +116,11 @@ public class PacienteController {
         return especialidadePacientes;
     }
 
-    @GetMapping
-    public ResponseEntity<Object> listar() {
+    @GetMapping(value = "/todos/{login}")
+    public ResponseEntity<Object> listar(@PathVariable String login) {
         try {
-            List<PacienteAlocadoDto> lista = service.listarTodosPacientes();
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientes(psicologo.getEmpresa().getId());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
