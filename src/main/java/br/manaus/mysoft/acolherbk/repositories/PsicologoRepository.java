@@ -1,8 +1,10 @@
 package br.manaus.mysoft.acolherbk.repositories;
 
 
+import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +26,7 @@ public interface PsicologoRepository extends JpaRepository<Psicologo, Integer> {
     @Transactional(readOnly = true)
     Psicologo findPsicologoByNomeCompleto(String nome);
 
-    // todo implementar
     @Transactional(readOnly = true)
-    List<Psicologo> listarPorEmpresa(Integer empresaId);
+    List<Psicologo> findPsicologosByEmpresa(Empresa empresa);
 }
 

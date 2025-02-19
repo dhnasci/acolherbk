@@ -65,7 +65,7 @@ public class PsicologoController {
     public ResponseEntity<Object> listar(@PathVariable String login) {
         try {
             Empresa empresa = service.buscarPeloLogin(login).getEmpresa();
-            List<PsicologoDto> lista = toListaDto(service.listar(empresa.getId()));
+            List<PsicologoDto> lista = toListaDto(service.listar(empresa));
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -77,7 +77,7 @@ public class PsicologoController {
     public ResponseEntity<Object> listarNomes(@PathVariable String login) {
         try {
             Empresa empresa = service.buscarPeloLogin(login).getEmpresa();
-            List<NomePsicologoDto> lista = Mapper.preparaPsicologosNomes(service.listar(empresa.getId()));
+            List<NomePsicologoDto> lista = Mapper.preparaPsicologosNomes(service.listar(empresa));
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
