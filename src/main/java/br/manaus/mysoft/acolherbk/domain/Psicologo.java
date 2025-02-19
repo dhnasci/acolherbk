@@ -57,6 +57,10 @@ public class Psicologo {
     @Column(name = "cadastro")
     private LocalDateTime cadastro;
 
+    @ManyToOne
+    @JoinColumn(name= "empresa_id")
+    private Empresa empresa;
+
     @JsonIgnore
     @OneToMany(mappedBy = "psicologo")
     private List<EspecialidadePsicologo> especialidades;
