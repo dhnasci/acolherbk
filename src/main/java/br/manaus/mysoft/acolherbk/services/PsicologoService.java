@@ -33,8 +33,8 @@ public class PsicologoService {
         );
     }
 
-    public List<Psicologo> listar() {
-        return repository.findAll();
+    public List<Psicologo> listar(Integer empresaId) {
+        return repository.listarPorEmpresa(empresaId);
     }
 
     public List<Psicologo> buscarPeloNome(String nome) {
