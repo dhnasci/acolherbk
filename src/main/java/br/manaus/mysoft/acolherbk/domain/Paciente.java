@@ -86,4 +86,8 @@ public class Paciente {
     @OneToMany(mappedBy = "paciente")
     private List<Sessao> sessoes;
 
+    @ManyToOne
+    @JoinColumn(name="empresa_id")
+    private Empresa empresa;
+
 }

@@ -8,11 +8,9 @@ import br.manaus.mysoft.acolherbk.enums.Status;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PacienteRepository;
 import br.manaus.mysoft.acolherbk.utils.Mapper;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,32 +64,32 @@ public class PacienteService {
         return dtos;
     }
 
-    public List<PacienteAlocadoDto> listarTodosPacientesPendentes() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.PENDENTE.getNome());
+    public List<PacienteAlocadoDto> listarTodosPacientesPendentes(Integer idEmpresa) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(idEmpresa, Status.PENDENTE.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
-    public List<PacienteAlocadoDto> listarTodosPacientesAtendidos() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.ATENDIDO.getNome());
+    public List<PacienteAlocadoDto> listarTodosPacientesAtendidos(Integer idEmpresa) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(idEmpresa, Status.ATENDIDO.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
-    public List<PacienteAlocadoDto> listarTodosPacientesEmAtendimento() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.EM_ATENDIMENTO.getNome());
+    public List<PacienteAlocadoDto> listarTodosPacientesEmAtendimento(Integer idEmpresa) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(idEmpresa, Status.EM_ATENDIMENTO.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
-    public List<PacienteAlocadoDto> listarTodosPacientesCancelados() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.CANCELADO.getNome());
+    public List<PacienteAlocadoDto> listarTodosPacientesCancelados(Integer idEmpresa) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(idEmpresa, Status.CANCELADO.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }
 
-    public List<PacienteAlocadoDto> listarTodosPacientesEmTriagem() {
-        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(Status.TRIAGEM.getNome());
+    public List<PacienteAlocadoDto> listarTodosPacientesEmTriagem(Integer idEmpresa) {
+        List<PacienteAlocadoProjection> projections = repository.findAllPacientesPorStatus(idEmpresa, Status.TRIAGEM.getNome());
         List<PacienteAlocadoDto> dtos = getPacienteAlocadoDtos(projections);
         return dtos;
     }

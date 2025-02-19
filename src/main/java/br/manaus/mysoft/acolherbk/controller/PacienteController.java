@@ -31,6 +31,7 @@ public class PacienteController {
     private static final String PERFIL_NAO_AUTORIZADO = "Perfil não autorizado!";
 
     PacienteService service;
+    PsicologoService psicologoService;
     EscolaridadeService escolaridadeService;
     ProfissaoService profissaoService;
     GeneroService generoService;
@@ -42,8 +43,9 @@ public class PacienteController {
     private Mapper mapper = new Mapper();
 
     @Autowired
-    public PacienteController(PacienteService service, EscolaridadeService escolaridadeService, ProfissaoService profissaoService, GeneroService generoService, EspecialidadeService especialidadeService, EspecialidadePacienteService especialidadePacienteService, HorarioPacienteService horarioPacienteService, HorarioService horarioService) {
+    public PacienteController(PacienteService service, PsicologoService psicologoService, EscolaridadeService escolaridadeService, ProfissaoService profissaoService, GeneroService generoService, EspecialidadeService especialidadeService, EspecialidadePacienteService especialidadePacienteService, HorarioPacienteService horarioPacienteService, HorarioService horarioService) {
         this.service = service;
+        this.psicologoService = psicologoService;
         this.escolaridadeService = escolaridadeService;
         this.profissaoService = profissaoService;
         this.generoService = generoService;
@@ -52,6 +54,7 @@ public class PacienteController {
         this.horarioPacienteService = horarioPacienteService;
         this.horarioService = horarioService;
     }
+
 
     @PostMapping(value = "/{perfil}")
     public ResponseEntity<Object> inserir(@RequestBody PacienteDto registro, @PathVariable Perfil perfil) {
@@ -120,10 +123,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/atendidos")
-    public ResponseEntity<Object> listarAtendidos() {
+    @GetMapping(value = "/atendidos/{login}")
+    public ResponseEntity<Object> listarAtendidos(@PathVariable String login) {
         try {
-            List<PacienteAlocadoDto> lista = service.listarTodosPacientesAtendidos();
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesAtendidos(psicologo.getEmpresa().getId());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -131,10 +135,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/emTriagem")
-    public ResponseEntity<Object> listarEmTriagem() {
+    @GetMapping(value = "/emTriagem/{login}")
+    public ResponseEntity<Object> listarEmTriagem(@PathVariable String login) {
         try {
-            List<PacienteAlocadoDto> lista = service.listarTodosPacientesEmTriagem();
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesEmTriagem(psicologo.getEmpresa().getId());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -142,10 +147,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/cancelados")
-    public ResponseEntity<Object> listarCancelados() {
+    @GetMapping(value = "/cancelados/{login}")
+    public ResponseEntity<Object> listarCancelados(@PathVariable String login) {
         try {
-            List<PacienteAlocadoDto> lista = service.listarTodosPacientesCancelados();
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesCancelados(psicologo.getEmpresa().getId());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -153,10 +159,11 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/pendentes")
-    public ResponseEntity<Object> listarPendentes() {
+    @GetMapping(value = "/pendentes/{login}")
+    public ResponseEntity<Object> listarPendentes(@PathVariable String login) {
         try {
-            List<PacienteAlocadoDto> lista = service.listarTodosPacientesPendentes();
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesPendentes(psicologo.getEmpresa().getId());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -164,10 +171,12 @@ public class PacienteController {
         }
     }
 
-    @GetMapping(value = "/emAtendimento")
-    public ResponseEntity<Object> listarEmAtendimento() {
+    @GetMapping(value = "/emAtendimento/{login}")
+    public ResponseEntity<Object> listarEmAtendimento(@PathVariable String login) {
+
         try {
-            List<PacienteAlocadoDto> lista = service.listarTodosPacientesEmAtendimento();
+            Psicologo psicologo = psicologoService.buscarPeloLogin(login);
+            List<PacienteAlocadoDto> lista = service.listarTodosPacientesEmAtendimento(psicologo.getEmpresa().getId());
             return ResponseEntity.ok().body(lista);
         } catch (Exception e) {
             StandardError error = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
