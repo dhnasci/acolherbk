@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.repositories;
 
 import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
+import br.manaus.mysoft.acolherbk.enums.Perfil;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -27,6 +28,6 @@ public interface PsicologoRepository extends JpaRepository<Psicologo, Integer> {
     Psicologo findPsicologoByNomeCompleto(String nome);
 
     @Transactional(readOnly = true)
-    List<Psicologo> findPsicologosByEmpresa(Empresa empresa);
+    List<Psicologo> findPsicologosByEmpresaAndPerfil(Empresa empresa, Perfil perfil);
 }
 
