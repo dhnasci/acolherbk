@@ -2,6 +2,7 @@ package br.manaus.mysoft.acolherbk.services;
 
 import br.manaus.mysoft.acolherbk.domain.Empresa;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
+import br.manaus.mysoft.acolherbk.enums.Perfil;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PsicologoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class PsicologoService {
     }
 
     public List<Psicologo> listar(Empresa empresa) {
-        return repository.findPsicologosByEmpresa(empresa);
+        return repository.findPsicologosByEmpresaAndPerfil(empresa, Perfil.PSICOLOGO);
     }
 
     public List<Psicologo> buscarPeloNome(String nome) {
