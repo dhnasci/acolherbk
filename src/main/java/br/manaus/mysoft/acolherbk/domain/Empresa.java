@@ -29,6 +29,7 @@ public class Empresa {
     private Boolean pago;
     private LocalDate cadastro;
     private Integer vencimento;
+    private String token;
 
     @JsonIgnore
     @OneToMany(mappedBy = "empresa")
