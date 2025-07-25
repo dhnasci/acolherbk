@@ -13,13 +13,6 @@ services:
     networks:
       - acolher-network
 
-volumes:
-  postgres_data:
-
-networks:
-  acolher-network:
-    driver: bridge
-
   app:
     build:
       context: .
@@ -35,4 +28,11 @@ networks:
       SPRING_DATASOURCE_PASSWORD: acolhersenha
     networks:
       - acolher-network
+
+volumes:
+  postgres_data:
+
+networks:
+  acolher-network:
+    driver: bridge
 
