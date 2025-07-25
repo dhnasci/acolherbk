@@ -33,5 +33,5 @@ volumes:
   postgres_data:
 
 networks:
-  acolher_network:
+  acolher-network:
     driver: bridge
