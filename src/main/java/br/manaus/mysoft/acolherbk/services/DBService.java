@@ -177,10 +177,14 @@ public class DBService {
             try {
                 psicologoService.inserir(psicologo);
                 String senha = "senha :: " + psicologoService.getNovaSenha();
-                System.out.println(senha);
+                log.info(senha);
             } catch (Exception e) {
                 throw new PersistenciaException("Erro ao salvar psicologo", e);
             }
+        } else {
+            Psicologo psi = psicologoService.buscarPeloLogin("edilce");
+            psicologoService.reset(psi);
+            log.info(String.format("reset senha de edilce :: %s",  psicologoService.getNovaSenha()));
         }
     }
 
