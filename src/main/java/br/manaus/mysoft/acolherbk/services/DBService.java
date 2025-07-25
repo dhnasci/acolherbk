@@ -150,6 +150,7 @@ public class DBService {
             }
         }
 
+        log.info("especialidades criadas");
         if (!isHorarioPopulado()) {
             log.info("criando horarios");
             Horario horario1 = new Horario(DayOfWeek.TUESDAY, Turno.MANHA);
@@ -222,8 +223,8 @@ public class DBService {
         return especialidadeService.listar().size() > 0;
     }
 
-    public boolean isHorarioPopulado() throws ObjetoException {
-        return horarioService.find(1)!=null;
+    public boolean isHorarioPopulado() {
+        return horarioService.listar().size() > 0;
     }
 
     public boolean isGeneroPopulado() {
