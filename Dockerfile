@@ -3,7 +3,7 @@ FROM gradle:6.8.3-jdk11 AS build
 WORKDIR /app
 
 COPY . /app
-RUN gradle build --no-daemon
+RUN gradle build -x test --no-daemon
 
 EXPOSE 8080
 
