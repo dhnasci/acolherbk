@@ -36,9 +36,9 @@ dependencies {
 }
 
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/postgres'
-    user = 'postgres'
-    password = 'minhaFita17!'
+    url = System.getenv("SPRING_DATASOURCE_URL") ?: 'jdbc:postgresql://localhost:5432/acolher'
+    user = System.getenv("SPRING_DATASOURCE_USERNAME") ?: 'postgres'
+    password = System.getenv("SPRING_DATASOURCE_PASSWORD") ?: 'minhaFita17!'
     locations = ['classpath:db/migration']
 }
 
