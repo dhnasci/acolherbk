@@ -67,6 +67,10 @@ public class Paciente {
     @Column(name = "escolaridade_id")
     private Integer escolaridadeid;
 
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
+
     @JsonIgnore
     @OneToMany(mappedBy = "paciente")
     private List<EspecialidadePaciente> especialidades;

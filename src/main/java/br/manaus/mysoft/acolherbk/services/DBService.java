@@ -21,6 +21,9 @@ public class DBService {
     EscolaridadeService escolaridadeService;
 
     @Autowired
+    EmpresaService empresaService;
+
+    @Autowired
     EspecialidadeService especialidadeService;
 
     @Autowired
@@ -43,6 +46,19 @@ public class DBService {
     public void instantiateTestDatabase() throws PersistenciaException, ObjetoException {
         log.info("Iniciando dados");
 
+        if (!isEmpresaPopulada()) {
+            Empresa empresa1 = new Empresa();
+            empresa1.setNome("Sistema Acolher");
+            empresa1.setCnpjcpf("00000000000000");
+            empresa1.setEmail("edilce@gmail.com");
+            empresa1.setPago(true);
+            empresa1.setVencimento(1);
+            empresa1.setEndereco("Rua aqui, 25 - Aqui perto");
+            empresa1.setCadastro(LocalDateTime.now());
+            empresa1.setToken("bbf335d2-f0c6-4dc2-8b30-8d0058073030");
+            empresa1.setUsuario("edilce");
+            empresaService.inserir(empresa1);
+        }
         if (!isEscolaridadePopulado()) {
             Escolaridade escolaridade1 = new Escolaridade("Básico");
             Escolaridade escolaridade2 = new Escolaridade("Fundamental");
@@ -154,17 +170,22 @@ public class DBService {
             psicologo.setPerfil(Perfil.ADMIN);
             psicologo.setCelular1("92 98109-1934");
             psicologo.setIsWhatsapp1(false);
+            psicologo.setEmpresa(empresaService.acharPeloId(1));
             psicologo.setCadastro(LocalDateTime.now());
             psicologo.setCrp("20/08155");
             psicologo.setEmail("edilceangel@gmail.com");
             try {
                 psicologoService.inserir(psicologo);
                 String senha = "senha :: " + psicologoService.getNovaSenha();
-                log.info(senha);
+                System.out.println(senha);
             } catch (Exception e) {
                 throw new PersistenciaException("Erro ao salvar psicologo", e);
             }
         }
+    }
+
+    private boolean isEmpresaPopulada() {
+        return empresaService.listarEmpresas().size() > 0;
     }
 
     private boolean isPsicologoPopulado() {
