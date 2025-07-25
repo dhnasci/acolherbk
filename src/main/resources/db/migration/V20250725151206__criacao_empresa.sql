@@ -17,7 +17,3 @@ create table empresa
             check ((vencimento >= 1) AND (vencimento <= 31)),
     token      varchar(36) default '0000-0000'::character varying not null
 );
-
-alter table empresa
-    owner to postgres;
-
