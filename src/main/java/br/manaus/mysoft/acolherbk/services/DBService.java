@@ -47,6 +47,7 @@ public class DBService {
         log.info("Iniciando dados");
 
         if (!isEmpresaPopulada()) {
+            log.info("criando empresa");
             Empresa empresa1 = new Empresa();
             empresa1.setNome("Sistema Acolher");
             empresa1.setCnpjcpf("00000000000000");
@@ -59,7 +60,9 @@ public class DBService {
             empresa1.setUsuario("edilce");
             empresaService.inserir(empresa1);
         }
+        log.info("empresa criada");
         if (!isEscolaridadePopulado()) {
+            log.info("criando escolaridade");
             Escolaridade escolaridade1 = new Escolaridade("Básico");
             Escolaridade escolaridade2 = new Escolaridade("Fundamental");
             Escolaridade escolaridade3 = new Escolaridade("Médio");
@@ -75,19 +78,23 @@ public class DBService {
                         escolaridade7, escolaridade8
                 ));
             } catch (Exception e) {
+                log_erro("Escolaridade",e);
                 throw new PersistenciaException("Erro Escolaridade", e);
             }
         }
         if (!isGeneroPopulado()) {
+            log.info("criando generos");
             Genero genero1 = new Genero("Masculino");
             Genero genero2 = new Genero("Feminino");
             try {
                 generoService.salvar(Arrays.asList(genero1, genero2));
             } catch (Exception e) {
+                log_erro("genero", e);
                 throw new PersistenciaException("Erro ao salvar generos", e);
             }
         }
         if (!isProfissaoPopulado()) {
+            log.info("criando profissão");
             Profissao profissao1 = new Profissao("Medicina");
             Profissao profissao2 = new Profissao("Engenharia");
             Profissao profissao3 = new Profissao("Advocacia");
@@ -121,11 +128,13 @@ public class DBService {
                         profissao16, profissao17, profissao18, profissao19, profissao20, profissao21,
                         profissao22, profissao23, profissao24, profissao25));
             } catch (Exception e) {
+                log_erro("profissoes", e);
                 throw new PersistenciaException("Erros ao salvar profissões", e);
             }
 
         }
         if (!isEspecialidadePopulado()){
+            log.info("criando especialidades");
             Especialidade especialidade1 = new Especialidade("Infantil");
             Especialidade especialidade2 = new Especialidade("Adictos");
             Especialidade especialidade3 = new Especialidade("Idosos");
@@ -136,11 +145,13 @@ public class DBService {
                 especialidadeService.salvar(Arrays.asList(especialidade1, especialidade2,
                         especialidade3, especialidade4, especialidade5, especialidade6));
             } catch (Exception e) {
+                log_erro("especialidades", e);
                 throw new PersistenciaException("Erro ao salvar especialidades", e);
             }
         }
 
         if (!isHorarioPopulado()) {
+            log.info("criando horarios");
             Horario horario1 = new Horario(DayOfWeek.TUESDAY, Turno.MANHA);
             Horario horario2 = new Horario(DayOfWeek.TUESDAY, Turno.TARDE);
             Horario horario3 = new Horario(DayOfWeek.TUESDAY, Turno.NOITE);
@@ -158,12 +169,14 @@ public class DBService {
                         horario5, horario6, horario7, horario8, horario9, horario13, horario14, horario15
                 ));
             } catch (Exception e) {
+                log_erro("horarios", e);
                 throw new PersistenciaException("Erro ao salvar horarios", e);
             }
 
         }
 
         if (!isPsicologoPopulado()) {
+            log.info("criando psicologo");
             Psicologo psicologo = new Psicologo();
             psicologo.setNomeCompleto("Edilce Menezes");
             psicologo.setLogin("edilce");
@@ -179,6 +192,7 @@ public class DBService {
                 String senha = "senha :: " + psicologoService.getNovaSenha();
                 log.info(senha);
             } catch (Exception e) {
+                log_erro("psicologo", e);
                 throw new PersistenciaException("Erro ao salvar psicologo", e);
             }
         } else {
@@ -186,6 +200,10 @@ public class DBService {
             psicologoService.reset(psi);
             log.info(String.format("reset senha de edilce :: %s",  psicologoService.getNovaSenha()));
         }
+    }
+
+    private void log_erro(String nome, Exception e) {
+        log.error(String.format("Erro ao criar %s :: %s", nome, e.getMessage()));
     }
 
     private boolean isEmpresaPopulada() {
