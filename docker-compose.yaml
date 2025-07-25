@@ -1,12 +1,11 @@
-version: "3.8"
 services:
   db:
     image: postgres:16
     container_name: acolher-postgres
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: minhaFita17!
+      POSTGRES_DB: acolher
+      POSTGRES_USER: acolheruser
+      POSTGRES_PASSWORD: acolhersenha
     ports:
       - "5432:5432"
     volumes:
@@ -24,8 +23,14 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: minhaFita17!
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/acolher
+      SPRING_DATASOURCE_USERNAME: acolheruser
+      SPRING_DATASOURCE_PASSWORD: acolhersenha
     networks:
       - acolher-network
+volumes:
+  postgres_data:
+
+networks:
+  acolher_network:
+    driver: bridge
