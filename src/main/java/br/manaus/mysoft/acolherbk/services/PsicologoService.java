@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static br.manaus.mysoft.acolherbk.utils.Constantes.PSICOLOGO_NAO_ENCONTRADO;
-import static br.manaus.mysoft.acolherbk.utils.Constantes.TAMANHO_SENHA;
-import static br.manaus.mysoft.acolherbk.utils.Constantes.CHARACTERS;
+import static br.manaus.mysoft.acolherbk.utils.Constantes.*;
 
 @Service
 public class PsicologoService {
@@ -27,6 +25,7 @@ public class PsicologoService {
     private BCryptPasswordEncoder bcrypt;
 
     private String novaSenha;
+
     private static SecureRandom secureRandom = new SecureRandom();
 
     public Psicologo find(Integer id) throws ObjetoException {
@@ -88,7 +87,7 @@ public class PsicologoService {
         try {
             repository.deleteById(id);
         } catch (Exception e) {
-            throw new ObjetoException("Erro ao apagar Psicólogo(a)");
+            throw new ObjetoException(ERRO_APAGAR_PSICOLOGO);
         }
     }
 

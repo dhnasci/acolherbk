@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static br.manaus.mysoft.acolherbk.utils.Constantes.ERRO_APAGAR_PSICOLOGO;
 import static br.manaus.mysoft.acolherbk.utils.Constantes.PSICOLOGO_NAO_ENCONTRADO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class PsicologoServiceTest {
 
@@ -50,7 +50,8 @@ class PsicologoServiceTest {
         inicio = LocalDateTime.now();
         fim = inicio.plusDays(2);
         when(repository.save(psicologo1)).thenReturn(psicologo1);
-        when(bcrypt.encode(service.getNovaSenha())).thenReturn(anyString());
+        when(repository.save(psicologo2)).thenReturn(psicologo2);
+        when(bcrypt.encode(service.getNovaSenha())).thenReturn("ueiufidj3");
     }
 
     @Test
@@ -109,31 +110,56 @@ class PsicologoServiceTest {
     @Test
     void reset() {
         service.reset(psicologo1);
-        assertNull(bcrypt.encode(anyString()));
         verify(repository).save(psicologo1);
     }
 
     @Test
-    void alterar() {
+    void alterar() throws ObjetoException {
+        when(psicologo2.getId()).thenReturn(1);
+        Optional<Psicologo> psicologoOpt = Optional.of(psicologo2);
+        when(repository.findById(1)).thenReturn(psicologoOpt);
+        Psicologo resp = service.alterar(psicologo2);
+        assertNotNull(resp);
     }
 
     @Test
-    void apagar() {
+    void apagar() throws ObjetoException {
+        service.apagar(1);
+        verify(repository).deleteById(1);
+    }
+
+    @Test
+    void naoApagar() {
+        doThrow(new RuntimeException(ERRO_APAGAR_PSICOLOGO)).when(repository).deleteById(2);
+
+        ObjetoException ex = assertThrows(ObjetoException.class, () -> service.apagar(2));
+        assertEquals(ERRO_APAGAR_PSICOLOGO, ex.getMessage());
     }
 
     @Test
     void getNovaSenha() {
+        String senha = service.getNovaSenha();
+        assertNull(senha);
     }
 
     @Test
     void setNovaSenha() {
+        service.setNovaSenha("senhaNova");
+        assertNotNull(service.getNovaSenha());
     }
 
     @Test
     void buscarPeloLogin() {
+        when(repository.findPsicologoByLogin("fulano")).thenReturn(psicologo1);
+        Psicologo psi = service.buscarPeloLogin("fulano");
+        assertEquals(psicologo1, psi);
     }
 
     @Test
-    void obterPeloNomeCompleto() {
+    void obterPeloNomeCompleto() throws ObjetoException {
+        when(repository.findPsicologoByNomeCompleto("beltrano")).thenReturn(psicologo2);
+        Psicologo resp = service.obterPeloNomeCompleto("beltrano");
+        assertEquals(psicologo2, resp);
+
     }
 }
