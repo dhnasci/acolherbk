@@ -12,5 +12,5 @@ public class Constantes {
     public static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";
     public static final String INFORMACOES_INSUFICIENTES = "Informações insuficientes";
     public static final String PIPE = ",";
-
+    public static final String ERRO_APAGAR_PACIENTE = "Erro ao apagar Paciente";
 }

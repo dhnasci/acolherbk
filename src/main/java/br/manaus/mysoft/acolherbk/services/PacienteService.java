@@ -16,8 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static br.manaus.mysoft.acolherbk.utils.Constantes.ERRO_APAGAR_PACIENTE;
+
 @Service
 public class PacienteService {
+
 
     @Autowired
     PacienteRepository repository;
@@ -74,7 +77,7 @@ public class PacienteService {
         try {
             repository.deleteById(id);
         } catch (Exception e) {
-            throw new ObjetoException("Erro ao apagar Paciente");
+            throw new ObjetoException(ERRO_APAGAR_PACIENTE);
         }
     }
 }
