@@ -54,7 +54,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Collection<? extends GrantedAuthority> authorities = ((UserSS) authResult.getPrincipal()).getAuthorities();
         String perfil = "";
         if (!authorities.equals(null)) {
-            for (var authority : authorities) {
+            for (GrantedAuthority authority : authorities) {
                 perfil = authority.getAuthority();
                 break;
             }

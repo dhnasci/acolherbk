@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Psicologo psicologo = repository.findPsicologoByLogin(login);
-        if (psicologo.equals(null)) {
+        if (psicologo == null) {
             throw new UsernameNotFoundException(PSICOLOGO_NAO_ENCONTRADO);
         }
         List<Perfil> perfis = new ArrayList<>();

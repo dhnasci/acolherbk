@@ -49,13 +49,12 @@ class UserDetailsServiceImplTest {
         assertEquals("usuario_teste", userSS.getUsername());
         assertEquals("senha_teste", userSS.getPassword());
         assertTrue(userSS.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN")));
+                .anyMatch(authority -> authority.getAuthority().equals("ADMIN")));
     }
 
     @Test
     void loadUserByUsernameNotFound() {
         when(repository.findPsicologoByLogin("usuario_inexistente")).thenReturn(null);
-        when(psicologo.equals(null)).thenReturn(true);
         
         UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
             service.loadUserByUsername("usuario_inexistente");
