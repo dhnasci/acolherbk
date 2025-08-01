@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "nomeCompleto": "Psicologo Teste",
+    "celular1": "92999999999",
+    "isWhatsapp1": true,
+    "celular2": "92988888888",
+    "isWhatsapp2": false,
+    "login": "psicologo",
+    "senha": "$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG",
+    "perfil": "PSICOLOGO",
+    "crp": "12345",
+    "email": "psicologo@teste.com",
+    "cadastro": "2023-01-01T10:00:00",
+    "empresa": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "nomeCompleto": "Admin Teste",
+    "celular1": "92977777777",
+    "isWhatsapp1": true,
+    "celular2": null,
+    "isWhatsapp2": null,
+    "login": "admin",
+    "senha": "$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG",
+    "perfil": "ADMIN",
+    "crp": null,
+    "email": "admin@teste.com",
+    "cadastro": "2023-01-01T10:00:00",
+    "empresa": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "nomeCompleto": "Triagem Teste",
+    "celular1": "92966666666",
+    "isWhatsapp1": true,
+    "celular2": null,
+    "isWhatsapp2": null,
+    "login": "triagem",
+    "senha": "$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG",
+    "perfil": "TRIAGEM",
+    "crp": null,
+    "email": "triagem@teste.com",
+    "cadastro": "2023-01-01T10:00:00",
+    "empresa": {
+      "id": 1
+    }
+  }
+]

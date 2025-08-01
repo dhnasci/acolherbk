@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "especialidade": {
+      "id": 1
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "especialidade": {
+      "id": 2
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "especialidade": {
+      "id": 3
+    },
+    "paciente": {
+      "id": 2
+    }
+  }
+]

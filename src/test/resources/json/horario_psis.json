@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "horario": {
+      "id": 1
+    },
+    "psicologo": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "horario": {
+      "id": 2
+    },
+    "psicologo": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "horario": {
+      "id": 3
+    },
+    "psicologo": {
+      "id": 1
+    }
+  },
+  {
+    "id": 4,
+    "horario": {
+      "id": 4
+    },
+    "psicologo": {
+      "id": 1
+    }
+  },
+  {
+    "id": 5,
+    "horario": {
+      "id": 5
+    },
+    "psicologo": {
+      "id": 1
+    }
+  }
+]

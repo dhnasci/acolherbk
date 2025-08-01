@@ -34,8 +34,18 @@ public class Mapper {
     }
 
     public static LocalDateTime converteParaData(String inicio) {
-        DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return LocalDateTime.parse(inicio, formatoDia);
+        try {
+            DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return LocalDateTime.parse(inicio, formatoDia);
+        } catch (Exception e) {
+            try {
+                // Tenta o formato yyyy-MM-dd usado nos testes
+                DateTimeFormatter formatoAlternativo = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return LocalDateTime.parse(inicio + "T00:00:00");
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Formato de data inválido: " + inicio);
+            }
+        }
     }
 
     public static List<String> preparaEscolaridade(List<Escolaridade> lista) {

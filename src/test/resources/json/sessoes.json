@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "numeroSessao": 1,
+    "isPacienteAtendido": true,
+    "diaAgendado": "2023-01-15T14:00:00",
+    "loginPsicologo": "psicologo",
+    "feedback": "Paciente compareceu e participou ativamente da sessão.",
+    "motivoCancelamento": null,
+    "isCancelado": false,
+    "psicologo": {
+      "id": 1
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "numeroSessao": 2,
+    "isPacienteAtendido": false,
+    "diaAgendado": "2023-01-22T14:00:00",
+    "loginPsicologo": "psicologo",
+    "feedback": null,
+    "motivoCancelamento": "Paciente não compareceu",
+    "isCancelado": true,
+    "psicologo": {
+      "id": 1
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "numeroSessao": 1,
+    "isPacienteAtendido": true,
+    "diaAgendado": "2023-01-16T10:00:00",
+    "loginPsicologo": "psicologo",
+    "feedback": "Primeira sessão realizada com sucesso.",
+    "motivoCancelamento": null,
+    "isCancelado": false,
+    "psicologo": {
+      "id": 1
+    },
+    "paciente": {
+      "id": 2
+    }
+  }
+]

@@ -13,4 +13,5 @@ public class Constantes {
     public static final String INFORMACOES_INSUFICIENTES = "Informações insuficientes";
     public static final String PIPE = ",";
     public static final String ERRO_APAGAR_PACIENTE = "Erro ao apagar Paciente";
+    public static final String ERRO_APAGAR_SESSAO = "Erro ao apagar Sessão";
 }

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "nome": "Sistema Acolher",
+    "cnpjcpf": "00000000000000",
+    "usuario": "edilce",
+    "email": "edilce@gmail.com",
+    "endereco": "Rua aqui, 25 - Aqui perto",
+    "pago": true,
+    "cadastro": "2023-01-01T10:00:00",
+    "vencimento": 1,
+    "token": "bbf335d2-f0c6-4dc2-8b30-8d0058073030"
+  }
+]

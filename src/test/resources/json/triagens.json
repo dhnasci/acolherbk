@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "isPacienteAlocado": true,
+    "diaAlocacao": "2023-01-10T14:00:00",
+    "loginAlocador": "triagem",
+    "isCancelado": false,
+    "psicologo": {
+      "id": 1
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "isPacienteAlocado": false,
+    "diaAlocacao": null,
+    "loginAlocador": null,
+    "isCancelado": false,
+    "psicologo": null,
+    "paciente": {
+      "id": 2
+    }
+  }
+]

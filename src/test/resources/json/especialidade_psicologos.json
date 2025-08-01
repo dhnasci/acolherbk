@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "especialidade": {
+      "id": 1
+    },
+    "psicologo": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "especialidade": {
+      "id": 2
+    },
+    "psicologo": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "especialidade": {
+      "id": 3
+    },
+    "psicologo": {
+      "id": 1
+    }
+  }
+]

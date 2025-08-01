@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "horario": {
+      "id": 1
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "horario": {
+      "id": 2
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 3,
+    "horario": {
+      "id": 3
+    },
+    "paciente": {
+      "id": 1
+    }
+  },
+  {
+    "id": 4,
+    "horario": {
+      "id": 4
+    },
+    "paciente": {
+      "id": 2
+    }
+  },
+  {
+    "id": 5,
+    "horario": {
+      "id": 5
+    },
+    "paciente": {
+      "id": 2
+    }
+  }
+]

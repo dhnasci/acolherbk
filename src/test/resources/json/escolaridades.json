@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "descricao": "Básico"
+  },
+  {
+    "id": 2,
+    "descricao": "Fundamental"
+  },
+  {
+    "id": 3,
+    "descricao": "Médio"
+  },
+  {
+    "id": 4,
+    "descricao": "Graduação"
+  },
+  {
+    "id": 5,
+    "descricao": "Pós-graduação"
+  },
+  {
+    "id": 6,
+    "descricao": "Mestrado"
+  },
+  {
+    "id": 7,
+    "descricao": "Doutorado"
+  },
+  {
+    "id": 8,
+    "descricao": "Pós-doutorado"
+  }
+]

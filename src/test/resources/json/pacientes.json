@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "nomeCompleto": "Paciente Teste",
+    "celular1": "92999999999",
+    "isWhatsapp1": true,
+    "celular2": "92988888888",
+    "isWhatsapp2": false,
+    "nomeIndicacao": "Indicação Teste",
+    "registroGeral": "123456789",
+    "jaFezTerapia": false,
+    "queixa": "Queixa teste",
+    "idade": 30,
+    "renda": 2500.0,
+    "cadastro": "2023-01-01T10:00:00",
+    "profissaoid": 1,
+    "generoid": 1,
+    "escolaridadeid": 1,
+    "empresa": {
+      "id": 1
+    }
+  },
+  {
+    "id": 2,
+    "nomeCompleto": "Paciente Teste 2",
+    "celular1": "92977777777",
+    "isWhatsapp1": true,
+    "celular2": null,
+    "isWhatsapp2": null,
+    "nomeIndicacao": "Indicação Teste 2",
+    "registroGeral": "987654321",
+    "jaFezTerapia": true,
+    "queixa": "Queixa teste 2",
+    "idade": 25,
+    "renda": 1800.0,
+    "cadastro": "2023-01-02T10:00:00",
+    "profissaoid": 2,
+    "generoid": 2,
+    "escolaridadeid": 2,
+    "empresa": {
+      "id": 1
+    }
+  }
+]

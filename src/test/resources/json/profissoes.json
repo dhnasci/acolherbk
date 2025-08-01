@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "descricao": "Medicina"
+  },
+  {
+    "id": 2,
+    "descricao": "Engenharia"
+  },
+  {
+    "id": 3,
+    "descricao": "Advocacia"
+  },
+  {
+    "id": 4,
+    "descricao": "Análise de Sistemas"
+  },
+  {
+    "id": 5,
+    "descricao": "Pedreiro"
+  },
+  {
+    "id": 6,
+    "descricao": "Auxiliar Doméstico"
+  },
+  {
+    "id": 7,
+    "descricao": "Técnico"
+  },
+  {
+    "id": 8,
+    "descricao": "Bombeiro"
+  },
+  {
+    "id": 9,
+    "descricao": "Atendente"
+  },
+  {
+    "id": 10,
+    "descricao": "Mestre de Obra"
+  }
+]
