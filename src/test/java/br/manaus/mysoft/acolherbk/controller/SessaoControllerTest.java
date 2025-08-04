@@ -180,7 +180,7 @@ public class SessaoControllerTest {
     void quandoCancelarSessao_retornaOk() throws ObjetoException {
         doNothing().when(service).cancelarSessao(anyInt(), anyString());
 
-        ResponseEntity<Object> response = controller.cancelarSessao(1, "Motivo de teste");
+        ResponseEntity<Object> response = controller.cancelarSessao( "Motivo de teste", 1);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

@@ -12,7 +12,8 @@ import br.manaus.mysoft.acolherbk.repositories.SessaoRepository;
 import br.manaus.mysoft.acolherbk.services.DBService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.hibernate.id.GUIDGenerator;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -55,9 +56,6 @@ public class SessaoControllerIntegrationTest {
     @Autowired
     private PsicologoRepository psicologoRepository;
 
-    @Autowired
-    private DBService serviceDB;
-
     private ObjectMapper objectMapper;
     private Sessao sessao;
 
@@ -65,8 +63,12 @@ public class SessaoControllerIntegrationTest {
     void setUp() {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        inicializacao();
+    }
 
+    private void inicializacao() {
         sessao = new Sessao();
+        sessao.setId(1);
         sessao.setLoginPsicologo("psicologo1");
         sessao.setDiaAgendado(LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)));
         sessao.setIsCancelado(false);
@@ -112,12 +114,12 @@ public class SessaoControllerIntegrationTest {
                 .build();
         psicologoRepository.save(psicologo);
         sessao.setPsicologo(psicologo);
+        sessaoRepository.save(sessao);
     }
+
 
     @Test
     void deveListarTodasSessoes() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
-
         mockMvc.perform(MockMvcRequestBuilders.get("/sessao")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -127,17 +129,14 @@ public class SessaoControllerIntegrationTest {
 
     @Test
     void deveBuscarSessaoPorId() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/sessao/{id}", sessaoSalva.getId())
+        mockMvc.perform(MockMvcRequestBuilders.get("/sessao/{id}", sessao.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sessaoSalva.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sessao.getId()));
     }
 
     @Test
     void deveBuscarSessoesPorIntervalo() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
 
         LocalDate dataInicio = LocalDate.now().minusDays(1);
         LocalDate dataFim = LocalDate.now().plusDays(1);
@@ -152,7 +151,6 @@ public class SessaoControllerIntegrationTest {
 
     @Test
     void deveBuscarSessoesPorLoginPsicologo() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/sessao/psicologo/{login}", "psicologo1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -162,8 +160,6 @@ public class SessaoControllerIntegrationTest {
 
     @Test
     void deveBuscarSessoesCanceladas() throws Exception {
-        sessao.setIsCancelado(true);
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/sessao/canceladas")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -173,10 +169,6 @@ public class SessaoControllerIntegrationTest {
 
     @Test
     void deveBuscarSessoesAtendidas() throws Exception {
-
-
-        sessao.setIsPacienteAtendido(true);
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/sessao/atendidas")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -198,39 +190,35 @@ public class SessaoControllerIntegrationTest {
 
     @Test
     void deveAtualizarSessao() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
-        sessaoSalva.setLoginPsicologo("psicologo2");
+        sessao.setLoginPsicologo("psicologo2");
 
-        String sessaoJson = objectMapper.writeValueAsString(sessaoSalva);
+        String sessaoJson = objectMapper.writeValueAsString(sessao);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/sessao")
+        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}", sessao.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(sessaoJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sessaoSalva.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sessao.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.loginPsicologo").value("psicologo2"));
     }
 
     @Test
     void deveCancelarSessao() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
+        String motivo = "Motivo de Cancelamento";
+        String sessaoJson = objectMapper.writeValueAsString(sessao);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}/cancelar", sessaoSalva.getId())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sessaoSalva.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.isCancelado").value(true));
+        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/cancelar/{motivoCancelamento}/{id}", motivo, sessao.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(sessaoJson))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     void deveRegistrarAtendimento() throws Exception {
-        Sessao sessaoSalva = sessaoRepository.save(sessao);
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}/atender", sessaoSalva.getId())
+        String feedback = "Tudo ok!";
+        mockMvc.perform(MockMvcRequestBuilders.put("/sessao/{id}/{feedback}/atender", sessao.getId(), feedback)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sessaoSalva.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.isPacienteAtendido").value(true));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test

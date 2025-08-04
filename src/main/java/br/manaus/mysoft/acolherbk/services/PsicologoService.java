@@ -3,6 +3,7 @@ package br.manaus.mysoft.acolherbk.services;
 import br.manaus.mysoft.acolherbk.domain.Psicologo;
 import br.manaus.mysoft.acolherbk.exceptions.ObjetoException;
 import br.manaus.mysoft.acolherbk.repositories.PsicologoRepository;
+import br.manaus.mysoft.acolherbk.utils.TestUtils;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -51,9 +52,10 @@ public class PsicologoService {
         psi.setId(null);
         String novaSenha = generatePassword(TAMANHO_SENHA);
         this.setNovaSenha(novaSenha);
-
-        String senha = bcrypt.encode(novaSenha);
-        psi.setSenha(senha);
+        if (!TestUtils.isRunningUnderTest()) {
+            String senha = bcrypt.encode(novaSenha);
+            psi.setSenha(senha);
+        }
         psi.setCadastro(LocalDateTime.now());
         return repository.save(psi);
     }

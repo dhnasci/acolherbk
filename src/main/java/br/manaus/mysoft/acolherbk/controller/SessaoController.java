@@ -123,8 +123,8 @@ public class SessaoController {
         }
     }
 
-    @PutMapping(value = "/cancelar/{id}")
-    public ResponseEntity<Object> cancelarSessao(@PathVariable Integer id, @RequestBody String motivoCancelamento) {
+    @PutMapping(value = "/cancelar/{motivoCancelamento}/{id}")
+    public ResponseEntity<Object> cancelarSessao( @PathVariable String motivoCancelamento, @PathVariable Integer id) {
         try {
             service.cancelarSessao(id, motivoCancelamento);
             return ResponseEntity.ok().build();
@@ -135,8 +135,8 @@ public class SessaoController {
         }
     }
 
-    @PutMapping(value = "/atender/{id}")
-    public ResponseEntity<Object> registrarAtendimento(@PathVariable Integer id, @RequestBody String feedback) {
+    @PutMapping(value = "/{id}/{feedback}/atender")
+    public ResponseEntity<Object> registrarAtendimento(@PathVariable Integer id, @PathVariable String feedback) {
         try {
             service.registrarAtendimento(id, feedback);
             return ResponseEntity.ok().build();
