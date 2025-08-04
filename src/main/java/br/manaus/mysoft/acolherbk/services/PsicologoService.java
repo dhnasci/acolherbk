@@ -51,6 +51,7 @@ public class PsicologoService {
         psi.setId(null);
         String novaSenha = generatePassword(TAMANHO_SENHA);
         this.setNovaSenha(novaSenha);
+
         String senha = bcrypt.encode(novaSenha);
         psi.setSenha(senha);
         psi.setCadastro(LocalDateTime.now());
